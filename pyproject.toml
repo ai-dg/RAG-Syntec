@@ -1,0 +1,26 @@
+[project]
+name = "ragfoundry"
+version = "0.1.0"
+description = "A RAG pipeline that knows when to refuse to answer, and can prove it."
+requires-python = ">=3.11"
+dependencies = [
+    "langchain",
+    "langchain-openai",
+    "langchain-community",
+    "chromadb",
+    "fastapi",
+    "uvicorn",
+    "python-dotenv",
+    "pypdf>=6.15.0",
+    "langchain-ollama>=1.1.0",
+    "langchain-chroma>=1.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
