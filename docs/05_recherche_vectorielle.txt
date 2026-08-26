@@ -1,0 +1,14 @@
+Formation - Recherche vectorielle dans un système RAG
+
+Une base vectorielle stocke les embeddings produits à partir des chunks de documents.
+Lorsqu'un utilisateur pose une question, celle-ci est transformée en embedding, puis
+comparée aux vecteurs déjà indexés. Les passages les plus proches sont transmis au
+modèle de langage comme contexte.
+
+Pour ce corpus de démonstration, la valeur recommandée de TOP_K est 3. Cela signifie
+que le retriever sélectionne au maximum trois chunks pour construire le contexte.
+Une valeur trop faible peut écarter une information utile. Une valeur trop élevée
+peut ajouter du bruit et augmenter la taille du prompt.
+
+Code de contrôle du document : TXT-RAG-731.
+
