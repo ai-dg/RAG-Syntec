@@ -48,7 +48,7 @@ reranker · full evaluation harness · Langfuse last and only if time allows.
 Goal of the phase: know exactly what you have before changing any of it, and
 make the repository's existing claims true.
 
-### [ ] T0.1 — Reproduce and record the baseline
+### [x] T0.1 — Reproduce and record the baseline
 
 - **Goal.** Establish a factual starting point that later work can be
   compared against.
