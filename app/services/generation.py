@@ -45,7 +45,10 @@ def generate(question: str, retrieval_result: dict) -> dict:
 
     documents = [doc for doc, _score in retrieval_result["chunks"]]
     context = "\n\n".join(doc.page_content for doc in documents)
-    sources = list({doc.metadata.get("source") for doc in documents})
+    # sorted(), not list(): a plain set-to-list conversion orders elements by
+    # hash bucket, which depends on PYTHONHASHSEED — randomized per process,
+    # so the same sources could list in a different order on every run.
+    sources = sorted({doc.metadata.get("source") for doc in documents})
 
     prompt = PROMPT_TEMPLATE.format(
         system_prompt=settings.system_prompt,
