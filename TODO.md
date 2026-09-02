@@ -70,7 +70,7 @@ make the repository's existing claims true.
   - Your GPU has 8 GB. Which of your configured models fit, and which does not?
 - **Commit.** `docs: record measured baseline audit of the existing system`
 
-### [ ] T0.2 — Declare the undeclared dependencies
+### [x] T0.2 — Declare the undeclared dependencies
 
 - **Goal.** Make the dependency manifest honest.
 - **Concepts.** Direct vs. transitive dependencies; why relying on a
