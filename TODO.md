@@ -88,7 +88,7 @@ make the repository's existing claims true.
     that still a bug?
 - **Commit.** `fix: declare pydantic, pydantic-settings and numpy as direct dependencies`
 
-### [ ] T0.3 — Make `sources` deterministic
+### [x] T0.3 — Make `sources` deterministic
 
 - **Goal.** Remove non-determinism that would corrupt every later measurement.
 - **Concepts.** Python string hash randomisation (`PYTHONHASHSEED`); why set
