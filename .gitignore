@@ -1,7 +1,43 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
+*.egg-info/
 .pytest_cache/
-.env
-chroma_db/
 .ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets and local configuration
+.env
+.env.local
+.env.*.local
+
+# Editor and tooling configuration (local only)
+.vscode/
+.idea/
+*.swp
+
+# Vector stores and indexes
+chroma_db/
+qdrant_storage/
+
+# Corpus acquisition: raw archives and extraction scratch space.
+# The corpus itself lives in docs/ and IS tracked; these are the
+# reproducible inputs and the local helpers used to build it.
+data/raw/
+tools/
+
+# Trained models. Only the manifest describing them is tracked.
+# Note: the directory itself must not be excluded, or the negation below
+# would never be evaluated.
+models/*
+!models/manifest.json
+
+# Model caches (Docling, sentence-transformers, HuggingFace)
+.cache/
+*.onnx
+
+# OS
+.DS_Store
+Thumbs.db
