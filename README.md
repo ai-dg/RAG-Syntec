@@ -69,6 +69,10 @@ validation, output groundedness checking, citation enforcement), and a
 quantitative evaluation harness (recall, false-refusal rate, false-acceptance
 rate) instead of eyeballed distance thresholds.
 
+The full roadmap — milestones, what each one must measure before it counts
+as done, and what is deliberately out of scope — lives in
+[`TODO.md`](TODO.md).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
