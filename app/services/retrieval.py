@@ -1,67 +1,79 @@
 """
 Document retrieval pipeline.
 
-This module searches the vector store for the chunks most relevant to the
-user's question, then applies a relevance guardrail before any chunk is sent
-to generation.
+This module searches the vector store for the chunks that are most relevant to
+the user's question. It also applies a relevance-based guardrail before the
+chunks are sent to the generation pipeline.
 
-Important — what the score actually is:
-Chroma's `similarity_search_with_score` returns a DISTANCE by default (squared
-L2), not a similarity: LOWER is closer. With normalized embeddings this is
-equal to `2 - 2*cosine_similarity`, so it tracks cosine similarity but on an
-inverted, non-linear scale. Comparing it to `relevance_threshold` must use
-"reject if score > threshold", never the other way around. See
-`scripts/inspect_metric.py` to verify this against a live collection.
+Responsibilities:
+- Receive the user's question.
+- Generate an embedding for the question.
+- Search Chroma for the nearest document vectors.
+- Retrieve the most relevant chunks, together with their scores and metadata.
+- Compare the best retrieval score with a configurable relevance threshold.
+- Reject the retrieved context when no result is found or when its relevance
+  score is below the threshold.
 
-The vector store is built once at process startup (see app/main.py's
-lifespan handler) and cached here. It is intentionally NOT built at import
-time: doing so would make every import of this module trigger a full
-re-index, which broke test isolation and startup observability in an earlier
-version of this project.
+Input:
+- The user's question.
+
+Output:
+- The relevant chunks, scores, and metadata when sufficient context is found.
+- An empty result when the available documents are not relevant enough.
+
+Guardrail:
+The generation pipeline should only be called when the retrieval result passes
+the relevance threshold. Otherwise, the API returns a controlled "I don't know"
+response without calling the LLM.
+
+Important:
+Depending on the Chroma method used, the returned value may be a relevance
+score, where a higher value is better, or a distance, where a lower value is
+better. The threshold comparison must follow the returned score type.
 """
 
-import threading
-
-from app.config import Settings
-from app.services.ingestion import build_vector_store
+from app.services.ingestion import load_docs, chunk_text, create_vector_store
+from app.config import get_settings
 
 _vector_store = None
-_lock = threading.Lock()
 
 
-def get_vector_store(settings: Settings | None = None):
-    """Return the process-wide vector store, building it on first use."""
-    global _vector_store
-    if _vector_store is None:
-        with _lock:
-            if _vector_store is None:
-                _vector_store = build_vector_store(settings or Settings())
-    return _vector_store
+def retrieve(question):
+    settings = get_settings()
 
-
-def set_vector_store(store) -> None:
-    """Inject a vector store directly. Used by tests and by app startup."""
-    global _vector_store
-    _vector_store = store
-
-
-def retrieve(question: str) -> dict:
-    settings = Settings()
     store = get_vector_store(settings)
 
     results = store.similarity_search_with_score(question, k=settings.top_k)
-
     if not results:
-        return {"chunks": [], "context_found": False, "best_score": None}
+        result = {"chunks": [], "context_found": False, "best_score": None}
+        return result
+
+    best_results = []
+
+    for result in results:
+        document, score = result
+        if score <= settings.relevance_threshold:
+            best_results.append(result)
 
     best_score = results[0][1]
-    accepted = [
-        (document, score)
-        for document, score in results
-        if score <= settings.relevance_threshold
-    ]
 
-    if not accepted:
-        return {"chunks": [], "context_found": False, "best_score": best_score}
+    if best_score > settings.relevance_threshold:
+        result = {"chunks": [], "context_found": False, "best_score": best_score}
+        return result
 
-    return {"chunks": accepted, "context_found": True, "best_score": best_score}
+    result = {"chunks": best_results, "context_found": True, "best_score": best_score}
+    return result
+
+
+def get_vector_store(settings=None):
+    global _vector_store
+
+    if _vector_store is None:
+        _vector_store = create_vector_store(chunk_text(load_docs()))
+
+    return _vector_store
+
+
+def set_vector_store(store):
+    global _vector_store
+    _vector_store = store

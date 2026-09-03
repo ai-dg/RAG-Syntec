@@ -7,6 +7,7 @@ instance — so every required field is set here to a valid, inert value.
 """
 
 import pytest
+from app.config import get_settings
 
 
 @pytest.fixture(autouse=True)
@@ -22,3 +23,9 @@ def settings_env(monkeypatch, tmp_path):
     monkeypatch.setenv("TOP_K", "3")
     monkeypatch.setenv("SYSTEM_PROMPT", "You are a test assistant.")
     monkeypatch.setenv("RELEVANCE_THRESHOLD", "0.9")
+    get_settings.cache_clear()
+    yield
+    get_settings.cache_clear()
+
+
+

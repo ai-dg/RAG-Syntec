@@ -108,7 +108,7 @@ make the repository's existing claims true.
   - Why does this matter more once an evaluation harness exists?
 - **Commit.** `fix: return sources in a deterministic sorted order`
 
-### [ ] T0.4 — Cache `Settings()`
+### [x] T0.4 — Cache `Settings()`
 
 - **Goal.** Stop re-reading and re-validating `.env` on every request.
 - **Concepts.** `functools.lru_cache` on a settings factory; FastAPI

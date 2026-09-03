@@ -1,31 +1,23 @@
 """
 FastAPI application entry point.
 
-The vector store is built inside a `lifespan` handler, not at import time.
-This keeps module imports side-effect-free (tests can import this module
-without triggering a full re-index) and makes startup failures explicit:
-if indexing fails, the app never starts, instead of passing readiness checks
-while unable to serve any query.
+This module creates the application and registers its API routes.
 """
 
-from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
-
 from app.api.routes import router
-from app.config import Settings
+from app.config import get_settings
 from app.logger import configure_logging
+from contextlib import asynccontextmanager
 from app.services.retrieval import get_vector_store
 
-configure_logging()
-
-
 @asynccontextmanager
-async def lifespan(app: FastAPI):
-    settings = Settings()
+async def lifespan(app : FastAPI):
+    settings = get_settings()
     get_vector_store(settings)
     yield
 
+configure_logging()
 
 app = FastAPI(title="RAGFoundry", lifespan=lifespan)
 

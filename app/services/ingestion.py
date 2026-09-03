@@ -12,7 +12,16 @@ Responsibilities:
 - Generate an embedding for each chunk.
 - Store the chunks and their embeddings in Chroma.
 
-Design notes:
+The original implementation only supports Markdown files and splits their
+content into fixed chunks of 500 characters:
+
+    Markdown files
+        -> text extraction
+        -> fixed-size chunking
+        -> OpenAI embeddings
+        -> Chroma vector store
+
+This implementation improves the pipeline in four areas:
 
 1. Multi-format support
    - `.md` and `.txt` files are read as plain text.
@@ -21,22 +30,23 @@ Design notes:
 
 2. Input validation
    - Check that the documents directory exists.
-   - Reject empty files and files whose content cannot be extracted.
-   - Skip an invalid file when other valid documents can still be processed.
-   - Stop ingestion with an explicit error if no valid document remains.
+   - Reject unsupported file formats.
+   - Reject empty files.
+   - Reject files whose content cannot be extracted.
+   - Reject documents with empty extracted text.
+   - Reject files that exceed the configured size limit.
+   - Ensure that at least one valid document is available for indexing.
 
-3. Chunking strategy
+3. Error handling
+   - Log invalid or unreadable files with a clear error message.
+   - Skip an invalid file when other valid documents can still be processed.
+   - Stop the ingestion with an explicit error if no valid document remains.
+
+4. Chunking strategy
    - Prefer splitting at paragraph, line, or sentence boundaries.
    - Use an overlap between consecutive chunks to preserve context around
      chunk boundaries.
-   - Keep chunk size and overlap configurable.
-
-4. Idempotent indexing
-   - Chroma's `from_documents` APPENDS to an existing collection rather than
-     replacing it. Re-running ingestion against a persisted collection
-     without clearing it first silently duplicates every vector. This module
-     always clears the target collection before writing, so re-indexing is
-     safe to run any number of times against the same `chroma_dir`.
+   - Keep the chunk size and overlap configurable.
 """
 
 from langchain_core.documents import Document
@@ -54,14 +64,14 @@ from langchain_chroma import Chroma
 from pathlib import Path
 import logging
 
-from app.config import Settings
+from app.config import Settings, get_settings
 
 logger = logging.getLogger(__name__)
 
-COLLECTION_NAME = "ragfoundry"
 
+def chunk_text(documents):
+    settings = get_settings()
 
-def chunk_text(documents, settings: Settings):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=settings.chunk_size,
         chunk_overlap=settings.chunk_overlap,
@@ -81,12 +91,13 @@ def verify_docs_path(docs_dir):
     if not path.exists():
         raise FileNotFoundError(f"Documents directory doesn't exist: {path}")
     if not path.is_dir():
-        raise NotADirectoryError(f"Documents path is not a directory: {path}")
+        raise NotADirectoryError(f"Documents path is not a directry: {path}")
 
     return path
 
 
 def check_document_content(document: Document):
+
     content = (
         document.page_content.replace("\x00", "")
         .replace("\r\n", "\n")
@@ -96,7 +107,7 @@ def check_document_content(document: Document):
 
     if not content:
         logger.warning(
-            "Skipping document with empty content: source=%s, page=%s",
+            "Skipping document with empty content: source= %s, page=%s",
             document.metadata.get("source", "unknown"),
             document.metadata.get("page", "unknown"),
         )
@@ -113,7 +124,9 @@ def check_document_content(document: Document):
     return document
 
 
-def load_docs(settings: Settings):
+def load_docs():
+    settings = get_settings()
+
     path = verify_docs_path(settings.docs_dir)
 
     loaders = [
@@ -150,7 +163,10 @@ def load_docs(settings: Settings):
                 documents.append(valid_document)
 
     if not documents:
-        logger.error("No valid document found in directory: %s", settings.docs_dir)
+        logger.error(
+            "No valid document found in directory: %s",
+            settings.docs_dir,
+        )
         raise ValueError(f"No valid document found in {settings.docs_dir}")
 
     logger.info(
@@ -162,42 +178,39 @@ def load_docs(settings: Settings):
 
 
 def get_embedding(settings: Settings):
+
     if settings.llm_provider == "openai":
-        return OpenAIEmbeddings(
+        embedding = OpenAIEmbeddings(
             model=settings.embedding_model,
             api_key=settings.openai_api_key,
         )
+        return embedding
     if settings.llm_provider == "ollama":
-        return OllamaEmbeddings(
-            model=settings.embedding_model_local,
-            base_url=settings.ollama_base_url,
+        embedding = OllamaEmbeddings(
+            model=settings.embedding_model_local, base_url=settings.ollama_base_url
         )
+        return embedding
 
     raise ValueError(f"Unsupported LLM provider: {settings.llm_provider}")
 
 
-def create_vector_store(chunks, settings: Settings):
+def create_vector_store(chunks):
+    settings = get_settings()
+
     if not chunks:
         raise ValueError("No chunks available for indexing")
 
     embedding = get_embedding(settings)
 
-    # Clear any previously persisted collection before writing. Chroma's
-    # from_documents() appends rather than replaces, so skipping this step
-    # duplicates every vector on each restart against the same chroma_dir.
     existing = Chroma(
-        collection_name=COLLECTION_NAME,
-        embedding_function=embedding,
-        persist_directory=settings.chroma_dir,
+        persist_directory=settings.chroma_dir, embedding_function=embedding
     )
     existing.delete_collection()
 
     vector_store = Chroma.from_documents(
-        collection_name=COLLECTION_NAME,
-        documents=chunks,
-        embedding=embedding,
-        persist_directory=settings.chroma_dir,
+        documents=chunks, embedding=embedding, persist_directory=settings.chroma_dir
     )
+
     logger.info(
         "%d chunks stored in Chroma at %s",
         len(chunks),
@@ -205,10 +218,3 @@ def create_vector_store(chunks, settings: Settings):
     )
 
     return vector_store
-
-
-def build_vector_store(settings: Settings):
-    """Full pipeline: load, chunk, and index. Called once at app startup."""
-    documents = load_docs(settings)
-    chunks = chunk_text(documents, settings)
-    return create_vector_store(chunks, settings)

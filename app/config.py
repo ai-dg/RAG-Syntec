@@ -4,6 +4,7 @@ Application configuration.
 This module centralizes configuration values loaded from environment variables.
 """
 
+from functools import lru_cache
 from typing import Literal, Self
 
 from pydantic import SecretStr, model_validator
@@ -15,12 +16,12 @@ class Settings(BaseSettings):
 
     llm_provider: Literal["openai", "ollama"] = "openai"
 
-    # API-key mode
+    # Mode API key
     openai_api_key: SecretStr | None = None
     embedding_model: str | None = None
     chat_model: str | None = None
 
-    # Local LLM mode
+    # Mode local LLM
     ollama_base_url: str | None = None
     embedding_model_local: str | None = None
     chat_model_local: str | None = None
@@ -31,10 +32,7 @@ class Settings(BaseSettings):
     chunk_overlap: int
     top_k: int
     system_prompt: str
-
-    # Guardrail. Chroma's default metric is squared L2 distance: lower is
-    # closer. This is NOT a similarity score. See design/guardrail.md.
-    relevance_threshold: float
+    relevance_threshold : float
 
     @model_validator(mode="after")
     def validate_provider_configuration(self) -> Self:
@@ -61,12 +59,12 @@ class Settings(BaseSettings):
 
             if not self.embedding_model_local:
                 raise ValueError(
-                    "EMBEDDING_MODEL_LOCAL is mandatory with LLM_PROVIDER=ollama"
+                    "EMBEDDING_MODEL_LOCAL is mandatory " "with LLM_PROVIDER=ollama"
                 )
 
             if not self.chat_model_local:
                 raise ValueError(
-                    "CHAT_MODEL_LOCAL is mandatory with LLM_PROVIDER=ollama"
+                    "CHAT_MODEL_LOCAL is mandatory " "with LLM_PROVIDER=ollama"
                 )
 
         if self.docs_dir is None:
@@ -75,3 +73,8 @@ class Settings(BaseSettings):
             raise ValueError("CHROMA_DIR is mandatory")
 
         return self
+
+
+@lru_cache
+def get_settings():
+    return Settings()
