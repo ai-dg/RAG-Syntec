@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     chunk_overlap: int
     top_k: int
     system_prompt: str
-    relevance_threshold : float
+    relevance_threshold: float
 
     @model_validator(mode="after")
     def validate_provider_configuration(self) -> Self:

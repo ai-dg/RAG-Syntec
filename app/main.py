@@ -11,11 +11,13 @@ from app.logger import configure_logging
 from contextlib import asynccontextmanager
 from app.services.retrieval import get_vector_store
 
+
 @asynccontextmanager
-async def lifespan(app : FastAPI):
+async def lifespan(app: FastAPI):
     settings = get_settings()
     get_vector_store(settings)
     yield
+
 
 configure_logging()
 
