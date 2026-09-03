@@ -128,7 +128,7 @@ make the repository's existing claims true.
   - How do your tests override a cached settings object?
 - **Commit.** `refactor: cache Settings behind an lru_cache factory`
 
-### [ ] T0.5 — Cover the API surface with tests
+### [x] T0.5 — Cover the API surface with tests
 
 - **Goal.** Test the request → guardrail → refusal path end to end, which is
   currently untested.
