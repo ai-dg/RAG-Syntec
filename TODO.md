@@ -149,7 +149,7 @@ make the repository's existing claims true.
   - Why does a refusal return HTTP 200 and not 404?
 - **Commit.** `test: cover the query API refusal and accept paths`
 
-### [ ] T0.6 — Emit real structured JSON logs
+### [x] T0.6 — Emit real structured JSON logs
 
 - **Goal.** Make `logger.py` do what its docstring already claims.
 - **Concepts.** Structured vs. unstructured logging; one JSON object per
