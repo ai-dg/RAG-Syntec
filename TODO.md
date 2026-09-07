@@ -201,7 +201,7 @@ make the repository's existing claims true.
 
 # Phase 1 — Define the Syntec corpus precisely
 
-### [ ] T1.1 — Fix the corpus scope
+### [x] T1.1 — Fix the corpus scope
 
 - **Goal.** Decide exactly which texts are in, which are out, and why.
   Scope drift after the evaluation set exists invalidates every metric.
