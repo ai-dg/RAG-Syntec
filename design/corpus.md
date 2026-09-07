@@ -75,6 +75,50 @@ evidence would be a guess, not a decision.
   dated grid would be direct evidence for pruning, rather than a guess about
   it.
 
+## Licensing
+
+Verified against the license's own text (`data.gouv.fr`'s hosted copy of
+the Etalab 2.0 text), not assumed from the name alone:
+
+- **License:** Licence Ouverte / Open Licence 2.0 ("Etalab 2.0"), the
+  standard license for French public-sector open data, published by
+  Etalab. Free, non-exclusive, worldwide, no time limit — reuse, adapt,
+  redistribute, and commercial use are all explicitly permitted.
+- **Legal basis:** the CRPA (*Code des relations entre le public et
+  l'administration*) — the framework establishing that administrative
+  information is freely reusable by default. Two different specific
+  article citations turned up across sources for this project
+  (`L.300-2`/`L.323-2` on one page, `L.321-1` on another) — noted rather
+  than picked arbitrarily; the license and its legal basis are confirmed,
+  the exact article number is not settled by this pass.
+- **Attribution requirement — the one binding condition:** the reuser must
+  mention the information's *paternité* — its source (at minimum, the name
+  of the licensor) and the date it was last updated. For this project:
+  attribute Légifrance/DILA as the source, and each Légifrance document
+  already carries its own last-modification date (captured per-file in
+  `docs/`, e.g. the base text's "Dernière modification : 2024-07-01").
+
+## GDPR / personal data position
+
+**No personal data is processed by this corpus.** This is a normative
+legal text — a collective bargaining agreement, its annexes, and its
+salary-grid updates — not a record of identifiable individuals.
+
+Checked directly rather than assumed: `grep`-scanned every file in `docs/`
+for anything email-shaped. One match, in
+`039_textes-attaches_commission-paritaire-permanente-de-negociation-et-d-interpre.md`
+— `secretariatcppni@CCN-BETIC.fr`, the institutional secretariat address of
+the CPPNI (a joint negotiation commission), not a named individual. No
+other personal identifiers found.
+
+**This position does not extend to a different scenario.** If a client
+asked to run this same pipeline over their own HR files (individual
+contracts, payslips, performance reviews), that would process personal
+data under GDPR, and the guardrail/retrieval/logging design would need
+real changes: PII scrubbing before indexing, access control per employee,
+a data-retention policy, and a lawful basis for processing — none of which
+this project currently has, because none of it currently needs to.
+
 ## Not yet done
 
 - **`T2.1`/`T2.2`** (Phase 2, not started): the corpus in `docs/` was not

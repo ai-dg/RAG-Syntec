@@ -14,6 +14,13 @@ in prose. See [`design/guardrail.md`](design/guardrail.md).
 > tests, the Docker/Compose setup, and everything documented in `design/`
 > are original work built on top of that starting point.
 
+> **Corpus note.** The indexed corpus is the French Syntec collective
+> bargaining agreement (IDCC 1486), sourced from Légifrance/DILA under the
+> Licence Ouverte / Open Licence 2.0 (Etalab) — free reuse, including
+> commercial, with attribution. Contains no personal data. See
+> [`design/corpus.md`](design/corpus.md) for the full scope and licensing
+> position.
+
 ## What's here
 
 | Path | Role |

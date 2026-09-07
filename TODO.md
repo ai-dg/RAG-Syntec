@@ -226,7 +226,7 @@ make the repository's existing claims true.
   - Why did you exclude amendments in the first version?
 - **Commit.** `docs: define the Syntec corpus scope`
 
-### [ ] T1.2 — Record the licensing position
+### [x] T1.2 — Record the licensing position
 
 - **Goal.** Be able to answer "are you allowed to use this?" without
   hesitating — a question a freelance client *will* ask.
