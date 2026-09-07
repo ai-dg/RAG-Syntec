@@ -169,7 +169,7 @@ make the repository's existing claims true.
   - Why is a correlation ID worth adding before you have a use for it?
 - **Commit.** `feat: emit structured JSON logs`
 
-### [ ] T0.7 — Write the missing calibration script
+### [x] T0.7 — Write the missing calibration script
 
 - **Goal.** Close the repository's most damaging gap: the README promises the
   threshold "is verifiable with a script", and no such script exists.
