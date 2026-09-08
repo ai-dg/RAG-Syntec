@@ -22,11 +22,11 @@ htmlcov/
 chroma_db/
 qdrant_storage/
 
-# Corpus acquisition: raw archives and extraction scratch space.
-# The corpus itself lives in docs/ and IS tracked; these are the
-# reproducible inputs and the local helpers used to build it.
+# Corpus acquisition: raw HTML archive (38MB, entirely regenerable via
+# scripts/fetch_kali_id.py + fetch_corpus.py, never read by the app
+# directly). The corpus itself now lives in data/converted/ and IS
+# tracked (3.1MB, what the app actually indexes) — see design/corpus.md.
 data/raw/
-data/converted/
 tools/
 
 
