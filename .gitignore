@@ -26,7 +26,9 @@ qdrant_storage/
 # The corpus itself lives in docs/ and IS tracked; these are the
 # reproducible inputs and the local helpers used to build it.
 data/raw/
+data/converted/
 tools/
+
 
 # Trained models. Only the manifest describing them is tracked.
 # Note: the directory itself must not be excluded, or the negation below
