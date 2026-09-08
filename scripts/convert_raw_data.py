@@ -5,17 +5,28 @@ from bs4 import BeautifulSoup
 
 def html_to_markdown(html: str, kali_id: str):
     soup = BeautifulSoup(html, "lxml")
-    main = soup.select_one(".highlightable-content")
-    if main is None:
-        raise ValueError(f"Could not find main content for {kali_id}")
+    title_tag = soup.title.get_text(strip=True) if soup.title else kali_id
 
-    title = soup.title.get_text(strip=True) if soup.title else kali_id
-    body = main.get_text(separator="\n", strip=True)
+    lines = [f"# {title_tag}", "", f"> Identifiant Légifrance : `{kali_id}`", ""]
 
-    content = title + "\n" + f"{kali_id}" + "\n" + body
+    articles = soup.select("article.list-article-consommation")
 
-    return content
+    for article in articles:
+        title = article.select_one(".name-article")
+        if title:
+            title = title.get_text(strip=True)
+        else:
+            continue
+        content = article.select_one(".content")
+        if content:
+            content = content.get_text(separator="\n", strip=True)
+        else:
+            continue
 
+        lines.extend([f"## {title}", "", content, ""])
+
+
+    return "\n".join(lines)
 
 def convert_all(raw_dir: Path, dest_dir: Path):
     dest_dir.mkdir(parents=True, exist_ok=True)
