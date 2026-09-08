@@ -73,6 +73,42 @@ dimensionality, different distance distributions) or across a substantially
 different corpus (a denser corpus compresses distances overall, making a
 fixed threshold increasingly permissive over time).
 
+## Recalibration after switching `DOCS_DIR` to `data/converted/`
+
+**Problem.** The calibration above was measured on `docs/` — 109 files of
+undocumented provenance. `DOCS_DIR` was switched to `data/converted/` (172
+files, the reproducible fetch+convert pipeline from `T2.1`/`T2.2`, hashed in
+`data/manifest.json`) so that every chunk the app actually retrieves traces
+back to a corpus with a known hash. The prior threshold was measured on a
+corpus the app no longer indexes.
+
+**Decision.** Re-run `scripts/calibrate_threshold.py` against the new
+corpus. Keep `RELEVANCE_THRESHOLD=0.74` — the recalibrated value rounds to
+the same number.
+
+**Result (measured).** Run on 2026-09-08, provider `ollama`,
+`qwen3-embedding:8b`, same 3 in-topic / 3 off-topic questions, against
+`data/converted/` (172 documents, 8447 chunks — roughly double `docs/`'s
+4183, since article-level Markdown carries more structural text per
+document):
+
+| | min | median | max |
+|---|---|---|---|
+| In-topic | 0.534 | 0.549 | 0.701 |
+| Off-topic | 0.780 | 0.878 | 0.995 |
+
+Gap: `0.701` → `0.780`. Recommended threshold: `0.7404`.
+
+**Cost / notable observation.** `0.7404` vs. the prior `0.736` — a ~0.004
+difference, effectively the same operating point despite a structurally
+different corpus (different chunk count, different extraction pipeline).
+Read cautiously: this is not proof the threshold is corpus-independent —
+both corpora describe the same underlying legal text, just chunked
+differently, so a close match here doesn't establish how this threshold
+would behave against a genuinely different domain. Still only 3+3
+questions; the caution from the prior calibration about trusting the exact
+boundary still applies.
+
 ## What this guardrail does and does not catch
 
 **Catches:** questions whose nearest chunk is semantically far from the

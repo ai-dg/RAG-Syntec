@@ -187,12 +187,23 @@ present," not "when was this legally last updated." `source_url` is
 reconstructed from the filename pattern, not fetched from each page's own
 metadata. Both are addable later without changing the hash mechanism.
 
+## Reconciled: `DOCS_DIR` now points at the manifested corpus
+
+Resolved during `T3.2` labelling, ahead of the roadmap's own `T4.1`: the
+app's `DOCS_DIR` (`.env`) was switched from `docs/` (109 files, undocumented
+provenance) to `data/converted/` (172 files, hashed in `data/manifest.json`,
+reproducible via `scripts/fetch_kali_id.py` → `fetch_corpus.py` →
+`convert_raw_data.py`). Every `chunk_id` a golden evaluation example can
+reference now traces back to a corpus with a known hash — the earlier
+`docs/`-vs-`data/converted/` split (two different, unreconciled corpora) no
+longer exists. `docs/` is unused by the running app as of this change; not
+yet deleted from the repo. The guardrail threshold was re-measured against
+the new corpus — see `design/guardrail.md`'s "Recalibration" section.
+
 ## Not yet done
 
-- **`docs/` still has no documented provenance** — unlike `data/converted/`,
-  which now does. Reconciling the two (`T4.1`) means deciding whether
-  `docs/` gets replaced by a converted, manifested corpus, or the
-  acquisition pipeline gets pointed at producing `docs/`'s existing format
-  instead.
+- **`docs/` itself** — still present in the repo, still undocumented, now
+  simply unused rather than reconciled. Whether to delete it or keep it as
+  a fixture is undecided.
 - **Amendments scope not yet acted on** — see Scope decision's Cost above;
   deferred to evidence from Phase 3's evaluation set, not decided here.
