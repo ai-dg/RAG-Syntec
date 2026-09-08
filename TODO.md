@@ -254,7 +254,7 @@ make the repository's existing claims true.
 *(Requested as #4; moved before the evaluation set because questions require
 documents that exist.)*
 
-### [ ] T2.1 — Acquire the documents
+### [x] T2.1 — Acquire the documents
 
 - **Goal.** Get the corpus onto disk reproducibly, not by manual clicking.
 - **Concepts.** Légifrance/DILA open data; the PISTE API (free, requires
