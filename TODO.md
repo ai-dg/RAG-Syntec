@@ -306,7 +306,7 @@ documents that exist.)*
 
 *(Requested as #3.)*
 
-### [ ] T3.1 — Design the evaluation schema
+### [x] T3.1 — Design the evaluation schema
 
 - **Goal.** Decide what a labelled example *is* before labelling a hundred of
   them. Relabelling later is the expensive mistake.

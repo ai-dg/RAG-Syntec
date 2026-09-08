@@ -1,0 +1,20 @@
+{
+    "type": "object",
+    "properties": {
+        "id": { "type": "string" },
+        "question": { "type": "string", "minLength": 1 },
+        "class": {
+            "type": "string",
+            "enum": ["in_topic_answerable", "in_topic_unanswerable", "off_topic", "adversarial"]
+        },
+        "relevant_chunk_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+        },
+        "expected_answer_gist": { "type": "string" },
+        "notes": { "type": "string" },
+        "corpus_hash": { "type": "string" }
+    },
+    "required": ["id", "question", "class", "relevant_chunk_ids", "expected_answer_gist", "notes", "corpus_hash"],
+    "additionalProperties": false
+}

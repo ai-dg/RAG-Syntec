@@ -25,6 +25,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "black>=26.5.1",
+    "jsonschema>=4.26.0",
     "pytest>=9.1.1",
 ]
 
