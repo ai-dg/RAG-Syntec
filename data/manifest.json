@@ -1,0 +1,866 @@
+{
+  "corpus_hash": "ec3aa954b89d8e85facb9ce8ebafd209fa94bb6fab7108993fbe79847cc0b4fa",
+  "document_count": 172,
+  "documents": {
+    "KALITEXT000005679885.md": {
+      "sha256": "f564450c5b2cd46240dadf02c24501c0245a7b0c397ed84c9170a1eef99dde52",
+      "size_bytes": 62607,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679885/"
+    },
+    "KALITEXT000005679889.md": {
+      "sha256": "d3709d38158bb3dca888928f96bc7368b13c54595415da1101593ffe72ffaa1f",
+      "size_bytes": 7454,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679889/"
+    },
+    "KALITEXT000005679891.md": {
+      "sha256": "ab629f1808506b15442ba20384e32c3d2a7e336158bce00d0079e376d1ff3d4a",
+      "size_bytes": 11683,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679891/"
+    },
+    "KALITEXT000005679893.md": {
+      "sha256": "1c965bf696c91b153dd830797bc5fff78cef6f29c166f7f2396d3118023820b8",
+      "size_bytes": 2962,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679893/"
+    },
+    "KALITEXT000005679895.md": {
+      "sha256": "a05de3306e0de5850b02271c069490b173c8e5f6a42ccd256a715318e5ebd0a0",
+      "size_bytes": 247653,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679895/"
+    },
+    "KALITEXT000005679899.md": {
+      "sha256": "0d9be8b115f42b3bd65232125e6a91d4f3e9cfa7842327be4a61dcaafd77f0a0",
+      "size_bytes": 5106,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679899/"
+    },
+    "KALITEXT000005679901.md": {
+      "sha256": "82bb6d7f196866f95efa202704486f68ad6485a2c0746f073b1832282c4eb52d",
+      "size_bytes": 828,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679901/"
+    },
+    "KALITEXT000005679903.md": {
+      "sha256": "8985f56f53a0f172afbc00f06491f6a66f9813c693b30d9de844c7fbef3b44fa",
+      "size_bytes": 14771,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679903/"
+    },
+    "KALITEXT000005679905.md": {
+      "sha256": "296f921c2f9eb40b45a526bf006f2d8fcff082ba4511526a8d1728190f7c2537",
+      "size_bytes": 3143,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679905/"
+    },
+    "KALITEXT000005679907.md": {
+      "sha256": "8b8a8270e65e11ab76a3faabc32c36f3198c3a22973143c7ba9bb1461cd31016",
+      "size_bytes": 3672,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679907/"
+    },
+    "KALITEXT000005679909.md": {
+      "sha256": "14635b27d789e6d136f1150f987e30e6abe2b4dafaa5762db874e3242ac5bf16",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679909/"
+    },
+    "KALITEXT000005679911.md": {
+      "sha256": "31724211bb51f236c988aa0c14c6613396ed3610047e6b881f7090e56401b2e0",
+      "size_bytes": 946,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679911/"
+    },
+    "KALITEXT000005679913.md": {
+      "sha256": "3f4092939f900192fe5d2c88fa24c9d7665ff2ee1fffb5c7b3ec157c1a0f2773",
+      "size_bytes": 15798,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679913/"
+    },
+    "KALITEXT000005679915.md": {
+      "sha256": "264ab183a8fd68b4d826e1a4e95de0d1ed0ded429719b3d1e46ea267f8559cce",
+      "size_bytes": 38530,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679915/"
+    },
+    "KALITEXT000005679919.md": {
+      "sha256": "04c4e3fe72c78f2b4584546fab8de389ef41c600f7487b165c1196d768d707e0",
+      "size_bytes": 4617,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679919/"
+    },
+    "KALITEXT000005679921.md": {
+      "sha256": "2d489c7b7908137b0ff4fd8f3695a58a1a5bec1e3c8a8a931ebac0a4c1aa4b45",
+      "size_bytes": 2523,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679921/"
+    },
+    "KALITEXT000005679924.md": {
+      "sha256": "92fe1382b87423e0e3137cbc6d4a3272ca8167cadfd4b24f1a5286ccab743f0d",
+      "size_bytes": 7804,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679924/"
+    },
+    "KALITEXT000005679928.md": {
+      "sha256": "d41f1fc4e2365fd5067519415d828025896b01c0119ae2afaa1dcd47f803e0d7",
+      "size_bytes": 14903,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679928/"
+    },
+    "KALITEXT000005679932.md": {
+      "sha256": "b23c3e2b8ad9585bf0cbe04e6851aa31d8e050b95d6eddff475fdf49b200a297",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679932/"
+    },
+    "KALITEXT000005679934.md": {
+      "sha256": "c90018012ea8de30dfb5a1f06cf6d7623b36c466584cbd121e018db95adc3b04",
+      "size_bytes": 2039,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679934/"
+    },
+    "KALITEXT000005679936.md": {
+      "sha256": "0efadc723f42d112c8682d7fb2058c1f89a7b7ada37174fc8054d0273d7ee063",
+      "size_bytes": 70184,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679936/"
+    },
+    "KALITEXT000005679938.md": {
+      "sha256": "b35ac8ec9b14f95f14cd904af0e1e889919a6f7fd1319dd1dd49b32be284ae4a",
+      "size_bytes": 5030,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679938/"
+    },
+    "KALITEXT000005679940.md": {
+      "sha256": "841004526adeb095928d487619b136a6811bd4689df4663a36e2ed3c113d2cbb",
+      "size_bytes": 9018,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679940/"
+    },
+    "KALITEXT000005679942.md": {
+      "sha256": "523ed613e48c6f621f6b3c58d72d0d39cda129ce2039220176f6ea8d4f7da4e5",
+      "size_bytes": 6674,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679942/"
+    },
+    "KALITEXT000005679944.md": {
+      "sha256": "e57065a5979dd78f80f4dbae7bece73c3cbc305cca1adc19879a77fb3e61bde0",
+      "size_bytes": 2203,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679944/"
+    },
+    "KALITEXT000005679946.md": {
+      "sha256": "46c0cac3b0a3918fedbdab83a39f04bc2ea8cec1ca87d837f4dd92f085a6d3bc",
+      "size_bytes": 33589,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679946/"
+    },
+    "KALITEXT000005679948.md": {
+      "sha256": "8185ed6f0e9c870e7ec8ee2d1841abfc4b2d2ad9f3cfd2aa29d197d421c04ddd",
+      "size_bytes": 8707,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679948/"
+    },
+    "KALITEXT000005679950.md": {
+      "sha256": "0ad9cee895e6fb6100dd598dd334a483fd82c521fab7a1a4634a82a477719720",
+      "size_bytes": 12851,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679950/"
+    },
+    "KALITEXT000005679952.md": {
+      "sha256": "71c9e571adc82313bb401c43aebd60a47a3ebd33f27d7c6a755c6f28e3eb2ee9",
+      "size_bytes": 30049,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679952/"
+    },
+    "KALITEXT000005679954.md": {
+      "sha256": "814d98b3b31706703ba7946d770c191e69e89fb258003f57627a218c896ccf85",
+      "size_bytes": 1214,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679954/"
+    },
+    "KALITEXT000005679956.md": {
+      "sha256": "74987bfa716a4e60b65df816f4e74c554a7fc62406c6d196fa2ce5ac87f57af6",
+      "size_bytes": 1108,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679956/"
+    },
+    "KALITEXT000005679958.md": {
+      "sha256": "d8f3cd407b08658f42e55332016e980e15f14f43b4bf98f1438efd1176e6f9d4",
+      "size_bytes": 5496,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679958/"
+    },
+    "KALITEXT000005679960.md": {
+      "sha256": "7d49e550c258a467fa75ff55955a956752038b088a55e1a8178ba0184b95c8b9",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679960/"
+    },
+    "KALITEXT000005679962.md": {
+      "sha256": "cd996f6cc2fee17ef82cade33c1b83d50b50a0067bb36efd74d37d0e857625c5",
+      "size_bytes": 721,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679962/"
+    },
+    "KALITEXT000005679964.md": {
+      "sha256": "40bd016e002df68120879bcab84409d181e7633f1189792c7b32ef9688225b43",
+      "size_bytes": 2178,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679964/"
+    },
+    "KALITEXT000005679968.md": {
+      "sha256": "1094c538988fbd863de793d6471172f51c34f20c4bb71f9b1e7cd99b7b7a3d4c",
+      "size_bytes": 766,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679968/"
+    },
+    "KALITEXT000005679970.md": {
+      "sha256": "506e5aec113329dc467ddf5fc51c06309066631358cbe5ab5c85b8de047ec1f1",
+      "size_bytes": 95590,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679970/"
+    },
+    "KALITEXT000005679972.md": {
+      "sha256": "6b69ca1fb91b22d64c6ae6f3d588cba3fa4b542f6d5e95f4abbc457097af5182",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679972/"
+    },
+    "KALITEXT000005679974.md": {
+      "sha256": "47ba80464ae17cb0c17ccc343fbf9512cd05aeccad78b99cac1c07a10e7ce52d",
+      "size_bytes": 1138,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679974/"
+    },
+    "KALITEXT000005679976.md": {
+      "sha256": "c7e1887e33b7a4058dc748ac174ea662894eb7d4cb50e3e760f7d04fd45e9aa1",
+      "size_bytes": 1293,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679976/"
+    },
+    "KALITEXT000005679978.md": {
+      "sha256": "42df0a4a37bcdf0a48c5ef6fdcd0d8a77f8dfaf79be02162151006116129327f",
+      "size_bytes": 566,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679978/"
+    },
+    "KALITEXT000005679980.md": {
+      "sha256": "bf2c66412c4d6eff54d324571a61e75ea58e63a57219c9491ef7ec59d3352b03",
+      "size_bytes": 573,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679980/"
+    },
+    "KALITEXT000005679982.md": {
+      "sha256": "91b7a469b8e831feeeb27b346e15e674b3e959929e4e1fd0de0b5fba1610a5c1",
+      "size_bytes": 3534,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679982/"
+    },
+    "KALITEXT000005679984.md": {
+      "sha256": "0f2de4c6a35aaa898bc7c2acbb362823ceb7a0b51e5e4f8ae03525d3f88111b2",
+      "size_bytes": 4230,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679984/"
+    },
+    "KALITEXT000005679986.md": {
+      "sha256": "90837ff0eb6cbca21a98ff79448ddb2f5ab6bfcc33b0fbee7fa02aaf4be8b4e4",
+      "size_bytes": 1224,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679986/"
+    },
+    "KALITEXT000005679988.md": {
+      "sha256": "8d4202c464250dcd19d75995631c19fdc8c4708089c5b2904bbd952027c76e0f",
+      "size_bytes": 775,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679988/"
+    },
+    "KALITEXT000005679990.md": {
+      "sha256": "c9e490ed2c0519e2e58577a3af614b0ac8b51804cface52e3c7d0ac95d233343",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679990/"
+    },
+    "KALITEXT000005679992.md": {
+      "sha256": "26de5c7853cdb32820f88236352737e0044a2e3120bde68d2332d0df708076cd",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679992/"
+    },
+    "KALITEXT000005679994.md": {
+      "sha256": "650a49325ecffd11726bf547004a7e2cb7255c2661eb0bebce9b5897b3175ce9",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679994/"
+    },
+    "KALITEXT000005679996.md": {
+      "sha256": "8213867cde41b290c86bcef28577e9bffd1291f371a7ad46f2257bc09829e476",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679996/"
+    },
+    "KALITEXT000005679998.md": {
+      "sha256": "e0c7b2277b7fc11f6f355ab892e5644af7992189973e9973da56bb2051f4539b",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005679998/"
+    },
+    "KALITEXT000005680000.md": {
+      "sha256": "90aa7a62b9d08b118e19a81b40626a3e28d0e6a38c8673ae6890a13af068284e",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680000/"
+    },
+    "KALITEXT000005680002.md": {
+      "sha256": "fb407aa637788f9069b6a00dfaa172a4e266c7725deab423ef3019ec4a3ddd10",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680002/"
+    },
+    "KALITEXT000005680004.md": {
+      "sha256": "593850a2a7502b1c104393cf631ddaaad68f07625fa05b88fb6e4afd02828bbd",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680004/"
+    },
+    "KALITEXT000005680006.md": {
+      "sha256": "02b78488dc7fb5628d7fd5376fdec38db1286cfdaa5440ab6ab5da15aa060b78",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680006/"
+    },
+    "KALITEXT000005680008.md": {
+      "sha256": "f60fe9ad6590bad1fc6f32f37ff6ec6370934bf3a293606e6f9c04dd587b845f",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680008/"
+    },
+    "KALITEXT000005680010.md": {
+      "sha256": "962752cef7531bca9393b540ef6a5d18876f54601391a46b70c29a337960348c",
+      "size_bytes": 1227,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680010/"
+    },
+    "KALITEXT000005680012.md": {
+      "sha256": "6cac10c462af99191bdf3fad65be82c4547acf8ecdbbe18bc963d8864054a55c",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680012/"
+    },
+    "KALITEXT000005680014.md": {
+      "sha256": "5474d0973be557f66d64ac8a016529d05fed5b2c6f0b5fba88d7e19cea6c471f",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680014/"
+    },
+    "KALITEXT000005680016.md": {
+      "sha256": "b078ec109babb2ad9aba9348d78d8056ad656bfc3ace9361ace0269836887b59",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680016/"
+    },
+    "KALITEXT000005680018.md": {
+      "sha256": "5d89395b7ac61c7e95f42830959ac62f2cd7423391c12154ef610073cda664b7",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680018/"
+    },
+    "KALITEXT000005680020.md": {
+      "sha256": "99157185f298ac79e39d9435c7098cdfb3f122de9534b38a2db36171b473f87e",
+      "size_bytes": 1200,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680020/"
+    },
+    "KALITEXT000005680022.md": {
+      "sha256": "c6df85980b2e629af7158eb941449a9bc20af2e0f66a608960d0d6c1acf17887",
+      "size_bytes": 1699,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000005680022/"
+    },
+    "KALITEXT000017855695.md": {
+      "sha256": "ad06429304ca31f7f458b7e66c8b60b53386363e54d56bfe90ddb1ed459c0685",
+      "size_bytes": 1305,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000017855695/"
+    },
+    "KALITEXT000017855705.md": {
+      "sha256": "cdef7a6226aac5a9e73ddad724695a02cef0ac1c89bea052feb7815e15bd458a",
+      "size_bytes": 3520,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000017855705/"
+    },
+    "KALITEXT000018659204.md": {
+      "sha256": "6ad55bc9ce267c05d17716b77fc57cf4d3de3164eb920420789dd792caa09f69",
+      "size_bytes": 50138,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000018659204/"
+    },
+    "KALITEXT000018826946.md": {
+      "sha256": "754a5be02ac02a6c912389e3d2ba877e4a8fdba9c41e516650e2635ad18e96bf",
+      "size_bytes": 8857,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000018826946/"
+    },
+    "KALITEXT000019384967.md": {
+      "sha256": "7dc5282f3f49b5d1360cb7701a5581fe2a71d00dcb7a43a46276bf6cebd6a526",
+      "size_bytes": 3392,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019384967/"
+    },
+    "KALITEXT000019384991.md": {
+      "sha256": "d0e7fd5b15f6bc0e80d3d81575665ce8119a053362b7a1de66d0062375208459",
+      "size_bytes": 3490,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019384991/"
+    },
+    "KALITEXT000019385014.md": {
+      "sha256": "fa0d306b6fb67c3f9118a02b4f08f58f74a134156700ddaf5da5c5a238ce180e",
+      "size_bytes": 2987,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019385014/"
+    },
+    "KALITEXT000019385034.md": {
+      "sha256": "3375c9e6ab1c61ebf446226b7bee524b93d086ff8a65cd6789fa3e1191ca4f9f",
+      "size_bytes": 44550,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019385034/"
+    },
+    "KALITEXT000019385064.md": {
+      "sha256": "4c4d7f2372044d3f7d92a4f7a8dced546168eae04da743a3bd1466845d23cd19",
+      "size_bytes": 5852,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019385064/"
+    },
+    "KALITEXT000019385565.md": {
+      "sha256": "1aa05934d855a90a0320b919e1fb73ef9e91b2b8ce2d06a263f30be79c065ce6",
+      "size_bytes": 36744,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019385565/"
+    },
+    "KALITEXT000019385613.md": {
+      "sha256": "adf6cd1e440ab963409253fb42d04b6774727860395bd5203a69509cf68fbe30",
+      "size_bytes": 1351,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019385613/"
+    },
+    "KALITEXT000019732079.md": {
+      "sha256": "5ad872213c3858e7368c8b2703d3658951ebbf8c112ae1831acfb7c10b5c6bc6",
+      "size_bytes": 12318,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019732079/"
+    },
+    "KALITEXT000019861267.md": {
+      "sha256": "cc333e79ae7c2f8531a6f481d9bf9b8effa830700090b068da51720970354fd2",
+      "size_bytes": 1772,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019861267/"
+    },
+    "KALITEXT000019861275.md": {
+      "sha256": "98144b07e675fd202abb04ddcf80287e7a87f69469f52e586bb2236a3adfe1d8",
+      "size_bytes": 2060,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000019861275/"
+    },
+    "KALITEXT000020137344.md": {
+      "sha256": "814a5122296fad8d845c8ec2734a2f06d6f71a01cddb92571d05099c939fa10c",
+      "size_bytes": 81624,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000020137344/"
+    },
+    "KALITEXT000020137442.md": {
+      "sha256": "4be293b7b3cedaf3b764d5f00d449f53cd5eaa53815e7d5c7a537339378925e6",
+      "size_bytes": 15554,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000020137442/"
+    },
+    "KALITEXT000020608470.md": {
+      "sha256": "237fe7183f0143a9b635a4e93b0255f195f23cc6089f43a5a083308765b3c863",
+      "size_bytes": 10353,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000020608470/"
+    },
+    "KALITEXT000020851791.md": {
+      "sha256": "3361d904f135d90bdb90e56c7a31ca38373979817f56b215a8f4da1e5455f0d3",
+      "size_bytes": 13155,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000020851791/"
+    },
+    "KALITEXT000021237441.md": {
+      "sha256": "c03e5a261d96c9fa195c94eb1d3365229d99f209feba2a7df14468514cff3292",
+      "size_bytes": 3528,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000021237441/"
+    },
+    "KALITEXT000022017876.md": {
+      "sha256": "5f935dd6c2c3841c5827831f7c857c40e9fa743f133fb774ff6eec588bcf5549",
+      "size_bytes": 3158,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000022017876/"
+    },
+    "KALITEXT000022017887.md": {
+      "sha256": "20afb0204cb391c20144cd1e14c9c86a0e671d391d77d93b6c403e0ca8e91056",
+      "size_bytes": 39955,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000022017887/"
+    },
+    "KALITEXT000022968985.md": {
+      "sha256": "a02dc3e613c1d46201aa98fd389ffa3c05b85eb39e75ca1596f9180e99f2d7e6",
+      "size_bytes": 2679,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000022968985/"
+    },
+    "KALITEXT000023105054.md": {
+      "sha256": "96ea8a12cac6fb813b7d2a825617294ed43ed1ffaef24fe4b649a6f6b4b61aeb",
+      "size_bytes": 2726,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000023105054/"
+    },
+    "KALITEXT000023105061.md": {
+      "sha256": "8ecf3bc03bd80a0db5b6b4f2470edc928353221ea0761e7f65faca426fb1417c",
+      "size_bytes": 2214,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000023105061/"
+    },
+    "KALITEXT000023157828.md": {
+      "sha256": "4ab58d589929edb9b03600b339f6289b68c410b4b8fffd746b4473eab67c1fa8",
+      "size_bytes": 6812,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000023157828/"
+    },
+    "KALITEXT000023157839.md": {
+      "sha256": "ca6d5f66d07eaea6519bdcc77b58bf2c7bd9691e88b3b16b161b4178de3a766a",
+      "size_bytes": 4059,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000023157839/"
+    },
+    "KALITEXT000023374678.md": {
+      "sha256": "1aee4e7ecd999167df71f2fbbff5b56a6059838bcc23d45b49f2c457e05c1e56",
+      "size_bytes": 22218,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000023374678/"
+    },
+    "KALITEXT000023561412.md": {
+      "sha256": "e50f32fc0bc7f62b0323606717389197f22439ab47bf5e1d3bfb6619501221ba",
+      "size_bytes": 7424,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000023561412/"
+    },
+    "KALITEXT000023714910.md": {
+      "sha256": "c1688dd419be97b529d581e835c62d6420c00a85903822a30223dca29c43a906",
+      "size_bytes": 4130,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000023714910/"
+    },
+    "KALITEXT000024683557.md": {
+      "sha256": "e7a7239e7da115cee6771d9c5fb081534b3b173dbb7a07b5a0e3b9d3f6c266a2",
+      "size_bytes": 77562,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000024683557/"
+    },
+    "KALITEXT000024683670.md": {
+      "sha256": "9be28201d6295a475d7a9a2e7db316b41d9941d0cdde1df53b549a3722eb2f7a",
+      "size_bytes": 4394,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000024683670/"
+    },
+    "KALITEXT000024832242.md": {
+      "sha256": "2c7d34e2ecb0cb86c5344d574f2ac392bdd8039145e9ad5700088288f0c75d6c",
+      "size_bytes": 30438,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000024832242/"
+    },
+    "KALITEXT000025167910.md": {
+      "sha256": "470cd122357fac1de5eacbfb9f2fc5dbea37091d3e7de609959c704c76ece692",
+      "size_bytes": 2356,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000025167910/"
+    },
+    "KALITEXT000025167917.md": {
+      "sha256": "5e210bfb05667660e9d8221d3f488e5da9df393c4c58745146594add10d66154",
+      "size_bytes": 2099,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000025167917/"
+    },
+    "KALITEXT000025351053.md": {
+      "sha256": "c2dd517f87f1f4a6700b1e8d46ccdd953ba74875bbd6580d4f90092b64d698f0",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000025351053/"
+    },
+    "KALITEXT000025683532.md": {
+      "sha256": "aff28a1fc389aaef20a5153dbca385e67eb758f7520457405591459501e10c89",
+      "size_bytes": 1263,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000025683532/"
+    },
+    "KALITEXT000025805094.md": {
+      "sha256": "a81d1a5328b37f4fe33a42da18c84e6f00b8a90e9dec7bb071647d95a5853fdb",
+      "size_bytes": 10101,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000025805094/"
+    },
+    "KALITEXT000026123259.md": {
+      "sha256": "7525e5c43b835e267dd5078904c623bd45883d886e0798ee6e7416234b9def9d",
+      "size_bytes": 30452,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000026123259/"
+    },
+    "KALITEXT000026804497.md": {
+      "sha256": "1ce847a372384ac0920f40ea7192ecea67cb8d6801a735a8e36c0a5cc2a89444",
+      "size_bytes": 2749,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000026804497/"
+    },
+    "KALITEXT000026804506.md": {
+      "sha256": "c50a4253a8a744031d8f83f8f123e27579c6d18130dc626a32562dd4dfe0adfa",
+      "size_bytes": 5824,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000026804506/"
+    },
+    "KALITEXT000026804523.md": {
+      "sha256": "39fd1a53ec1e585a20eb5f8157ae98d75dea721157f80679fcc5f45dd127d435",
+      "size_bytes": 5524,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000026804523/"
+    },
+    "KALITEXT000026942664.md": {
+      "sha256": "65cdf717bf01a04591b39a6de012c7b3c1054b8ddb01f161571be5b5fad0f350",
+      "size_bytes": 5666,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000026942664/"
+    },
+    "KALITEXT000027661879.md": {
+      "sha256": "26d01b50177105cb3f7f499f051d00955fa20194f49862239a3c0cd97d46879c",
+      "size_bytes": 27661,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000027661879/"
+    },
+    "KALITEXT000027757127.md": {
+      "sha256": "03b86cdd158d9166de1e145a6ec1b8c810d3eaa0ade4d77856ab7d64b2d92f65",
+      "size_bytes": 2665,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000027757127/"
+    },
+    "KALITEXT000027757139.md": {
+      "sha256": "7ab1482337deec39cfedac2a601a2f5121bdd9c3e7a1c6e567719bc004516041",
+      "size_bytes": 2406,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000027757139/"
+    },
+    "KALITEXT000027757146.md": {
+      "sha256": "90eff4fe9a32211d6061c8b6ea289f7ae9981d98c524d5950f0934fe0e709655",
+      "size_bytes": 2049,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000027757146/"
+    },
+    "KALITEXT000027931631.md": {
+      "sha256": "ab991efb56b3489ff559fbfb9efe97541b239e7ba126a5ef9b682834b4ceb606",
+      "size_bytes": 8400,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000027931631/"
+    },
+    "KALITEXT000028465378.md": {
+      "sha256": "4b28f319e75f6d1714fe8d919396b39f8233c9a27ecf8024d1157aeb8a3fb0a6",
+      "size_bytes": 25731,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000028465378/"
+    },
+    "KALITEXT000029264464.md": {
+      "sha256": "bd7f48b27bf331674f9372022ccff73cf71e15f999ccc0bb15e81b53b1675b56",
+      "size_bytes": 19353,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000029264464/"
+    },
+    "KALITEXT000029264482.md": {
+      "sha256": "36af6bd6d0ca3ba4a12dc25811705c6d43488217295ede50379552dc34f657ca",
+      "size_bytes": 2941,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000029264482/"
+    },
+    "KALITEXT000030160078.md": {
+      "sha256": "126fa4948f6fd09a724cd977c58ad2e82e337678b293655deef61a7d6dcfbb19",
+      "size_bytes": 44681,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000030160078/"
+    },
+    "KALITEXT000030309431.md": {
+      "sha256": "a66b67a4c784a1d37e0a9bb9e7b6c1a62893f4429abdf52348133f7719f721b1",
+      "size_bytes": 272,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000030309431/"
+    },
+    "KALITEXT000030482991.md": {
+      "sha256": "70f671f0ae6a0b93c4591bf58cb93a611b875199e1558f1284d508be2194eee0",
+      "size_bytes": 2730,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000030482991/"
+    },
+    "KALITEXT000030579160.md": {
+      "sha256": "bfa1f6f99d6df86a4c4cfbd169b596fc6992b4c30bd7af64fac76b4abae8f182",
+      "size_bytes": 3257,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000030579160/"
+    },
+    "KALITEXT000030778374.md": {
+      "sha256": "6cf47141b82ef321a21f56723dd58a625dad61e3767c801ff6b1704eed75c0e3",
+      "size_bytes": 4317,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000030778374/"
+    },
+    "KALITEXT000031260456.md": {
+      "sha256": "3db702206880a84e2b7f7665c52f0308153f35439699013c69df9b97dd2dfab5",
+      "size_bytes": 7576,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000031260456/"
+    },
+    "KALITEXT000031260480.md": {
+      "sha256": "0691d0f10f5bfce878c8312fa3b2c7c638bfccbfe26820c66662fd3712bce420",
+      "size_bytes": 9351,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000031260480/"
+    },
+    "KALITEXT000031260497.md": {
+      "sha256": "3dbaca88396332a2587453b26cfef34a38a764f63b6626130f79cf6f0c7b1c7b",
+      "size_bytes": 37079,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000031260497/"
+    },
+    "KALITEXT000031260575.md": {
+      "sha256": "bfc8ba71bb8e4ae73b765aec53174ac3ae6843fe24a78958978a9a853a4e942d",
+      "size_bytes": 1118,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000031260575/"
+    },
+    "KALITEXT000031964500.md": {
+      "sha256": "0ce13c4ac9211e0995ed85306ba6844b04e0122b3526496ffbc69e3bc828f6ed",
+      "size_bytes": 71818,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000031964500/"
+    },
+    "KALITEXT000032730090.md": {
+      "sha256": "1723aa180831249940b475b5dabea5ecc8adf29e79ad871e2570610820114f65",
+      "size_bytes": 6869,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000032730090/"
+    },
+    "KALITEXT000035330676.md": {
+      "sha256": "a7b1558dc9b758ea63fe1ee5b60a28f45eb7555b6592af75986dfce84baf1454",
+      "size_bytes": 4215,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000035330676/"
+    },
+    "KALITEXT000036835606.md": {
+      "sha256": "086e4a12be85143ce160e64819e988d08b9321be837b0fee20d1f8cfebab1aca",
+      "size_bytes": 16436,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000036835606/"
+    },
+    "KALITEXT000038115633.md": {
+      "sha256": "659a84030763a5507422f4458b93f9a0531278bb5fb7992755fccb16f6140fd7",
+      "size_bytes": 3490,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000038115633/"
+    },
+    "KALITEXT000039748302.md": {
+      "sha256": "bbe466a35bc6f9499937be635cbb2d1568862bd8846fccf6bfdf5fe1800568e1",
+      "size_bytes": 6323,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000039748302/"
+    },
+    "KALITEXT000041549497.md": {
+      "sha256": "7c5a483817cf445205bf06102ae17a4ebecb11adcfbd2796267ae851daadfa3f",
+      "size_bytes": 73050,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000041549497/"
+    },
+    "KALITEXT000041549573.md": {
+      "sha256": "2ad61f8c57f7e44bad5410d27870fe0d67866afcd24f0170ab15065a29b8a551",
+      "size_bytes": 7503,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000041549573/"
+    },
+    "KALITEXT000041788859.md": {
+      "sha256": "53e292b486d956ac8f15dbd33274282056f505eed508478b51002dddb36f9eb1",
+      "size_bytes": 7026,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000041788859/"
+    },
+    "KALITEXT000042085741.md": {
+      "sha256": "5083eb354c4a5f379474bfed5ad1b50b98605f2b5c39cb870aedf8b67a240739",
+      "size_bytes": 19446,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000042085741/"
+    },
+    "KALITEXT000042085809.md": {
+      "sha256": "7431abb83ac76d3e1f19c85b94f3a935d09b99a7c355f5c3b4b573b24092700a",
+      "size_bytes": 34481,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000042085809/"
+    },
+    "KALITEXT000042258095.md": {
+      "sha256": "f62f2403573814295b6f71c02987c2d9d8ff0523961f80164a9c99370d48dc9e",
+      "size_bytes": 8029,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000042258095/"
+    },
+    "KALITEXT000042597920.md": {
+      "sha256": "fbafc89e67dff167035d86942f4cc4038f5b1a9303a79d60b1b69b329ccadd28",
+      "size_bytes": 40674,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000042597920/"
+    },
+    "KALITEXT000042668864.md": {
+      "sha256": "7e5e83e26ee961e06c21c18ebedc8448a244320bc8f73ab19c5327ba9a79a9c1",
+      "size_bytes": 23359,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000042668864/"
+    },
+    "KALITEXT000042705384.md": {
+      "sha256": "4a31775ea946e5a03b8c55e1e433f3b3c9a981e35e06daef6dc3f97748aa7aa5",
+      "size_bytes": 4870,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000042705384/"
+    },
+    "KALITEXT000043104130.md": {
+      "sha256": "6cbd913bab27d2188c21db52d6da81c4ba92a4e6b7a7086fc609015bdcfa5d6f",
+      "size_bytes": 8236,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000043104130/"
+    },
+    "KALITEXT000043145685.md": {
+      "sha256": "768027db7472c1eda9604e4487fd778133c35d5f58626aa91e9eff1f952076a3",
+      "size_bytes": 8292,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000043145685/"
+    },
+    "KALITEXT000043929421.md": {
+      "sha256": "29999bcafa4d470364308930a3b253b319405fed6ffdf97017491fabc7ab758e",
+      "size_bytes": 1050,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000043929421/"
+    },
+    "KALITEXT000044159279.md": {
+      "sha256": "9a6ee12e3ac020ed8eebc12a33e55f47f2b60a399b38f7b431e3e7115f9ef49e",
+      "size_bytes": 17501,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000044159279/"
+    },
+    "KALITEXT000044253019.md": {
+      "sha256": "ca1f40c8f22adfc47d12898c3c94946d2e21bf3e3c372399540374500d08fac9",
+      "size_bytes": 228179,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000044253019/"
+    },
+    "KALITEXT000045110196.md": {
+      "sha256": "ea7f64577d3044a625d4b64d8d416a87fe8cebabc3b9770f3177f80d444e754d",
+      "size_bytes": 9311,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000045110196/"
+    },
+    "KALITEXT000046033534.md": {
+      "sha256": "608b5c6640a6e3ed3f6148580092850b974ed4b72c7ea139112b3b0806d77fc2",
+      "size_bytes": 6078,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000046033534/"
+    },
+    "KALITEXT000046033552.md": {
+      "sha256": "41740b9b364751cab681588b3de79beb101715a20778ffa0d0010903cb04797e",
+      "size_bytes": 5281,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000046033552/"
+    },
+    "KALITEXT000046033571.md": {
+      "sha256": "79a72c11e4b350a84fb014df5c7bf37731a7a3dccd565599860e39b969212241",
+      "size_bytes": 12776,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000046033571/"
+    },
+    "KALITEXT000046033597.md": {
+      "sha256": "84d233fc3aa0ca25f4a22cc10b0792304f3b3fc8351a5f21e307e93dfa660e11",
+      "size_bytes": 6583,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000046033597/"
+    },
+    "KALITEXT000046744408.md": {
+      "sha256": "232eda7961a595985a03bffbb282db0f168084e37d38a7a254a5d45742a7a8ae",
+      "size_bytes": 4205,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000046744408/"
+    },
+    "KALITEXT000046744424.md": {
+      "sha256": "0708ba71f3a4a519ceb9fc1f0d8a6269bde86c65d921cb0e97fe1117a999abb8",
+      "size_bytes": 4210,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000046744424/"
+    },
+    "KALITEXT000047006854.md": {
+      "sha256": "64a1a6c5ca6a6214758e5b7bca825f1131de861a79c721b31f210441eb42337f",
+      "size_bytes": 25368,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000047006854/"
+    },
+    "KALITEXT000047006904.md": {
+      "sha256": "add55a6c1b8627d247f5607f4b18d2c1f048876b831e44c1ccb28b0daee50e50",
+      "size_bytes": 32053,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000047006904/"
+    },
+    "KALITEXT000047007009.md": {
+      "sha256": "579636bc75d2666f2be47270a373990066edbc5f151ad66ce03f434ac869e3a9",
+      "size_bytes": 11570,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000047007009/"
+    },
+    "KALITEXT000047348314.md": {
+      "sha256": "ba98aac3cfeabbf51d87c66f728144f74fbb4c5fca1f7b960ed1fcfdc7ea84e6",
+      "size_bytes": 4805,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000047348314/"
+    },
+    "KALITEXT000047348328.md": {
+      "sha256": "a90c52a19588899d030ab4519b903c2def46d2039a17600530191650c66df931",
+      "size_bytes": 60858,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000047348328/"
+    },
+    "KALITEXT000047348407.md": {
+      "sha256": "6c302e23f01fdc6861184b85446d2e6003dd107ab9fdb8ec1b6b382a514b0b23",
+      "size_bytes": 18590,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000047348407/"
+    },
+    "KALITEXT000047348456.md": {
+      "sha256": "ac2711026f8a0e94cbb172a13fff8ed917db8abdc124380deaf907d4ea002a56",
+      "size_bytes": 9036,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000047348456/"
+    },
+    "KALITEXT000047551135.md": {
+      "sha256": "65be7057a8122e44dc67fde898873635cd210817c263711333af7ae1f6ba6f44",
+      "size_bytes": 4295,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000047551135/"
+    },
+    "KALITEXT000048150692.md": {
+      "sha256": "282d22f9412fce665a9b74afd44ae496e30646738095668e1ee9c25fef48e695",
+      "size_bytes": 21385,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000048150692/"
+    },
+    "KALITEXT000048974817.md": {
+      "sha256": "8d3c2371349b6b563b231271f5654271f432d30fa1d96b9c82ce0a1eaad0ce47",
+      "size_bytes": 7929,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000048974817/"
+    },
+    "KALITEXT000049300374.md": {
+      "sha256": "327f33ef17e2d1e4f80f8e62c6202906dda275eb68f56b51f895d719106a166c",
+      "size_bytes": 7358,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000049300374/"
+    },
+    "KALITEXT000049300389.md": {
+      "sha256": "6853878a564e453ef08e3ce970a604a18c4ca3ac4dd32534c21ce7ec704b6ebe",
+      "size_bytes": 13682,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000049300389/"
+    },
+    "KALITEXT000049620629.md": {
+      "sha256": "82771d92dd920cab1d0e9b55e1134404c6188862dcf2148ba66d384552468d2b",
+      "size_bytes": 99376,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000049620629/"
+    },
+    "KALITEXT000050228699.md": {
+      "sha256": "164d3c309758ac07485201acc0bafc7ed4c837fa74cf5548520aedfc5d797a28",
+      "size_bytes": 10221,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000050228699/"
+    },
+    "KALITEXT000051447093.md": {
+      "sha256": "d60da2556f34ea25a2487542d62189b1bb3ecdf08a75c3cf329c8f1abd877794",
+      "size_bytes": 4999,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000051447093/"
+    },
+    "KALITEXT000051537723.md": {
+      "sha256": "8ab39fcda0bc4b818a00c35d09c9a61e99a5d3818402c3a329ef785cf0e6fe0a",
+      "size_bytes": 4514,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000051537723/"
+    },
+    "KALITEXT000051664638.md": {
+      "sha256": "db6542ec9be2be05dcfce697dccfa695dee4b659c322493ca514e5ca1193058a",
+      "size_bytes": 54381,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000051664638/"
+    },
+    "KALITEXT000051694816.md": {
+      "sha256": "7ec55898366d71ff16ea92e169d98b724c1763bba3752600fa4304bd2f0c4a44",
+      "size_bytes": 17669,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000051694816/"
+    },
+    "KALITEXT000052119023.md": {
+      "sha256": "2b061a1b2f03f586a949cddf4edf763bad27695e7b1dd489ec2c5a0faf34dc2e",
+      "size_bytes": 59696,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000052119023/"
+    },
+    "KALITEXT000053434038.md": {
+      "sha256": "190253eec364bcfc21d98c24f39091220bd9d03177071e8302b0eb49be0fdf63",
+      "size_bytes": 94419,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000053434038/"
+    },
+    "KALITEXT000053434107.md": {
+      "sha256": "84eb831e24250f498a5f66931bc1eb1a0cffc1f89df218df97cc459b759a9040",
+      "size_bytes": 14061,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000053434107/"
+    },
+    "KALITEXT000053497361.md": {
+      "sha256": "1f35ffd400a25af70df63124599b396bb30528c823038b6e6eddb40684ddf073",
+      "size_bytes": 6205,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000053497361/"
+    },
+    "KALITEXT000054091937.md": {
+      "sha256": "4b4955e3e79163546728be3388a9ebcda3c93a9bd6dafbfe9b65f29cffa14e37",
+      "size_bytes": 10108,
+      "source_url": "https://www.legifrance.gouv.fr/conv_coll/id/KALITEXT000054091937/"
+    }
+  }
+}

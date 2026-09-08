@@ -278,7 +278,7 @@ documents that exist.)*
   - How would you handle the agreement being amended next month?
 - **Commit.** `feat: add reproducible Syntec corpus acquisition script`
 
-### [ ] T2.2 — Version and pin the corpus
+### [x] T2.2 — Version and pin the corpus
 
 - **Goal.** Make "which corpus produced this number?" answerable months later.
 - **Concepts.** Content hashing; manifests; data versioning without a heavy
