@@ -361,7 +361,7 @@ documents that exist.)*
   - How would you detect that you accidentally wrote leading questions?
 - **Commit.** `feat: add the Syntec golden evaluation set`
 
-### [ ] T3.3 — Implement retrieval metrics
+### [x] T3.3 — Implement retrieval metrics
 
 - **Goal.** Compute recall@k and MRR from the golden set.
 - **Concepts.** recall@k, precision@k, MRR, nDCG; what recall@k hides; why
