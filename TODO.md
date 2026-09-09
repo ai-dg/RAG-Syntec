@@ -335,7 +335,7 @@ documents that exist.)*
   - Why label relevant chunks rather than just correct answers?
 - **Commit.** `feat: define the evaluation set schema and labelling protocol`
 
-### [ ] T3.2 — Write the golden question set
+### [x] T3.2 — Write the golden question set
 
 - **Goal.** 60–100 labelled questions over the Syntec corpus. This is the
   most valuable and least automatable artifact in the project.
