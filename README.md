@@ -1,4 +1,4 @@
-# ragfoundry
+# RAG-Syntec
 
 <img src="assets/overview.png" alt="RAG-Syntec — overview" width="760">
 
