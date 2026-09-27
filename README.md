@@ -41,6 +41,9 @@ in prose. See [`design/guardrail.md`](design/guardrail.md).
 
 ```bash
 cp .env.example .env
+docker compose up -d ollama
+docker compose exec ollama ollama pull qwen3-embedding:8b
+docker compose exec ollama ollama pull gemma4:latest
 docker compose up --build
 ```
 
@@ -55,7 +58,7 @@ uv run uvicorn app.main:app --reload
 ```bash
 curl -X POST http://localhost:8000/query \
   -H "Content-Type: application/json" \
-  -d '{"question": "What does this guardrail actually measure?"}'
+  -d '{"question": "What is the trial period for an engineer or manager (cadre) under the Syntec agreement?"}'
 ```
 
 ### Tests
@@ -74,7 +77,7 @@ baseline (see `design/` for what was fixed and why). Planned next: hybrid
 retrieval (BM25 + dense) with reranking, layered guardrails (input
 validation, output groundedness checking, citation enforcement), and a
 quantitative evaluation harness (recall, false-refusal rate, false-acceptance
-rate) instead of eyeballed distance thresholds.
+rate) instead of eyeballed distance thresholds. The labelled golden set and retrieval metrics are already in `eval/`; guardrail and generation metrics are not yet.
 
 The full roadmap — milestones, what each one must measure before it counts
 as done, and what is deliberately out of scope — lives in

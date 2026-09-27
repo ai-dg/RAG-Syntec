@@ -11,7 +11,7 @@ RUN pip install uv --no-cache-dir && \
     uv pip install --system --no-cache -r pyproject.toml
 
 COPY app ./app
-COPY docs ./docs
+COPY data ./data
 
 EXPOSE 8000
 
