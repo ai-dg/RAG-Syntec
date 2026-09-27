@@ -1,5 +1,7 @@
 # ragfoundry
 
+<img src="assets/overview.png" alt="RAG-Syntec — overview" width="760">
+
 A RAG pipeline that knows when to refuse to answer — and can prove it.
 
 Most retrieval-augmented generation demos always answer, even when nothing
