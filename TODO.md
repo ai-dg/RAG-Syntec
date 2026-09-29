@@ -378,7 +378,7 @@ documents that exist.)*
   - Your recall@10 is 0.95 and answer quality is poor. What do you check?
 - **Commit.** `feat: implement retrieval evaluation metrics`
 
-### [ ] T3.4 — Implement guardrail metrics
+### [x] T3.4 — Implement guardrail metrics
 
 - **Goal.** Measure the behaviour the whole project is about.
 - **Concepts.** False-refusal rate and false-acceptance rate; the

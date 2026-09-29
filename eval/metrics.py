@@ -52,3 +52,64 @@ def mrr(list_of_retrieved: list[list[str]], list_of_relevant: list[list[str]]):
     mrr = mean(results)
 
     return mrr
+
+
+def false_refusal_rate(predictions: list[dict]):
+
+    total_in_topic = 0
+    wrongly_blocked = 0
+
+
+    for prediction in predictions:
+        if prediction['true_class'] == "in_topic_answerable" or \
+            prediction['true_class'] == "in_topic_unanswerable":
+            total_in_topic += 1
+            if prediction['guardrail_passed'] == False:
+                wrongly_blocked += 1
+    
+    false_refusal_rate = 0
+
+    try:
+        false_refusal_rate = wrongly_blocked / total_in_topic
+    except ZeroDivisionError:
+        return false_refusal_rate
+
+    return false_refusal_rate
+
+
+def false_acceptance_rate(predictions: list[dict]):
+
+    total_off_topic = 0
+    wrongly_accepted = 0
+
+
+    for prediction in predictions:
+        if prediction['true_class'] == "off_topic" or \
+            prediction['true_class'] == 'adversarial':
+            total_off_topic += 1
+            if prediction['guardrail_passed'] == True:
+                wrongly_accepted += 1
+    
+    false_acceptance_rate = 0
+
+    try:
+        false_acceptance_rate = wrongly_accepted / total_off_topic
+    except ZeroDivisionError:
+        return false_acceptance_rate
+
+    return false_acceptance_rate
+
+
+def confusion_matrix(predictions: list[dict]):
+    
+    classes = ["in_topic_answerable", "in_topic_unanswerable", "off_topic", "adversarial"]
+    
+    matrix = {c: {"passed": 0, "blocked": 0} for c in classes}
+
+    for prediction in predictions:
+        if prediction['guardrail_passed'] == True:
+            matrix[prediction['true_class']]['passed'] += 1
+        else:
+            matrix[prediction['true_class']]['blocked'] += 1
+
+    return matrix
