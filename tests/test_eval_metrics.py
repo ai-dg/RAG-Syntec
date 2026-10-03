@@ -6,7 +6,12 @@ from eval.metrics import (
     false_refusal_rate,
     false_acceptance_rate,
     confusion_matrix,
+    sentence_overlap_proxy,
+    faithfulness_proxy,
 )
+from eval.judge import judge_agreement_rate
+
+CONTEXT = "le salarié a droit à un préavis de deux mois"
 
 
 def test_recall_at_k():
@@ -84,3 +89,59 @@ def test_confusion_matrix():
 
     matrix = confusion_matrix(predictions)
     assert matrix["adversarial"]["passed"] == 1
+
+
+def test_sentence_overlap_proxy_partial_overlap():
+    result = sentence_overlap_proxy("le salarié a droit", "le salarié a un préavis")
+    assert result == 0.75
+
+
+def test_sentence_overlap_proxy_full_and_no_overlap():
+    assert sentence_overlap_proxy("a b c", "a b c") == 1.0
+    assert sentence_overlap_proxy("x y z", "a b c") == 0.0
+
+
+def test_sentence_overlap_proxy_empty_sentence_returns_zero():
+    assert sentence_overlap_proxy("", CONTEXT) == 0
+
+
+def test_faithfulness_proxy_counts_grounded_sentences_not_the_inverse():
+    answer = (
+        "Le salarié a droit à un préavis. "
+        "Il peut aussi demander une prime exceptionnelle de dix mille euros."
+    )
+    # 1 grounded sentence out of 2: a flipped division would give 2.0
+    assert faithfulness_proxy(answer, CONTEXT) == 0.5
+
+
+def test_faithfulness_proxy_bounds():
+    assert faithfulness_proxy("Le salarié a droit à un préavis.", CONTEXT) == 1.0
+    assert faithfulness_proxy("Prime de dix mille euros.", CONTEXT) == 0.0
+
+
+def test_faithfulness_proxy_empty_answer_returns_zero():
+    assert faithfulness_proxy("", CONTEXT) == 0.0
+
+
+def test_faithfulness_proxy_threshold_is_inclusive():
+    # 3 of 5 words overlap -> score exactly 0.6
+    assert faithfulness_proxy("a b c x y", "a b c", threshold=0.6) == 1.0
+    assert faithfulness_proxy("a b c x y", "a b c", threshold=0.61) == 0.0
+
+
+def test_judge_agreement_rate():
+    assert judge_agreement_rate([True, False, True, True], [True, False, False, True]) == 0.75
+
+
+def test_judge_agreement_rate_unparseable_verdict_counts_as_disagreement():
+    assert judge_agreement_rate([True, None], [True, False]) == 0.5
+
+
+def test_judge_agreement_rate_empty_returns_zero():
+    assert judge_agreement_rate([], []) == 0
+
+
+def test_judge_agreement_rate_sixty_percent_case():
+    judge = [True] * 12 + [False] * 8
+    human = [True] * 20
+    assert judge_agreement_rate(judge, human) == 0.6
