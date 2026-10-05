@@ -1095,7 +1095,7 @@ API orchestration. Today `app/` contains no modelling at all.*
 > it is kept only if it fails on at most as many answerable questions as
 > `top_k = 10` while keeping the prompt at 3 chunks.
 
-### [ ] T11.1 — Understand reranking
+### [x] T11.1 — Understand reranking
 
 - **Goal.** Understand why reranking works and what it costs before adding a second model to the pipeline.
 - **Concepts.** Bi-encoder versus cross-encoder: independent embedding
