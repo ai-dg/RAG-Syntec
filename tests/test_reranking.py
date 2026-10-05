@@ -231,3 +231,59 @@ def test_lifespan_loads_the_reranker_only_when_it_is_enabled(monkeypatch):
     get_settings.cache_clear()
     run_lifespan()
     assert loaded == ["some/model"]
+
+
+class FakeCrossEncoder:
+    def __init__(self, fail=False):
+        self.fail = fail
+        self.moves = []
+        self.batch_sizes = []
+        self.model = self
+
+    def to(self, device):
+        self.moves.append(device)
+
+    def predict(self, pairs, batch_size):
+        self.batch_sizes.append(batch_size)
+        if self.fail:
+            raise RuntimeError("scoring failed")
+        return [1.0] * len(pairs)
+
+
+@pytest.fixture
+def gpu_present(monkeypatch):
+    torch = pytest.importorskip("torch")
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: True)
+    monkeypatch.setattr(torch.cuda, "empty_cache", lambda: None)
+
+
+def test_scoring_uses_a_small_batch_so_it_fits_next_to_the_ollama_model(
+    monkeypatch, gpu_present
+):
+    fake = FakeCrossEncoder()
+    monkeypatch.setattr(reranking, "_model", fake)
+
+    scores = reranking._score_with_borrowed_gpu("q", ["text"] * 20)
+
+    assert fake.batch_sizes == [reranking.RERANK_BATCH_SIZE]
+    assert reranking.RERANK_BATCH_SIZE <= 5
+    assert scores == [1.0] * 20
+
+
+def test_the_model_is_lent_to_the_gpu_then_returned(monkeypatch, gpu_present):
+    fake = FakeCrossEncoder()
+    monkeypatch.setattr(reranking, "_model", fake)
+
+    reranking._score_with_borrowed_gpu("q", ["text"])
+
+    assert fake.moves == ["cuda", "cpu"]
+
+
+def test_the_model_goes_back_to_the_cpu_even_if_scoring_fails(monkeypatch, gpu_present):
+    fake = FakeCrossEncoder(fail=True)
+    monkeypatch.setattr(reranking, "_model", fake)
+
+    with pytest.raises(RuntimeError, match="scoring failed"):
+        reranking._score_with_borrowed_gpu("q", ["text"])
+
+    assert fake.moves == ["cuda", "cpu"]

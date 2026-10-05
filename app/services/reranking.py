@@ -10,6 +10,7 @@ from langchain_core.documents import Document
 logger = logging.getLogger(__name__)
 _model = None
 _lock = threading.Lock()
+RERANK_BATCH_SIZE = 4
 
 
 
@@ -49,7 +50,7 @@ def _score_with_borrowed_gpu(question: str, texts: list[str]) -> list[float]:
             return [float(s) for s in _model.predict(pairs)]
         _model.model.to("cuda")
         try:
-            scores = _model.predict(pairs, batch_size=len(pairs))
+            scores = _model.predict(pairs, batch_size=RERANK_BATCH_SIZE)
         finally:
             _model.model.to("cpu")
             torch.cuda.empty_cache()
