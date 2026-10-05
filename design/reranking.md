@@ -162,6 +162,69 @@ unrelated scale; the guardrail threshold of 0.74 must never be applied to it.
 Letting the guardrail read the reranker score is deferred to T11.3, after the
 abstention classifier exists.
 
+## Result with the reranker (T11.4, measured)
+
+One run, `eval/results/2026-10-05_rerank.json`: same index, prompt and visible
+split as the baseline; reranking on, 20 candidates, 3 kept, the guardrail still
+thresholding the dense distance. Compared with the baseline and the `top_k = 10`
+control by `eval/compare_runs.py`, everything cut at 3 chunks.
+
+| metric | baseline | `top_k = 10` | reranking |
+|---|---|---|---|
+| recall@3, by id (22 answerable) | 0.500 | 0.500 | 0.636 |
+| recall@3, by text equivalence | 0.568 | n/a | 0.659 |
+| MRR cut at 3 | 0.379 | 0.379 | 0.424 |
+| answerable questions failing (answer check) | 9 | 4 | 6 |
+| false refusal / false acceptance | 0.12 / 0.32 | 0.12 / 0.32 | 0.12 / 0.32 |
+| retrieval p50 / p95 | 2.64 / 5.69 s | 2.47 / 5.52 s | 5.53 / 10.06 s |
+| generation p50 / p95 | 22.9 / 34.7 s | 25.5 / 43.8 s | 28.6 / 37.1 s |
+
+**The decision rules fixed in advance, applied.**
+1. recall@3 up by at least 0.15: **not met**. +0.136 by id (0.636 against the
+   0.65 needed, one question short), +0.091 by text equivalence.
+2. At most 4 answerable questions failing, with generation p95 within 10% of the
+   baseline: **not met** on the first part (6 failing against 4 for `top_k = 10`);
+   the second part is met (37.1 s, +7%).
+3. Added retrieval p95 at most 3 s: **not met** (+4.4 s; the median rises by
+   2.9 s).
+
+**Decision: the reranker is rejected in this configuration.** It stays in the code
+as an optional feature, disabled by default (`RERANK_ENABLED=false`); nothing in
+the measured pipeline depends on it.
+
+**Predictions from `design/retrieval_diagnosis.md`, checked.**
+- recall@3 at least 0.75 and MRR at least 0.55: refuted (0.636 and 0.424).
+- At least 3 of the 5 retrieval failures flip, most likely q009, q030 and q024:
+  held, and for exactly those three. q026 and q018 (the two answers split across
+  chunks) did not flip.
+- Added retrieval p50 between 0.5 and 3 s: held (+2.9 s, near the upper bound).
+
+**What happened, question by question.** Five questions gained their relevant
+chunk in the top 3 (q016, q030, q009, q024, q001) and two lost it (q017, q005),
+a net gain of three. The two losses are not an artefact of duplicated text (the
+chunks that took their place are not text-equivalent to the listed ones). In q005
+the reranker promoted three chunks of an older text of the agreement
+(`KALITEXT000005679895`: indemnity after "au moins 2 années d'ancienneté"),
+pushing out the current text (8 months of seniority), and the system answered
+"2 années": an outdated answer, wrong today. A cross-encoder scores how well a
+passage matches the question; it has no way to know which version of a provision
+is in force. The dense ranking had put the current chunk first for that question.
+This shows on one question (and similarly q017); that it is a general effect was
+not tested.
+
+**Latency, and a gap with the feasibility check.** The isolated test measured
+0.75 to 1.55 s per request; in the run the median added to retrieval is 2.9 s.
+The cause was not isolated. Two possibilities, neither tested: moving 1.2 GB of
+weights between CPU and GPU on every request, and the reranker's memory forcing
+Ollama to swap its embedding model more often.
+
+**What this leaves open.** `top_k = 10` gives the best answer quality of the
+three at the cost of generation time (4 failing, +11% median, +26% p95), and
+nothing was tried between 3 and 10. The decision rules do not make reranking
+worthless in general: they say it did not meet this project's bar here, and the
+outdated-text finding points to text versioning (Phase 13, T13.2) as a
+prerequisite rather than a later improvement.
+
 ## Cost: what this does not establish
 
 - The 20-candidate width and the cut of 3 follow from 22 questions and five

@@ -237,3 +237,17 @@ intermediate value) is the better choice.
   depends on it.
 - The abstention test used by the taxonomy under-recognises refusals, which also
   affects the baseline's categories if any refusal was worded differently there.
+
+## T11.4: outcome of the reranking prediction
+
+The reranking row of the T5.3 prediction table was run (details in
+`design/reranking.md`). The prediction was half right: recall@3 reached 0.636
+instead of at least 0.75, MRR 0.424 instead of at least 0.55; three of the five
+retrieval failures flipped, and they were exactly the three named (q009, q030,
+q024); the added median retrieval latency was inside the predicted range (2.9 s)
+but the p95 broke the 3-second rule (+4.4 s). By the rules fixed in advance the
+reranker is rejected. An effect that none of the predictions had anticipated: it
+promoted an older, superseded text of the agreement for one question (q005) and
+the answer became outdated. This points to text versioning (T13.2) as something to
+do before further retrieval work, not after it. This is a measured negative
+result, recorded as such.

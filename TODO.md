@@ -1115,7 +1115,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Why does a cross-encoder score better than a bi-encoder, mechanically?
 - **Commit.** `docs: design cross-encoder reranking`
 
-### [ ] T11.2 — Implement reranking
+### [x] T11.2 — Implement reranking
 
 - **Goal.** Add a toggleable reranking stage that reorders candidates without changing the pipeline's shape.
 - **Concepts.** Model loading at startup versus per request; CPU inference; pair batching; latency budgets.
@@ -1155,7 +1155,7 @@ API orchestration. Today `app/` contains no modelling at all.*
     coherent?
 - **Commit.** `feat: add reranker score to the abstention classifier`
 
-### [ ] T11.4 — Measure reranking
+### [x] T11.4 — Measure reranking
 
 - **Goal.** Decide, on evidence, whether the reranker earns the latency it adds.
 - **Concepts.** The quality/latency trade-off; deciding your rejection rule *before* seeing the results.
