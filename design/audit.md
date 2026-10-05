@@ -77,8 +77,8 @@ audit only records what `docs_dir` resolves to *today*, unmodified.
 
 ## What this baseline is for
 
-Every later phase (`T4.1` onward: Docling, structured chunking, BGE-M3,
-Qdrant, hybrid retrieval, reranking, abstention classifier) will claim an
+Every later phase (`T4.1` onward: retrieval diagnosis, structured chunking,
+BGE-M3, Qdrant, hybrid retrieval, reranking, abstention classifier) will claim an
 improvement over *something*. This file is that something. A number changed
 without a corresponding line here to compare against is not a measured
 improvement — it is an impression.

@@ -27,6 +27,12 @@ agreement · Docling for parsing · BGE-M3 for embeddings · Qdrant for storage 
 hybrid dense+sparse retrieval · LangChain kept for ingestion only · Qwen3
 reranker · full evaluation harness · Langfuse last and only if time allows.
 
+**Revision (2026-10-05): Docling dropped.** The corpus was acquired as
+structured Légifrance HTML converted to Markdown (172 files, no PDF), which
+avoids the table-destroying PDF extraction that motivated Docling. Phase 5 is
+now a diagnosis of the retrieval failures measured by the baseline; the
+ablation in T12.1 loses its "+ Docling" step.
+
 ---
 
 ## Conventions used throughout
@@ -518,62 +524,89 @@ documents that exist.)*
 
 ---
 
-# Phase 5 — PyPDF versus Docling
+# Phase 5 — Diagnose the retrieval failures
 
-### [ ] T5.1 — Quantify the parsing problem
+> Replaces the former "PyPDF versus Docling" phase. The corpus is built from
+> the structured Légifrance HTML (172 files converted to Markdown, no PDF —
+> see `design/corpus.md`), so the parsing problem was avoided at acquisition
+> and Docling has nothing to parse. The baseline (`eval/results/`, taxonomy in
+> `design/evaluation.md`) instead shows 4 of 8 answerable failures are
+> retrieval failures, and that recall@3 is a lower bound because the corpus
+> repeats articles. Before building anything (chunking, embeddings, hybrid
+> search, reranking), measure what those failures actually look like.
 
-- **Goal.** Prove the parser is losing content before replacing it.
-- **Concepts.** PDF text extraction; reading order; why layout-unaware
-  extraction destroys tables — which matters enormously for salary grids.
-- **Files.** `scripts/compare_parsers.py` (new).
+### [ ] T5.1 — Quantify duplication in the index
+
+- **Goal.** Measure how much of the index, and of each top-k, is taken up by
+  repeated text.
+- **Concepts.** Base text and amendments repeat articles verbatim; a duplicate
+  can occupy several of the k slots; why that makes id-based recall@k a lower
+  bound and precision@k look worse than it is.
+- **Files.** `scripts/measure_duplicates.py` (new).
 - **Subtasks.**
-  1. Reproduce the known symptom: the existing 44 KB PDF yields only 2 chunks.
-  2. On Syntec PDFs, measure extracted characters, table count, and reading
-     order errors with PyPDF.
-  3. Manually inspect one salary grid and record what is lost.
-- **Tests.** —
-- **Metrics.** characters extracted; chunks produced; tables preserved.
-- **Acceptance.** The loss is a number, not an impression.
+  1. Normalise chunk text (case, whitespace) and count chunks whose text
+     appears more than once; report the share of the 8 447 chunks.
+  2. For each baseline prediction, count the distinct texts among the top-3
+     retrieved chunks; report how many questions had fewer than 3.
+  3. Compute a text-equivalent recall@3 (a retrieved chunk counts as a hit if
+     its normalised text equals a relevant chunk's text) and compare it with
+     the id-based 0.50.
+- **Tests.** Normalisation and duplicate counting on synthetic chunks.
+- **Metrics.** duplicate chunk share; distinct texts in the top-3;
+  id-based vs text-equivalent recall@3.
+- **Acceptance.** The size of the duplication effect is a number.
 - **Interview questions.**
-  - How did you know your parser was the problem and not your chunker?
-- **Commit.** `feat: add a parser comparison script`
+  - Why can recall@k understate retrieval quality on this corpus?
+  - What does duplication do to the top-k?
+- **Commit.** `feat: measure chunk duplication in the index`
 
-### [ ] T5.2 — Integrate Docling
+### [ ] T5.2 — Locate the missing answers by rank
 
-- **Goal.** Replace PyPDF with layout-aware parsing.
-- **Concepts.** Layout detection; structure-preserving extraction; Markdown
-  as an intermediate representation that keeps tables.
-- **Files.** `app/services/ingestion.py`, `pyproject.toml`.
+- **Goal.** Find out whether the retrieval failures are ranking problems (the
+  right chunk exists a few ranks down) or coverage problems (it is never
+  close).
+- **Concepts.** The recall@k curve; ranking versus coverage failures; which
+  later phase fixes which (reranking addresses ranking; hybrid search or
+  better chunking address coverage); what a larger k costs the generator
+  (context length, latency).
+- **Files.** `scripts/rank_of_relevant.py` (new).
 - **Subtasks.**
-  1. Add `docling`; note the first run downloads models.
-  2. Add a Docling loader beside the existing ones; keep `.md`/`.txt` paths
-     unchanged.
-  3. Preserve existing metadata keys (`source`, `page`) so nothing
-     downstream breaks.
-  4. Keep the parser selectable by config, so the comparison stays runnable.
-- **Tests.** Ingestion tests on a small PDF fixture; existing tests green.
-- **Metrics.** same as T5.1, side by side.
-- **Acceptance.** Docling extracts measurably more, with tables intact.
+  1. For every answerable question, find the rank (up to 50, without the
+     distance threshold) of the first relevant or text-equivalent chunk.
+  2. Report recall at k = 1, 3, 5, 10, 20, 50.
+  3. For each retrieval failure in the taxonomy, record the rank and distance
+     of the right chunk against the best chunk returned.
+  4. Check whether the answer is split across two chunks.
+- **Tests.** Rank computation on a synthetic ranked list.
+- **Metrics.** recall@k curve; rank distribution; failures where the right
+  chunk sits within the top 10.
+- **Acceptance.** Every retrieval failure is labelled ranking, coverage or
+  boundary, with its evidence.
 - **Interview questions.**
-  - Why Docling rather than LlamaParse or Unstructured?
-  - What does Docling cost you — in dependencies, latency, and first-run time?
-- **Commit.** `feat: replace PyPDF with Docling for layout-aware parsing`
+  - Your recall@3 is 0.50: how do you know whether you need a reranker or a
+    better index?
+- **Commit.** `feat: measure the rank of relevant chunks`
 
-### [ ] T5.3 — Measure the parsing change end to end
+### [ ] T5.3 — Write the diagnosis and the predictions
 
-- **Goal.** Show whether better parsing improves *answers*, not just
-  character counts.
-- **Concepts.** End-to-end versus component metrics; why improving a component need not move the end metric, and what that tells you about your bottleneck.
-- **Files.** `eval/RESULTS.md`, `design/ingestion.md` (new).
+- **Goal.** Turn the diagnosis into an ordered plan, with falsifiable
+  predictions written before the later phases are run.
+- **Concepts.** Evidence-driven prioritisation; a prediction is only worth
+  something if it is recorded before the measurement.
+- **Files.** `design/retrieval_diagnosis.md` (new), `TODO.md`.
 - **Subtasks.**
-  1. Re-index; re-run the evaluation with `--label docling`.
-  2. Diff against baseline.
-  3. Write `design/ingestion.md` in the decision-log format.
-- **Metrics.** recall@k and faithfulness delta; ingestion time cost.
-- **Acceptance.** A measured delta, positive or negative, is recorded.
+  1. Write the diagnosis in the decision-log format: problem, evidence from
+     T5.1 and T5.2, which phase addresses which failure class.
+  2. For phases 6, 7, 9 and 11, write the expected effect as a number or a
+     list of questions that should flip, before running them.
+  3. Reorder or drop phases if the evidence says so.
+- **Metrics.** the predictions themselves.
+- **Acceptance.** Predictions committed before the corresponding phase is
+  run; the question "which single change did the numbers tell you to make
+  first?" has a written answer.
 - **Interview questions.**
-  - Better extraction did not necessarily improve recall. Why might that be?
-- **Commit.** `docs: record the Docling versus PyPDF evaluation`
+  - Which change did your diagnosis point to first, and was it right?
+- **Commit.** `docs: record the retrieval diagnosis and predictions`
 
 ---
 
@@ -628,8 +661,8 @@ documents that exist.)*
   1. Re-index the corpus with structured chunking enabled.
   2. Run `eval/run.py --label chunking`.
   3. Recalibrate the threshold — chunk size changed, so the distance distribution changed.
-  4. Diff every metric against the `docling` row and write the conclusion into `design/chunking.md`.
-- **Metrics.** recall@k, MRR, faithfulness delta vs. `docling` run.
+  4. Diff every metric against the `baseline` row and write the conclusion into `design/chunking.md`.
+- **Metrics.** recall@k, MRR, faithfulness delta vs. the `baseline` run.
 - **Acceptance.** Recorded delta; threshold recalibrated (chunk size changed,
   so the distance distribution changed).
 - **Interview questions.**
@@ -1082,8 +1115,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   1. Run every configuration through the harness:
 
      ```
-     baseline (PyPDF + fixed chunks + qwen3-8b + Chroma + dense)
-     + Docling
+     baseline (Markdown loader + fixed chunks + qwen3-8b + Chroma + dense)
      + structured chunking
      + BGE-M3
      + Qdrant

@@ -35,7 +35,9 @@ structured transcription of the official text — not an approximation, and
 not a PDF-derived extraction (Légifrance's KALI database is natively
 text/XML, article by article; PDF is one rendering of it among others, and
 specifically the rendering this project's Phase 5 already knows destroys
-tables — see `README.md`'s origin note and the planned PyPDF→Docling swap).
+tables — see `README.md`'s origin note). This is why the corpus is the HTML
+rendering and not the PDF: the parsing problem was avoided at acquisition, so
+the PyPDF→Docling swap once planned was dropped (see `TODO.md`, Phase 5).
 
 The 109 files split into three groups, by filename prefix:
 
