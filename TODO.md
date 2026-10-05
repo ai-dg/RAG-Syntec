@@ -397,7 +397,7 @@ documents that exist.)*
   - Which of the two errors is worse for a legal-document assistant, and why?
 - **Commit.** `feat: implement guardrail false-refusal and false-acceptance metrics`
 
-### [ ] T3.5 — Implement generation metrics
+### [x] T3.5 — Implement generation metrics
 
 - **Goal.** Measure whether answers are supported by retrieved context.
 - **Concepts.** RAGAS vocabulary — faithfulness, context precision, context
@@ -422,7 +422,7 @@ documents that exist.)*
   - Why implement RAGAS metrics yourself instead of importing the library?
 - **Commit.** `feat: implement groundedness metrics and a measured LLM judge`
 
-### [ ] T3.6 — Build the evaluation runner
+### [x] T3.6 — Build the evaluation runner
 
 - **Goal.** One command that produces the full metric table.
 - **Concepts.** Reproducible experiment runs; recording configuration
@@ -444,7 +444,7 @@ documents that exist.)*
   - Why p95 latency rather than mean?
 - **Commit.** `feat: add the evaluation runner`
 
-### [ ] T3.7 — Build the failure taxonomy
+### [x] T3.7 — Build the failure taxonomy
 
 - **Goal.** The single most portfolio-differentiating artifact: classify
   *why* each failure happened, not just how many there were.
