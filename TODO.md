@@ -423,7 +423,7 @@ documents that exist.)*
   - Which of the two errors is worse for a legal-document assistant, and why?
 - **Commit.** `feat: implement guardrail false-refusal and false-acceptance metrics`
 
-### [ ] T3.5 — Implement generation metrics
+### [x] T3.5 — Implement generation metrics
 
 - **Goal.** Measure whether answers are supported by retrieved context.
 - **Concepts.** RAGAS vocabulary — faithfulness, context precision, context
@@ -448,7 +448,7 @@ documents that exist.)*
   - Why implement RAGAS metrics yourself instead of importing the library?
 - **Commit.** `feat: implement groundedness metrics and a measured LLM judge`
 
-### [ ] T3.6 — Build the evaluation runner
+### [x] T3.6 — Build the evaluation runner
 
 - **Goal.** One command that produces the full metric table.
 - **Concepts.** Reproducible experiment runs; recording configuration
@@ -470,7 +470,7 @@ documents that exist.)*
   - Why p95 latency rather than mean?
 - **Commit.** `feat: add the evaluation runner`
 
-### [ ] T3.7 — Build the failure taxonomy
+### [x] T3.7 — Build the failure taxonomy
 
 - **Goal.** The single most portfolio-differentiating artifact: classify
   *why* each failure happened, not just how many there were.
@@ -500,7 +500,7 @@ documents that exist.)*
 
 # Phase 4 — Measure the current baseline
 
-### [ ] T4.1 — Index the Syntec corpus with the current stack
+### [x] T4.1 — Index the Syntec corpus with the current stack
 
 - **Goal.** The unmodified pipeline (PyPDF + `RecursiveCharacterTextSplitter`
   + qwen3-embedding:8b + Chroma) running on the real corpus. This is the
@@ -523,7 +523,7 @@ documents that exist.)*
   - Why not keep the old threshold and save the effort?
 - **Commit.** `chore: index the Syntec corpus and recalibrate the threshold`
 
-### [ ] T4.2 — Record the baseline evaluation
+### [x] T4.2 — Record the baseline evaluation
 
 - **Goal.** The reference row every later change is judged against.
 - **Concepts.** Controlled comparison; changing one variable at a time.
@@ -555,7 +555,7 @@ documents that exist.)*
 > repeats articles. Before building anything (chunking, embeddings, hybrid
 > search, reranking), measure what those failures actually look like.
 
-### [ ] T5.1 — Quantify duplication in the index
+### [x] T5.1 — Quantify duplication in the index
 
 - **Goal.** Measure how much of the index, and of each top-k, is taken up by
   repeated text.
@@ -580,7 +580,7 @@ documents that exist.)*
   - What does duplication do to the top-k?
 - **Commit.** `feat: measure chunk duplication in the index`
 
-### [ ] T5.2 — Locate the missing answers by rank
+### [x] T5.2 — Locate the missing answers by rank
 
 - **Goal.** Find out whether the retrieval failures are ranking problems (the
   right chunk exists a few ranks down) or coverage problems (it is never
@@ -607,7 +607,7 @@ documents that exist.)*
     better index?
 - **Commit.** `feat: measure the rank of relevant chunks`
 
-### [ ] T5.3 — Write the diagnosis and the predictions
+### [x] T5.3 — Write the diagnosis and the predictions
 
 - **Goal.** Turn the diagnosis into an ordered plan, with falsifiable
   predictions written before the later phases are run.
@@ -628,7 +628,7 @@ documents that exist.)*
   - Which change did your diagnosis point to first, and was it right?
 - **Commit.** `docs: record the retrieval diagnosis and predictions`
 
-### [ ] T5.4 — Control experiment: raise `top_k`
+### [x] T5.4 — Control experiment: raise `top_k`
 
 - **Goal.** Find out whether a longer candidate list alone fixes the ranking
   failures. This is the cheap alternative any reranker has to beat.
