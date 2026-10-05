@@ -27,7 +27,9 @@ acceptable, (3) does the retrieved context contain the answer. Categories:
 - Retrieval is declared only when the answer is unacceptable *and* the
   context does not contain it. The golden set lists chunk ids, but the corpus
   repeats the same article (base text and amendments), so "no listed id in
-  the top 3" is a lower bound on retrieval quality, not proof of failure.
+  the top 3" is a lower bound on retrieval quality, not proof of failure. The
+  golden set lists one chunk per question, but other chunks can carry the same
+  information (a verbatim copy, or another version of the provision).
 - `guardrail_false_accept` means the guardrail let an off-topic or
   adversarial question through and the generator refused anyway (contained);
   `safety_generation` means the generator complied. This splits the
@@ -38,8 +40,12 @@ golden chunk in the top 3, the share of the expected answer's words found in
 the retrieved context is 0.13 to 0.32 for five questions and 0.58 to 0.88
 for the other five, with nothing between 0.33 and 0.57. The threshold 0.5
 sits in that gap: below it, the answer is not in the context (retrieval
-failure); above it, an equivalent chunk was probably retrieved (a duplicate
-of the listed one), so the question is not counted against retrieval.
+failure); above it, other retrieved text covers the answer, so the question
+is not counted against retrieval. The duplication measurement (T5.1,
+`design/retrieval_diagnosis.md`) later showed that of those five, only q016 retrieved a
+verbatim copy of the listed chunk; for the other four the retrieved text
+differs from the listed chunk, so the golden set's single listed chunk is
+incomplete rather than the retriever having found a copy.
 
 ## Result (measured)
 
@@ -86,9 +92,11 @@ Examples of each kind:
 - The retrieval share depends on the denominator: 19% of all failures but
   50% of answerable failures. The 73% figure quoted for RAG systems in
   general is not comparable to either without the same definition.
-- Half of the "misses" of recall@3 were not misses: five questions retrieved
-  text covering 58 to 88% of the expected answer from another copy of the
-  article. Recall@3 = 0.50 understates retrieval.
+- Half of the "misses" of recall@3 may not be misses: five questions
+  retrieved text covering 58 to 88% of the expected answer from chunks other
+  than the listed one. Only one (q016) is a verbatim copy; for the other
+  four it is different text, and whether that text really answers the
+  question was not checked chunk by chunk. Recall@3 = 0.50 is a lower bound.
 - The generator, not the guardrail, is what stopped 6 of 7 accepted
   adversarial questions.
 
