@@ -1,7 +1,8 @@
 # Retrieval diagnosis
 
-Status: in progress. T5.1 (duplication) and T5.2 (rank of the relevant chunk)
-are recorded below; T5.3 (diagnosis and predictions) is not done yet.
+Status: T5.1 (duplication), T5.2 (rank of the relevant chunk) and a first
+draft of T5.3 (predictions) are recorded below. The predictions are to be
+reviewed and owned by the project author before Phase 6 is run.
 
 ## T5.1: how much repeated text does the index hold?
 
@@ -101,3 +102,67 @@ judged acceptable, among the retrieval failures.
   hypothesis from the rank data, not measured. Raising `top_k` to 10 puts
   more text in the prompt; its effect on latency and faithfulness was not
   measured.
+
+## T5.3: diagnosis, predictions and order of the next phases
+
+Written on 2026-10-05, before any of phases 6, 7, 9 or 11 has been run. A
+prediction counts only because it can be shown wrong: each one below states the
+number it expects and the result that would refute it.
+
+**Problem.** Five phases could improve retrieval (structured chunking, a new
+embedding model, hybrid search, reranking, a classifier for abstention). Run in
+the written order they cost weeks, and without a prior guess a good result cannot
+be told apart from luck.
+
+**Decision.** Run the cheapest control first (`top_k` raised to 10), then
+reranking, then structured chunking; treat the embedding model change, Qdrant and
+hybrid search as conditional on what remains. This order is applied in
+`TODO.md` (execution order block, revised 2026-10-05); a control task, T5.4,
+was added for the first step.
+
+**Why (evidence from T5.1 and T5.2).**
+- All 22 answerable questions have a relevant chunk in the top 10, and the five
+  retrieval failures sit at ranks 5 to 10, 0.02 to 0.13 farther than the best
+  chunk. That is a ranking problem; a reranker acts on exactly that, an
+  embedding or index change acts on coverage, which is already complete.
+- Two of the five (q026, q018) are also flagged as answers split across two
+  chunks, which is what structured chunking targets.
+- About 20% of the index is exact repeated text and some heading-only chunks are
+  indexed, which structured chunking can reduce.
+
+**Baseline values the predictions are compared with** (visible split,
+`2026-10-05_baseline`): recall@3 0.50 (0.568 by text equivalence), MRR 0.38,
+false refusal 0.12, false acceptance 0.32, faithfulness proxy 0.66 on answerable
+questions, retrieval latency p50/p95 2.6 / 5.7 s, generation p50/p95 22.9 / 34.7 s.
+
+**Predictions.**
+
+| step | prediction | refuted if |
+|---|---|---|
+| Control: `top_k = 10`, nothing else | recall@10 reaches at least 0.95 (the ranking data already shows every question has a relevant chunk in the top 10), but the faithfulness proxy falls by at least 0.05 and generation p50 rises by at least 20% because the prompt is longer | faithfulness holds within 0.05 and latency rises less than 20%: then a larger `top_k` is enough and a reranker is not justified |
+| Phase 11, reranking 20 candidates to 3 | recall@3 at least 0.75 and MRR at least 0.55; at least 3 of the 5 retrieval failures flip, most likely q009, q030 and q024 (pure ranking cases); added retrieval p50 between 0.5 and 3 s on CPU | recall@3 below 0.62, or fewer than 2 failures flip, or added p50 above 3 s |
+| Phase 6, structured chunking | at least one of q026 and q018 (answers split across chunks) flips to a hit; recall@3 changes by between +0.05 and +0.15; chunks shorter than 100 characters fall below 1% of the index; the recalibrated threshold moves by at least 0.03 (it moved 0.004 when the corpus doubled, but here the chunk size changes) | neither q026 nor q018 flips, or recall@3 falls below 0.47, or the threshold moves by less than 0.015 |
+| Phase 7, BGE-M3 | no real retrieval gain: recall@3 within 0.10 of the previous run; ingestion at least 3 times faster than 468 s and GPU memory peak below 5 609 MiB; the old threshold 0.74 applied unchanged shifts false refusal or false acceptance by more than 0.10 | recall@3 improves by more than 0.10, or the old threshold still holds within 0.05 |
+| Phase 9, hybrid search | dense + sparse fusion fixes at most 2 of the 5 retrieval failures; sparse alone is at least 0.10 below dense on recall@3 but beats dense on at least 2 questions that contain distinctive terms or figures; with the dense distance thresholded before fusion, false refusal and false acceptance stay within 0.03 of dense | hybrid fixes at least 4 of the 5 failures, or sparse alone matches dense |
+
+**Decision rules fixed in advance.**
+- The reranker is kept only if recall@3 gains at least 0.15 over the baseline
+  and the added p95 retrieval latency is at most 3 s; otherwise it is dropped,
+  and the result recorded as a measured negative.
+- A change that raises recall@3 but raises false acceptance by more than 0.05 is
+  not accepted until the threshold has been recalibrated and re-measured.
+
+**Not predicted, on purpose.** The generation failures (q028, q012, q001: the
+right text is retrieved and the answer is wrong or an abstention) and the
+followed injection (q071) are not retrieval problems; no phase above is expected
+to fix them, and the abstention work (Phase 10) is where they belong.
+
+**Cost: what this does not establish.**
+- These are guesses from 22 questions and five failures; a single question is
+  about 0.045 of recall. Thresholds such as 0.62 and 0.75 are bets, not
+  derivations.
+- The order follows from five failures and may change after the first
+  measurements. Phase 9 needs Qdrant (Phase 8) for sparse vectors, so dropping
+  Phase 8 also drops Phase 9.
+- Everything is measured on the visible split; the held-out split should be used
+  once, at the end, not to choose among these options.
