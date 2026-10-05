@@ -1,7 +1,7 @@
 # Retrieval diagnosis
 
-Status: in progress. T5.1 (duplication) is recorded below; T5.2 (rank of the
-relevant chunk) and T5.3 (diagnosis and predictions) are not done yet.
+Status: in progress. T5.1 (duplication) and T5.2 (rank of the relevant chunk)
+are recorded below; T5.3 (diagnosis and predictions) is not done yet.
 
 ## T5.1: how much repeated text does the index hold?
 
@@ -46,3 +46,58 @@ chunk's text).
 - Chunk text is rebuilt from the corpus with the same deterministic chunking
   as the index (ids checked against the golden set), not read back from the
   persisted index.
+
+## T5.2: where is the relevant chunk in the full ranking?
+
+**Problem.** The baseline keeps the top 3 chunks under a distance threshold,
+so a relevant chunk ranked 4th looks the same as one never found. Reranking
+fixes the first case; a better index or hybrid search fixes the second. They
+need different phases, so the failures must be placed on the ranking.
+
+**Decision.** `scripts/rank_of_relevant.py` queries the existing index for the
+50 nearest chunks of each answerable question, with no distance threshold, and
+records the rank of the first relevant chunk (by id, and by text equivalence as
+in T5.1). The reported figure is a hit rate (share of questions with at least
+one relevant chunk in the top k), which is not the same quantity as the mean
+recall@k of `eval/metrics.py`, where a question with two relevant chunks can
+score one half.
+
+**Result (measured, baseline questions, 22 answerable).**
+
+| k | 1 | 3 | 5 | 10 | 20 | 50 |
+|---|---|---|---|---|---|---|
+| hit rate by id | 0.27 | 0.55 | 0.73 | 1.00 | 1.00 | 1.00 |
+| hit rate by text equivalence | 0.32 | 0.59 | 0.77 | 1.00 | 1.00 | 1.00 |
+
+Every answerable question has a relevant chunk within the top 10; the worst
+rank is 10 (q026, by id). The five retrieval failures of the taxonomy
+(q026, q030, q018, q009, q024) are therefore ranking failures, not coverage
+failures:
+
+| question | rank (id / text) | best distance | right-chunk distance | split across chunks (heuristic) |
+|---|---|---|---|---|
+| q026 | 10 / 5 | 0.598 | 0.665 | yes |
+| q030 | 7 / 7 | 0.537 | 0.603 | no |
+| q018 | 5 / 4 | 0.279 | 0.333 | yes |
+| q009 | 5 / 5 | 0.515 | 0.531 | no |
+| q024 | 8 / 8 | 0.490 | 0.620 | no |
+
+The right chunk is only 0.02 to 0.13 farther than the best chunk returned.
+Note that the taxonomy's automatic output counts q030, which the manual review
+judged acceptable, among the retrieval failures.
+
+**Cost: what this does not establish.**
+- 22 questions on the visible split, one run, one embedding model.
+- Ranks are measured with no threshold, which the baseline does not do.
+- The golden set lists one chunk per question; if other chunks are equally
+  valid and rank higher, the true rank of "a valid chunk" is lower than
+  reported. Text equivalence covers copies, not different versions of a
+  provision.
+- The "split across chunks" flag is a heuristic (joining a chunk with a
+  neighbour raises the expected answer's word coverage by at least 0.15). It
+  flags 9 of the 22 questions, 2 of the 5 retrieval failures, and is not a
+  proof that the answer needs both chunks.
+- That a reranker or a larger `top_k` would fix these failures is a
+  hypothesis from the rank data, not measured. Raising `top_k` to 10 puts
+  more text in the prompt; its effect on latency and faithfulness was not
+  measured.
