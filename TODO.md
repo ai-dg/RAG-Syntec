@@ -1090,7 +1090,10 @@ API orchestration. Today `app/` contains no modelling at all.*
 > before reranking. T11.3 waits for Phase 10 (it needs the abstention
 > classifier). Decision rule fixed in advance in
 > `design/retrieval_diagnosis.md`: keep the reranker only if recall@3 gains at
-> least 0.15 and the added p95 retrieval latency is at most 3 s.
+> least 0.15 and the added p95 retrieval latency is at most 3 s. After T5.4 the
+> reranker must also be compared with the `topk10` row (not only the baseline):
+> it is kept only if it fails on at most as many answerable questions as
+> `top_k = 10` while keeping the prompt at 3 chunks.
 
 ### [ ] T11.1 — Understand reranking
 
