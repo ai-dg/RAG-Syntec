@@ -23,6 +23,7 @@ def settings_env(monkeypatch, tmp_path):
     monkeypatch.setenv("TOP_K", "3")
     monkeypatch.setenv("SYSTEM_PROMPT", "You are a test assistant.")
     monkeypatch.setenv("RELEVANCE_THRESHOLD", "0.9")
+    monkeypatch.setenv("RERANK_ENABLED", "false")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()

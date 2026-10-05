@@ -35,6 +35,9 @@ better. The threshold comparison must follow the returned score type.
 from app.services.ingestion import load_docs, chunk_text, create_vector_store
 from app.config import get_settings
 
+from app.services.reranking import rerank
+
+
 _vector_store = None
 
 
@@ -43,7 +46,10 @@ def retrieve(question):
 
     store = get_vector_store(settings)
 
-    results = store.similarity_search_with_score(question, k=settings.top_k)
+    
+
+    k = settings.rerank_candidates if settings.rerank_enabled else settings.top_k
+    results = store.similarity_search_with_score(question, k=k)
     if not results:
         result = {"chunks": [], "context_found": False, "best_score": None}
         return result
@@ -60,6 +66,10 @@ def retrieve(question):
     if best_score > settings.relevance_threshold:
         result = {"chunks": [], "context_found": False, "best_score": best_score}
         return result
+
+
+    if settings.rerank_enabled:
+        best_results = rerank(question, best_results, settings.top_k)
 
     result = {"chunks": best_results, "context_found": True, "best_score": best_score}
     return result
