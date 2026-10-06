@@ -13,7 +13,9 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from app.config import get_settings
-from app.services.generation import generate, strip_citations
+from app.services.generation import strip_citations
+from app.services.pipeline import answer_question
+from eval.failures import is_abstention
 from app.services.ingestion import (
     chunk_text,
     create_vector_store,
@@ -36,6 +38,7 @@ from eval.metrics import (
 EVAL_DIR = ROOT / "eval"
 RESULTS_DIR = EVAL_DIR / "results"
 SUMMARY_FILE = EVAL_DIR / "RESULTS.md"
+WITHDRAWN_ANSWER = "Je ne sais pas."
 CLASSES = ["in_topic_answerable", "in_topic_unanswerable", "off_topic", "adversarial"]
 
 
@@ -124,43 +127,60 @@ def collect_run_metadata(split: str, label: str) -> dict:
             else None
         ),
         "cite_sources": settings.cite_sources,
+        "input_guard": settings.input_guard,
+        "output_guard": settings.output_guard,
+        "groundedness_threshold": settings.groundedness_threshold,
     }
 
 
 def run_predictions(questions: list[dict]) -> list[dict]:
+    """One record per question through the same pipeline as the API.
+
+    `guardrail_passed` is the decision before generation (input check and
+    retrieval guardrail); `answered` is the final outcome after the output check.
+    An answer the output check withdrew is recorded as an abstention, which is
+    what the user sees."""
     retrieve("Quelle est la durée du préavis en cas de démission ?")
 
     predictions = []
     for q in questions:
-        start = time.perf_counter()
-        result = retrieve(q["question"])
-        retrieval_s = time.perf_counter() - start
+        result = answer_question(q["question"])
+        retrieved = result.get("retrieval") or {"chunks": [], "best_score": None}
+        generated = result.get("generation")
+        documents = [doc for doc, _score in retrieved["chunks"]]
+        timings = result["latency_ms"]
 
-        documents = [doc for doc, _score in result["chunks"]]
         record = {
             "id": q["id"],
             "true_class": q["class"],
-            "guardrail_passed": result["context_found"],
-            "best_distance": result["best_score"],
+            "guardrail_passed": generated is not None,
+            "answered": result["answered"],
+            "refusal_reason": result["refusal_reason"],
+            "best_distance": retrieved.get("best_score"),
+            "confidence": retrieved.get("confidence"),
             "retrieved_chunk_ids": [d.metadata["chunk_id"] for d in documents],
             "relevant_chunk_ids": q["relevant_chunk_ids"],
             "context": "\n\n".join(d.page_content for d in documents),
             "answer": None,
             "answer_raw": None,
+            "support_score": None,
             "citations": [],
             "invalid_citations": [],
-            "refusal_reason": result.get("refusal_reason"),
-            "confidence": result.get("confidence"),
-            "retrieval_s": retrieval_s,
+            "retrieval_s": (
+                timings["retrieval"] / 1000 if "retrieval" in timings else 0.0
+            ),
             "generation_s": None,
         }
 
-        if result["context_found"]:
-            start = time.perf_counter()
-            generated = generate(q["question"], result)
-            record["generation_s"] = time.perf_counter() - start
+        if generated is not None:
+            record["generation_s"] = timings["generation"] / 1000
             record["answer_raw"] = generated["answer"]
-            record["answer"] = strip_citations(generated["answer"])
+            record["support_score"] = generated.get("support_score")
+            record["answer"] = (
+                strip_citations(generated["answer"])
+                if result["answered"]
+                else WITHDRAWN_ANSWER
+            )
             record["citations"] = [
                 c["chunk_id"] for c in generated.get("citations", [])
             ]
@@ -182,6 +202,23 @@ def latency_percentiles(values: list[float]) -> dict:
 
 def _mean(values: list[float]):
     return float(np.mean(values)) if values else None
+
+
+def end_to_end(predictions: list[dict]) -> dict:
+    """Per class, how many questions got a substantive answer (not a refusal and
+    not an abstention): the outcome the user sees after every layer."""
+    by_class = {}
+    for cls in CLASSES:
+        rows = [p for p in predictions if p["true_class"] == cls]
+        substantive = sum(
+            1
+            for p in rows
+            if p.get("answered", p["answer"] is not None)
+            and p["answer"] is not None
+            and not is_abstention(p["answer"])
+        )
+        by_class[cls] = {"n": len(rows), "substantive_answers": substantive}
+    return by_class
 
 
 def compute_metrics(predictions: list[dict]) -> dict:
@@ -235,6 +272,7 @@ def compute_metrics(predictions: list[dict]) -> dict:
 
     return {
         "n_questions": len(predictions),
+        "end_to_end": end_to_end(predictions),
         "citations": citations,
         "guardrail": guardrail,
         "retrieval": retrieval,

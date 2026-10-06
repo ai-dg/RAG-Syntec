@@ -42,6 +42,9 @@ class Settings(BaseSettings):
     abstention_model_path: str = "models/abstention.json"
     cite_sources: bool = False
     reindex_on_startup: bool = False
+    input_guard: bool = False
+    output_guard: bool = False
+    groundedness_threshold: float = 0.5
 
     @model_validator(mode="after")
     def validate_provider_configuration(self) -> Self:

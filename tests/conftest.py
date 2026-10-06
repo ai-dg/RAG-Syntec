@@ -29,6 +29,8 @@ def settings_env(monkeypatch, tmp_path):
     monkeypatch.setenv("GUARDRAIL_MODE", "threshold")
     monkeypatch.setenv("CITE_SOURCES", "false")
     monkeypatch.setenv("REINDEX_ON_STARTUP", "false")
+    monkeypatch.setenv("INPUT_GUARD", "false")
+    monkeypatch.setenv("OUTPUT_GUARD", "false")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()

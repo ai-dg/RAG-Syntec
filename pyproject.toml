@@ -41,3 +41,7 @@ dev = [
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+addopts = "-m 'not eval'"
+markers = [
+    "eval: needs the persisted index and a running Ollama; run with -m eval",
+]

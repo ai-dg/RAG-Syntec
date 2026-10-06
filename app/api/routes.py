@@ -34,7 +34,7 @@ from app.config import get_settings
 from app.logger import request_id_var
 from app.schemas import HealthAnswer, QueryAnswer, QueryQuestion, ReadinessAnswer
 from app.services import retrieval
-from app.services.generation import generate
+from app.services.pipeline import answer_question
 
 logger = logging.getLogger(__name__)
 
@@ -106,63 +106,55 @@ def query(payload: QueryQuestion) -> QueryAnswer:
     start = time.perf_counter()
     logger.info("query received", extra={"question_chars": len(payload.question)})
 
-    retrieval_result = retrieval.retrieve(payload.question)
-    retrieval_ms = (time.perf_counter() - start) * 1000
+    result = answer_question(payload.question)
+    retrieved = result.get("retrieval") or {}
+    generated = result.get("generation") or {}
+    timings = {stage: round(ms, 1) for stage, ms in result["latency_ms"].items()}
+
     logger.info(
-        "retrieval done",
+        "decision",
         extra={
-            "stage": "retrieval",
-            "latency_ms": round(retrieval_ms, 1),
-            "chunk_count": len(retrieval_result["chunks"]),
-            "best_distance": retrieval_result["best_score"],
-            "guardrail_mode": retrieval_result.get("guardrail_mode"),
-            "decision": "answer" if retrieval_result["context_found"] else "refuse",
-            "refusal_reason": retrieval_result.get("refusal_reason"),
-            "confidence": retrieval_result.get("confidence"),
+            "stage": "decision",
+            "latency_ms": timings,
+            "chunk_count": len(retrieved.get("chunks", [])),
+            "best_distance": retrieved.get("best_score"),
+            "guardrail_mode": retrieved.get("guardrail_mode"),
+            "decision": "answer" if result["answered"] else "refuse",
+            "refusal_reason": result["refusal_reason"],
+            "confidence": retrieved.get("confidence"),
+            "support_score": generated.get("support_score"),
         },
     )
+    if generated:
+        logger.info(
+            "generation done",
+            extra={
+                "stage": "generation",
+                "citation_count": len(generated.get("citations", [])),
+                "invalid_citations": generated.get("invalid_citations", []),
+            },
+        )
 
     common = {
-        "refusal_reason": retrieval_result.get("refusal_reason"),
-        "confidence": retrieval_result.get("confidence"),
-        "guardrail_mode": retrieval_result.get("guardrail_mode") or "threshold",
-        "best_distance": retrieval_result["best_score"],
+        "refusal_reason": result["refusal_reason"],
+        "confidence": retrieved.get("confidence"),
+        "guardrail_mode": retrieved.get("guardrail_mode") or "threshold",
+        "best_distance": retrieved.get("best_score"),
+        "latency_ms": timings,
         "request_id": request_id_var.get(),
     }
 
-    if not retrieval_result["context_found"]:
-        _record(f"refused:{common['refusal_reason']}", start)
+    if not result["answered"]:
+        _record(f"refused:{result['refusal_reason']}", start)
         return QueryAnswer(
-            answer=REFUSAL_ANSWER,
-            sources=[],
-            context_found=False,
-            latency_ms={"retrieval": round(retrieval_ms, 1)},
-            **common,
+            answer=REFUSAL_ANSWER, sources=[], context_found=False, **common
         )
 
-    generation_start = time.perf_counter()
-    generation_result = generate(payload.question, retrieval_result)
-    generation_ms = (time.perf_counter() - generation_start) * 1000
-    logger.info(
-        "generation done",
-        extra={
-            "stage": "generation",
-            "latency_ms": round(generation_ms, 1),
-            "source_count": len(generation_result["sources"]),
-            "citation_count": len(generation_result.get("citations", [])),
-            "invalid_citations": generation_result.get("invalid_citations", []),
-        },
-    )
     _record("answered", start)
-
     return QueryAnswer(
-        answer=generation_result["answer"],
-        sources=generation_result["sources"],
+        answer=generated["answer"],
+        sources=generated["sources"],
         context_found=True,
-        citations=generation_result.get("citations", []),
-        latency_ms={
-            "retrieval": round(retrieval_ms, 1),
-            "generation": round(generation_ms, 1),
-        },
+        citations=generated.get("citations", []),
         **common,
     )
