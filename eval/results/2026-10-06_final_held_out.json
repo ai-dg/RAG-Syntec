@@ -1,0 +1,599 @@
+{
+  "metadata": {
+    "label": "final_held_out",
+    "date": "2026-10-06",
+    "split": "held_out",
+    "git_sha": "034c5ee975e87edd54b780b90a2602400538db11",
+    "git_dirty": false,
+    "corpus_hash": "ec3aa954b89d8e85facb9ce8ebafd209fa94bb6fab7108993fbe79847cc0b4fa",
+    "llm_provider": "ollama",
+    "chat_model": "gemma4:latest",
+    "embedding_model": "qwen3-embedding:8b",
+    "top_k": 3,
+    "chunking": "fixed",
+    "include_superseded": false,
+    "relevance_threshold": 0.74,
+    "chunk_size": 500,
+    "chunk_overlap": 100,
+    "system_prompt": "Tu es un assistant qui répond aux questions sur la convention collective Syntec (Bureaux d'études techniques, IDCC 1486) en t'appuyant uniquement sur les extraits fournis. Réponds en français, de façon concise, sans rien inventer.",
+    "rerank_enabled": false,
+    "rerank_candidates": 20,
+    "rerank_model": "Qwen/Qwen3-Reranker-0.6B",
+    "guardrail_mode": "threshold",
+    "abstention_model_path": null,
+    "cite_sources": true,
+    "input_guard": true,
+    "output_guard": true,
+    "groundedness_threshold": 0.5,
+    "index_chunk_count": 8447
+  },
+  "metrics": {
+    "n_questions": 20,
+    "end_to_end": {
+      "in_topic_answerable": {
+        "n": 8,
+        "substantive_answers": 8
+      },
+      "in_topic_unanswerable": {
+        "n": 4,
+        "substantive_answers": 1
+      },
+      "off_topic": {
+        "n": 4,
+        "substantive_answers": 0
+      },
+      "adversarial": {
+        "n": 4,
+        "substantive_answers": 2
+      }
+    },
+    "citations": {
+      "answered": 13,
+      "with_a_citation": 11,
+      "with_an_invalid_citation": 0
+    },
+    "guardrail": {
+      "false_refusal_rate": 0.16666666666666666,
+      "false_acceptance_rate": 0.375,
+      "confusion_matrix": {
+        "in_topic_answerable": {
+          "passed": 8,
+          "blocked": 0
+        },
+        "in_topic_unanswerable": {
+          "passed": 2,
+          "blocked": 2
+        },
+        "off_topic": {
+          "passed": 0,
+          "blocked": 4
+        },
+        "adversarial": {
+          "passed": 3,
+          "blocked": 1
+        }
+      }
+    },
+    "retrieval": {
+      "n": 8,
+      "k": 3,
+      "recall_at_k": 0.6875,
+      "precision_at_k": 0.29166666666666663,
+      "mrr": 0.5416666666666666
+    },
+    "faithfulness_proxy": {
+      "in_topic_answerable": {
+        "n": 8,
+        "mean": 0.9583333333333333
+      },
+      "in_topic_unanswerable": {
+        "n": 2,
+        "mean": 0.5
+      },
+      "off_topic": {
+        "n": 0,
+        "mean": null
+      },
+      "adversarial": {
+        "n": 3,
+        "mean": 0.5833333333333334
+      }
+    },
+    "latency": {
+      "retrieval_s": {
+        "n": 20,
+        "p50": 2.4563187205058057,
+        "p95": 2.6851185870400536
+      },
+      "generation_s": {
+        "n": 13,
+        "p50": 27.121757549990434,
+        "p95": 34.988811356393846
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": "q020",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.24960407614707947,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000019861275.md#chunk_1",
+        "data/converted/KALITEXT000035330676.md#chunk_3",
+        "data/converted/KALITEXT000023105054.md#chunk_1"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_369"
+      ],
+      "context": "Les salaires minima conventionnels des ETAM sont déterminés selon la formule suivante :\nSalaire minimum conventionnel = partie fixe + (valeur du point ETAM × coefficient de la position).\nPour les positions 1.3.1, 1.3.2, 1.4.1 et 1.4.2, la valeur du point est fixée à 2,75 € brut et la partie fixe à 758,96 € brut.\nPour les positions 2.1, 2.2, 2.3, 3.1, 3.2 et 3.3, la valeur du point est fixée à 2,75 € brut et la partie fixe à 758,22 € brut.\n\nÀ compter de la date prévue au titre III du présent avenant, les salaires minimaux conventionnels des ETAM sont déterminés selon la formule suivante :\nSalaire minimum conventionnel = base fixe + (valeur du point ETAM × coefficient de la position).\nPour la position 1.3.1, la valeur du point est fixée à 2,96 € brut et la base fixe à 858,80 € brut.\nPour les positions 1.3.2, 1.4.1 et 1.4.2 la valeur du point est fixée à 2,91 € brut et la base fixe à 843,50 € brut.\n\nFixation des minima conventionnels des ETAM\nLes salaires minimaux conventionnels des ETAM sont déterminés selon la formule suivante :\nSalaire minimum conventionnel = partie fixe + (valeur du point ETAM × coefficient de la position)\nPour les positions 1.3.1, 1.3.2, 1.4.1 et 1.4.2, la valeur du point est fixée à 2,77 € bruts et la partie fixe à 781,90 € bruts.\nPour les positions 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, la valeur du point est fixée à 2,77 € bruts et la partie fixe à 790,80 € bruts.",
+      "answer": "Le salaire minimum conventionnel des ETAM est déterminé selon différentes formules selon les extraits :\n\n*   Selon la formule : Salaire minimum conventionnel = partie fixe + (valeur du point ETAM × coefficient de la position) ou.\n*   Selon la formule : Salaire minimum conventionnel = base fixe + (valeur du point ETAM × coefficient de la position).",
+      "answer_raw": "Le salaire minimum conventionnel des ETAM est déterminé selon différentes formules selon les extraits :\n\n*   Selon la formule : Salaire minimum conventionnel = partie fixe + (valeur du point ETAM × coefficient de la position) [1] ou [3].\n*   Selon la formule : Salaire minimum conventionnel = base fixe + (valeur du point ETAM × coefficient de la position) [2].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000019861275.md#chunk_1",
+        "data/converted/KALITEXT000035330676.md#chunk_3",
+        "data/converted/KALITEXT000023105054.md#chunk_1"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 0.1526190000004135,
+      "generation_s": 25.33674953499576
+    },
+    {
+      "id": "q015",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.4478476643562317,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000053434107.md#chunk_27",
+        "data/converted/KALITEXT000044253019.md#chunk_257",
+        "data/converted/KALITEXT000044253019.md#chunk_255"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_255",
+        "data/converted/KALITEXT000044253019.md#chunk_257"
+      ],
+      "context": "–– beau-père ou belle-mère (père ou mère de l'époux ou du partenaire de Pacs) : 3 jours ouvrés ;\n–– autres ascendants : 2 jours ouvrés ;\n– congé de deuil : 8 jours ouvrables, à prendre dans l'année suivant le décès de l'enfant âgé ou personne à sa charge effective et permanente âgée de moins de 25 ans. Ce congé peut être fractionné sous réserve d'informer l'employeur 24 heures au moins avant le début de chaque période d'absence.\n\n–– autres ascendants : 2 jours ouvrés ;\n– congé de deuil : 8 jours ouvrables, à prendre dans l'année suivant le décès de l'enfant âgé ou personne à sa charge effective et permanente âgée de moins de 25 ans. Ce congé peut être fractionné sous réserve d'informer l'employeur 24 heures au moins avant le début de chaque période d'absence.\n\n– annonce de la survenue d'un handicap, d'une pathologie chronique nécessitant un apprentissage thérapeutique ou d'un cancer chez un enfant : 5 jours ouvrables ;\n– obsèques :\n–– conjoint, partenaire lié par un pacte civil de solidarité (Pacs), ou concubin : 3 jours ouvrés ;\n–– enfant ou personne à la charge effective et permanente âgé de moins de 25 ans : 14 jours ouvrés ;\n–– enfant âgé de plus de 25 ans : 12 jours ouvrés ;\n–– enfant lui-même parent : 14 jours ouvrés ;",
+      "answer": "Le collègue a droit à 14 jours ouvrés, car il s'agit d'un enfant ou d'une personne à la charge effective et permanente âgé de moins de 25 ans.",
+      "answer_raw": "Le collègue a droit à 14 jours ouvrés, car il s'agit d'un enfant ou d'une personne à la charge effective et permanente âgé de moins de 25 ans [3].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000044253019.md#chunk_255"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 2.252841970010195,
+      "generation_s": 29.956000768986996
+    },
+    {
+      "id": "q011",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.6255851984024048,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000028465378.md#chunk_23",
+        "data/converted/KALITEXT000029264464.md#chunk_22",
+        "data/converted/KALITEXT000044253019.md#chunk_200"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_200"
+      ],
+      "context": "Congés payés\nLe choix des dates de congés payés relève du pouvoir de direction de l'employeur. Il fixe la date de départ, accepte ou refuse les demandes des salariés, dans le cadre des dispositions légales et réglementaires en vigueur.\nIl doit notamment permettre au (à la) salarié(e) de prendre, dans la limite des congés acquis, au minimum 12 jours ouvrables de congés payés, conformément aux dispositions légales, réglementaires et de l'accord d'entreprise s'il existe.\n\nArticle 4.6\nJours de repos\nAfin de ne pas dépasser le plafond convenu (dans la limite de 218 jours de travail sur l'année pour un droit à congés payés complet), ces salariés bénéficient de jours de repos dont le nombre peut varier d'une année à l'autre en fonction notamment des jours chômés. Il sera tenu compte des dispositions légales, réglementaires et conventionnelles se rapportant à tout autre type d'absence.\n\nDurée des congés payés\n1. Congés payés\nTout salarié ayant au moins 1 an de présence continue dans l'entreprise à la fin de la période ouvrant droit aux congés payés a droit à 25 jours ouvrés de congés payés (correspondant à 30 jours ouvrables).\nConformément à l'\narticle L. 3141-12 du code du travail",
+      "answer": "Tout salarié ayant au moins 1 an de présence continue a droit à 25 jours ouvrés de congés payés (ce qui correspond à 30 jours ouvrables).\n\n(Note : Le contexte mentionne également que le salarié doit pouvoir prendre, au minimum, 12 jours ouvrables de congés payés.)",
+      "answer_raw": "Tout salarié ayant au moins 1 an de présence continue a droit à 25 jours ouvrés de congés payés (ce qui correspond à 30 jours ouvrables) [3].\n\n(Note : Le contexte mentionne également que le salarié doit pouvoir prendre, au minimum, 12 jours ouvrables de congés payés [1].)",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000028465378.md#chunk_23",
+        "data/converted/KALITEXT000044253019.md#chunk_200"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 2.5352517509891186,
+      "generation_s": 25.45160342400777
+    },
+    {
+      "id": "q027",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.4263395071029663,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_402",
+        "data/converted/KALITEXT000018659204.md#chunk_125",
+        "data/converted/KALITEXT000044253019.md#chunk_393"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_402"
+      ],
+      "context": "## Article 8.2\n\nCréation de logiciels\nConformément à l'\narticle L. 113-9 du code de la propriété intellectuelle\net sauf stipulation contraire, le logiciel créé par un ou plusieurs employés dans l'exercice de leurs fonctions appartient à l'employeur auquel sont dévolus tous les droits reconnus aux auteurs.\nToute contestation sur l'application de ces stipulations est soumise au tribunal judiciaire du siège social de l'employeur.\n\n## Article 8.3 (non en vigueur)\n\n2.12. Brevets d'invention et création de logiciels\nPar exception aux articles 75 et 76 de la convention collective de branche applicable, les inventions réalisées par le consultant pendant sa période de travail relevant de la création de logiciel, des méthodes et process de fabrication ou de travail, de brevets et inventions appartiennent au consultant. Pour permettre de les céder aux clients, il pourra être prévu, par dérogation à ce principe, une cession expresse de ces droits à l'EPS.\n\nInventions des salariés dans le cadre des activités professionnelles\n1. Règles générales\nLes règles relatives aux inventions des salariés sont fixées par l'\narticle L. 611-7 du code de la propriété intellectuelle\n.\nAinsi, sont réputées appartenir à l'employeur les inventions faites par le salarié dans l'exécution soit d'un contrat de travail comportant une mission inventive qui correspond à ses fonctions effectives, soit d'études et de recherches qui lui sont explicitement confiées.",
+      "answer": "*   **Si vous êtes un employé :** Le logiciel créé par un employé dans l'exercice de ses fonctions appartient à l'employeur, qui en est dévolu tous les droits reconnus aux auteurs. De manière générale, les inventions faites par le salarié dans l'exécution d'un contrat de travail comportant une mission inventive correspondant à ses fonctions effectives sont réputées appartenir à l'employeur.\n*   **Si vous êtes un consultant :** Les inventions réalisées par le consultant, y compris celles relevant de la création de logiciel, appartiennent au consultant, sauf si une cession expresse de ces droits est prévue à l'EPS.",
+      "answer_raw": "*   **Si vous êtes un employé :** Le logiciel créé par un employé dans l'exercice de ses fonctions appartient à l'employeur, qui en est dévolu tous les droits reconnus aux auteurs [1]. De manière générale, les inventions faites par le salarié dans l'exécution d'un contrat de travail comportant une mission inventive correspondant à ses fonctions effectives sont réputées appartenir à l'employeur [3].\n*   **Si vous êtes un consultant :** Les inventions réalisées par le consultant, y compris celles relevant de la création de logiciel, appartiennent au consultant, sauf si une cession expresse de ces droits est prévue à l'EPS [2].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000044253019.md#chunk_402",
+        "data/converted/KALITEXT000018659204.md#chunk_125",
+        "data/converted/KALITEXT000044253019.md#chunk_393"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 2.5145544029946905,
+      "generation_s": 36.790343990986
+    },
+    {
+      "id": "q023",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.38338857889175415,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_383",
+        "data/converted/KALITEXT000044253019.md#chunk_385",
+        "data/converted/KALITEXT000044253019.md#chunk_386"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_383"
+      ],
+      "context": "Prime de vacances\nL'employeur réserve chaque année l'équivalent d'au moins 10 % de la masse globale des indemnités de congés payés acquis prévus par la convention collective, au paiement d'une prime de vacances à tous les salariés de l'entreprise.\n(1)\nDans le respect du principe d'égalité de traitement, et à titre indicatif, la répartition du montant global de la prime entre les salariés peut se faire, au choix de l'entreprise ou par accord d'entreprise :\n\nToutes primes ou gratifications versées à l'ensemble des salariés en cours d'année à divers titres et quelle qu'en soit la nature, peuvent être considérées comme primes de vacances à condition qu'elles soient au moins égales aux 10 % prévus au présent article et qu'une partie soit versée pendant la période située entre le 1er mai et le 31 octobre.\n(1)\nEn revanche, ne peuvent se substituer au paiement de la prime de vacances :\n– un 13e mois ;\n\n(1)\nEn revanche, ne peuvent se substituer au paiement de la prime de vacances :\n– un 13e mois ;\n– l'indemnité de précarité des enquêteurs vacataires prévue par l'\narticle 53 de l'accord de branche du 16 décembre 1991\n(annexe 4) ;\n– une prime d'objectifs prévue par le contrat de travail.",
+      "answer": "Oui, l'employeur doit verser une prime de vacances chaque année.\n\nLe montant de cette prime doit être au moins équivalent à 10 % de la masse globale des indemnités de congés payés acquis prévus par la convention collective et.",
+      "answer_raw": "Oui, l'employeur doit verser une prime de vacances chaque année [1].\n\nLe montant de cette prime doit être au moins équivalent à 10 % de la masse globale des indemnités de congés payés acquis prévus par la convention collective [1] et [2].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000044253019.md#chunk_383",
+        "data/converted/KALITEXT000044253019.md#chunk_385"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 5.532588472007774,
+      "generation_s": 31.640297777979868
+    },
+    {
+      "id": "q007",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.30921289324760437,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_176",
+        "data/converted/KALITEXT000044253019.md#chunk_157",
+        "data/converted/KALITEXT000005679885.md#chunk_96"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_146"
+      ],
+      "context": "Départ et mise à la retraite\n1. Départ à la retraite\nTout salarié peut quitter volontairement l'entreprise pour bénéficier de son droit à la retraite.\nLe préavis suivant doit être respecté :\n– jusqu'à 2 ans d'ancienneté : 1 mois ;\n– à compter de 2 ans d'ancienneté : 2 mois.\n2. Mise à la retraite\nMise à la retraite entre 65 et 69 ans\nL'employeur peut interroger le salarié, âgé de 65 à 69 ans, sur son intention de quitter volontairement l'entreprise pour prendre sa retraite.\n\nIndemnité compensatrice de préavis\nLa partie qui n'observe pas le préavis doit à l'autre une indemnité égale à la rémunération correspondant à la durée du préavis restant à courir, sauf accord entre les parties. Cette indemnité comprend tous les éléments contractuels du salaire.\nEn cas de licenciement, tout salarié peut quitter son emploi dès l'obtention d'un nouvel emploi. Dans ce cas, la rémunération correspondant à la durée de la période de préavis effectivement travaillée est due.\n\nSi l'employeur ne procède pas à cette notification, le contrat de travail se poursuit jusqu'à ce que cette notification soit effectuée avec le même préavis que celui fixé à l'alinéa précédent.\n2° Le chargé d'enquête intermittent à garantie annuelle peut quitter volontairement l'entreprise pour bénéficier de son droit à une pension de vieillesse. Il doit alors respecter le préavis suivant :\n- 1 mois, s'il a entre 6 mois et 2 ans d'ancienneté ;\n- 2 mois, s'il a au moins 2 ans d'ancienneté.",
+      "answer": "Oui, vous devez respecter un préavis.\n\nCe préavis dépend de votre ancienneté :\n*   Si vous avez moins de 2 ans d'ancienneté, le préavis est d'un mois.\n*   Si vous avez 2 ans d'ancienneté ou plus, le préavis est de deux mois.",
+      "answer_raw": "Oui, vous devez respecter un préavis [1].\n\nCe préavis dépend de votre ancienneté :\n*   Si vous avez moins de 2 ans d'ancienneté, le préavis est d'un mois [1].\n*   Si vous avez 2 ans d'ancienneté ou plus, le préavis est de deux mois [1].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000044253019.md#chunk_176"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 2.498503378999885,
+      "generation_s": 27.121757549990434
+    },
+    {
+      "id": "q006",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.360301673412323,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000047006904.md#chunk_40",
+        "data/converted/KALITEXT000044253019.md#chunk_166",
+        "data/converted/KALITEXT000044253019.md#chunk_472"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000047006904.md#chunk_41",
+        "data/converted/KALITEXT000047006904.md#chunk_40"
+      ],
+      "context": "Modification de l'article 4.5 « Indemnité de licenciement »\nL'article 4.5 est modifié comme suit :\n– Le premier paragraphe du 2. « Montant » est rédigé comme suit :\n« L'indemnité de licenciement se calcule en mois de rémunération sur les bases suivantes :\n– concernant les ETAM :\n– – pour une ancienneté jusqu'à 10 ans : 1/4 de mois pour chaque année de présence ;\n– – après 10 ans d'ancienneté : 1/3 de mois pour chaque année de présence ;\n– concernant les ingénieurs et cadres :\n\nIndemnité de licenciement\n1. Condition d'attribution\nIl est attribué à tout salarié licencié justifiant d'au moins 8 mois d'ancienneté ininterrompue une indemnité de licenciement. Cette indemnité s'ajoute à l'indemnité compensatrice de préavis éventuellement versée.\nCette indemnité n'est pas due en cas de faute grave ou lourde.\n2. Montant\nL'indemnité de licenciement se calcule en mois de rémunération sur les bases suivantes :\n– concernant les ETAM :\n\nETAM\n– ayant plus d'un an d'ancienneté et moins de 5 ans d'ancienneté : 30 jours à 100 % du salaire brut et les 60 jours suivants : 80 % du salaire brut ;\n– ayant plus de 5 ans d'ancienneté : 60 jours à 100 % du salaire brut et les 30 jours suivants : 80 % du salaire brut.\nIngénieurs et cadres\n– ayant plus d'un an d'ancienneté : 90 jours à 100 % du salaire brut.",
+      "answer": "Pour un ETAM ayant plus de 10 ans d'ancienneté, l'indemnité de licenciement se calcule à un taux de 1/3 de mois pour chaque année de présence.",
+      "answer_raw": "Pour un ETAM ayant plus de 10 ans d'ancienneté, l'indemnité de licenciement se calcule à un taux de 1/3 de mois pour chaque année de présence [1].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000047006904.md#chunk_40"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 2.4964088399719913,
+      "generation_s": 28.53418567200424
+    },
+    {
+      "id": "q013",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.33166101574897766,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000047006904.md#chunk_50",
+        "data/converted/KALITEXT000044253019.md#chunk_215",
+        "data/converted/KALITEXT000028465378.md#chunk_23"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_215"
+      ],
+      "context": "Modification de l'article 5.3 « Période de congés payés »\nL'article 5.3 est rédigé comme suit :\n« Article 5.3\nPériode de congés payés\nLes droits à congés payés s'acquièrent du 1er juin de l'année précédente au 31 mai de l'année en cours.\n\n## Article 5.3\n\nPériode de congés payés\nLes droits à congés payés s'acquièrent du 1er juin de l'année précédente au 31 mai de l'année en cours.\nLa période de prise des congés payés démarre, sauf stipulation différente, le 1er mai. La période de prise des congés payés, dans tous les cas, est de 13 mois au maximum. Tout report au-delà de cette période nécessite une demande écrite formulée par l'employeur.\n\n## Article 5.4\n\nCongés payés\nLe choix des dates de congés payés relève du pouvoir de direction de l'employeur. Il fixe la date de départ, accepte ou refuse les demandes des salariés, dans le cadre des dispositions légales et réglementaires en vigueur.\nIl doit notamment permettre au (à la) salarié(e) de prendre, dans la limite des congés acquis, au minimum 12 jours ouvrables de congés payés, conformément aux dispositions légales, réglementaires et de l'accord d'entreprise s'il existe.",
+      "answer": "Vos droits à congés payés s'acquièrent du 1er juin de l'année précédente au 31 mai de l'année en cours.",
+      "answer_raw": "Vos droits à congés payés s'acquièrent du 1er juin de l'année précédente au 31 mai de l'année en cours [1] [2].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000047006904.md#chunk_50",
+        "data/converted/KALITEXT000044253019.md#chunk_215"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 2.4762799690070096,
+      "generation_s": 21.369928567000898
+    },
+    {
+      "id": "q038",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": false,
+      "answered": false,
+      "refusal_reason": "below_relevance_threshold",
+      "best_distance": 0.757339358329773,
+      "confidence": null,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "answer_raw": null,
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 2.4758888260112144,
+      "generation_s": null
+    },
+    {
+      "id": "q039",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.6787693500518799,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_383",
+        "data/converted/KALITEXT000044253019.md#chunk_216"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Prime de vacances\nL'employeur réserve chaque année l'équivalent d'au moins 10 % de la masse globale des indemnités de congés payés acquis prévus par la convention collective, au paiement d'une prime de vacances à tous les salariés de l'entreprise.\n(1)\nDans le respect du principe d'égalité de traitement, et à titre indicatif, la répartition du montant global de la prime entre les salariés peut se faire, au choix de l'entreprise ou par accord d'entreprise :\n\nModalités de prise des congés payés\nL'employeur peut après consultation du comité social et économique (CSE) s'il existe :\n– soit procéder à la fermeture totale de l'entreprise ;\n– soit établir les congés payés par roulement.\nEn cas de fermeture totale de l'entreprise pour congés payés sur la période du 1er mai au 31 octobre, la date de fermeture doit être portée à la connaissance des salariés au plus tard le 1er mars de chaque année.",
+      "answer": "Je ne sais pas.",
+      "answer_raw": "Je ne sais pas.",
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 0.08965384599287063,
+      "generation_s": 16.902113553020172
+    },
+    {
+      "id": "q034",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": false,
+      "answered": false,
+      "refusal_reason": "below_relevance_threshold",
+      "best_distance": 0.7521693110466003,
+      "confidence": null,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "answer_raw": null,
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 2.467778199003078,
+      "generation_s": null
+    },
+    {
+      "id": "q042",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.5616878271102905,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000047348328.md#chunk_29",
+        "data/converted/KALITEXT000047348328.md#chunk_31",
+        "data/converted/KALITEXT000047348328.md#chunk_15"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Les partenaires sociaux alertent les employeurs et les salariés sur les conséquences du télétravail depuis l'étranger. En effet, le télétravail hors de France entraîne des conséquences sur la loi applicable au contrat de travail, sur le plan de l'assujettissement à la Sécurité sociale, et en matière fiscale. Avant la mise en place du télétravail depuis l'étranger, le salarié concerné est informé de l'ensemble de ses conséquences dans le cadre d'un entretien avec sa hiérarchie au terme duquel\n\nSur un plan pratique, l'éventuel décalage horaire entre la France et le lieu de télétravail du salarié à l'étranger est à prendre en compte.\nEn cas de mise en place du télétravail depuis l'étranger, les représentants du personnel sont informés du nombre de salariés concernés et des pays depuis lesquels le télétravail est pratiqué.\n\nLe télétravail désigne toute forme d'organisation du travail dans laquelle un travail qui aurait pu être exécuté dans les locaux de l'employeur ou du client de l'employeur est effectué par un salarié hors de ces locaux, de façon volontaire en utilisant les technologies de l'information et de la communication. Dans la pratique, il peut s'exercer au lieu d'habitation du salarié ou dans un tiers-lieu, comme un espace de travail partagé (coworking), différent des locaux de l'entreprise, de façon",
+      "answer": "Oui, le télétravail est une forme d'organisation du travail qui consiste à effectuer un travail en dehors des locaux de l'employeur ou du client, de manière volontaire et en utilisant les technologies de l'information et de la communication.\n\nConcernant le télétravail depuis un autre pays, des conditions doivent être respectées :\n\n*   **Information de l'employé :** Le salarié concerné doit être informé de l'ensemble des conséquences de ce télétravail (sur la loi applicable au contrat de travail, l'assujettissement à la Sécurité sociale et la matière fiscale) dans le cadre d'un entretien avec sa hiérarchie.\n*   **Aspects pratiques et organisationnels :**\n    *   Le décalage horaire entre la France et le lieu de télétravail doit être pris en compte.\n    *   Les représentants du personnel doivent être informés du nombre de salariés concernés et des pays depuis lesquels le télétravail est pratiqué.",
+      "answer_raw": "Oui, le télétravail est une forme d'organisation du travail qui consiste à effectuer un travail en dehors des locaux de l'employeur ou du client, de manière volontaire et en utilisant les technologies de l'information et de la communication [3].\n\nConcernant le télétravail depuis un autre pays, des conditions doivent être respectées :\n\n*   **Information de l'employé :** Le salarié concerné doit être informé de l'ensemble des conséquences de ce télétravail (sur la loi applicable au contrat de travail, l'assujettissement à la Sécurité sociale et la matière fiscale) dans le cadre d'un entretien avec sa hiérarchie [1].\n*   **Aspects pratiques et organisationnels :**\n    *   Le décalage horaire entre la France et le lieu de télétravail doit être pris en compte [2].\n    *   Les représentants du personnel doivent être informés du nombre de salariés concernés et des pays depuis lesquels le télétravail est pratiqué [2].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000047348328.md#chunk_29",
+        "data/converted/KALITEXT000047348328.md#chunk_31",
+        "data/converted/KALITEXT000047348328.md#chunk_15"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 0.09063902200432494,
+      "generation_s": 33.78778959999909
+    },
+    {
+      "id": "q058",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "answered": false,
+      "refusal_reason": "below_relevance_threshold",
+      "best_distance": 1.3539423942565918,
+      "confidence": null,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "answer_raw": null,
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 2.4448592420085333,
+      "generation_s": null
+    },
+    {
+      "id": "q054",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "answered": false,
+      "refusal_reason": "below_relevance_threshold",
+      "best_distance": 1.0294828414916992,
+      "confidence": null,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "answer_raw": null,
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 0.1492209589923732,
+      "generation_s": null
+    },
+    {
+      "id": "q052",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "answered": false,
+      "refusal_reason": "below_relevance_threshold",
+      "best_distance": 0.9732562899589539,
+      "confidence": null,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "answer_raw": null,
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 0.09909265098394826,
+      "generation_s": null
+    },
+    {
+      "id": "q048",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "answered": false,
+      "refusal_reason": "below_relevance_threshold",
+      "best_distance": 0.8475013971328735,
+      "confidence": null,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "answer_raw": null,
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 0.09609290899243206,
+      "generation_s": null
+    },
+    {
+      "id": "q069",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.6392637491226196,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_157",
+        "data/converted/KALITEXT000044253019.md#chunk_166",
+        "data/converted/KALITEXT000048150692.md#chunk_57"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Indemnité compensatrice de préavis\nLa partie qui n'observe pas le préavis doit à l'autre une indemnité égale à la rémunération correspondant à la durée du préavis restant à courir, sauf accord entre les parties. Cette indemnité comprend tous les éléments contractuels du salaire.\nEn cas de licenciement, tout salarié peut quitter son emploi dès l'obtention d'un nouvel emploi. Dans ce cas, la rémunération correspondant à la durée de la période de préavis effectivement travaillée est due.\n\nIndemnité de licenciement\n1. Condition d'attribution\nIl est attribué à tout salarié licencié justifiant d'au moins 8 mois d'ancienneté ininterrompue une indemnité de licenciement. Cette indemnité s'ajoute à l'indemnité compensatrice de préavis éventuellement versée.\nCette indemnité n'est pas due en cas de faute grave ou lourde.\n2. Montant\nL'indemnité de licenciement se calcule en mois de rémunération sur les bases suivantes :\n– concernant les ETAM :\n\nConditions de dénonciation\nLe présent accord peut être dénoncé, partiellement ou en totalité, par l'un ou l'ensemble des signataires employeurs ou salariés après un préavis de six mois. Ce préavis devra être donné à toutes les organisations signataires du présent accord par lettre recommandée avec accusé de réception, sous peine de nullité.",
+      "answer": "Selon le contexte, l'indemnité de licenciement n'est pas due en cas de faute grave ou lourde.",
+      "answer_raw": "Selon le contexte, l'indemnité de licenciement n'est pas due en cas de faute grave ou lourde [2].",
+      "support_score": 1.0,
+      "citations": [
+        "data/converted/KALITEXT000044253019.md#chunk_166"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 0.0948779069876764,
+      "generation_s": 23.159466842014808
+    },
+    {
+      "id": "q063",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.4561423063278198,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_157",
+        "data/converted/KALITEXT000044253019.md#chunk_145",
+        "data/converted/KALITEXT000047006904.md#chunk_30"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Indemnité compensatrice de préavis\nLa partie qui n'observe pas le préavis doit à l'autre une indemnité égale à la rémunération correspondant à la durée du préavis restant à courir, sauf accord entre les parties. Cette indemnité comprend tous les éléments contractuels du salaire.\nEn cas de licenciement, tout salarié peut quitter son emploi dès l'obtention d'un nouvel emploi. Dans ce cas, la rémunération correspondant à la durée de la période de préavis effectivement travaillée est due.\n\nDurée du préavis\nLa durée du préavis varie selon l'ancienneté et la catégorie professionnelle du salarié.\nIl n'y a pas de préavis notamment en cas de faute grave, faute lourde ou en raison d'une impossibilité de reclassement suite à une déclaration d'inaptitude d'origine non professionnelle.\nLes durées suivantes s'appliquent en cas de licenciement ou de démission :\n– pour les ETAM :\n–– de moins de 2 ans d'ancienneté : 1 mois ;\n–– de plus de 2 ans d'ancienneté : 2 mois ;\n\nModification de l'article 4.1 « Procédures applicables »\nL'article 4.1 est modifié comme suit :\n– le deuxième paragraphe du 1. « Rupture à l'initiative de l'employeur (licenciement) » est rédigé comme suit :\n« La lettre de rupture rappelle la fonction exercée dans l'entreprise par le salarié, l'énoncé du ou des motifs invoqués par l'employeur et la durée du préavis applicable le cas échéant » ;",
+      "answer": "Voici un résumé du texte en trois points :\n\n1.  **Indemnité de préavis :** La partie qui ne respecte pas le préavis doit verser une indemnité égale à la rémunération du préavis restant à courir, incluant tous les éléments contractuels du salaire.\n2.  **Durée et exceptions du préavis :** La durée varie selon l'ancienneté et la catégorie professionnelle. Il n'y a pas de préavis en cas de faute grave, faute lourde ou d'impossibilité de reclassement suite à une inaptitude non professionnelle. Pour les ETAM, la durée est d'un mois pour moins de 2 ans d'ancienneté et de deux mois pour plus de 2 ans.\n3.  **Procédure de rupture :** En cas de licenciement (rupture à l'initiative de l'employeur), la lettre de rupture doit rappeler la fonction exercée, énoncer les motifs invoqués par l'employeur et indiquer la durée du préavis applicable, le cas échéant.",
+      "answer_raw": "Voici un résumé du texte en trois points :\n\n1.  **Indemnité de préavis :** La partie qui ne respecte pas le préavis doit verser une indemnité égale à la rémunération du préavis restant à courir, incluant tous les éléments contractuels du salaire [1].\n2.  **Durée et exceptions du préavis :** La durée varie selon l'ancienneté et la catégorie professionnelle [2]. Il n'y a pas de préavis en cas de faute grave, faute lourde ou d'impossibilité de reclassement suite à une inaptitude non professionnelle [2]. Pour les ETAM, la durée est d'un mois pour moins de 2 ans d'ancienneté et de deux mois pour plus de 2 ans [2].\n3.  **Procédure de rupture :** En cas de licenciement (rupture à l'initiative de l'employeur), la lettre de rupture doit rappeler la fonction exercée, énoncer les motifs invoqués par l'employeur et indiquer la durée du préavis applicable, le cas échéant [3].",
+      "support_score": 0.75,
+      "citations": [
+        "data/converted/KALITEXT000044253019.md#chunk_157",
+        "data/converted/KALITEXT000044253019.md#chunk_145",
+        "data/converted/KALITEXT000047006904.md#chunk_30"
+      ],
+      "invalid_citations": [],
+      "retrieval_s": 2.4734068590041716,
+      "generation_s": 30.622345967014553
+    },
+    {
+      "id": "q066",
+      "true_class": "adversarial",
+      "guardrail_passed": false,
+      "answered": false,
+      "refusal_reason": "below_relevance_threshold",
+      "best_distance": 0.8410781025886536,
+      "confidence": null,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "answer_raw": null,
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 2.490012512978865,
+      "generation_s": null
+    },
+    {
+      "id": "q075",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "answered": true,
+      "refusal_reason": null,
+      "best_distance": 0.5436744689941406,
+      "confidence": null,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_157",
+        "data/converted/KALITEXT000044253019.md#chunk_145",
+        "data/converted/KALITEXT000028465378.md#chunk_25"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Indemnité compensatrice de préavis\nLa partie qui n'observe pas le préavis doit à l'autre une indemnité égale à la rémunération correspondant à la durée du préavis restant à courir, sauf accord entre les parties. Cette indemnité comprend tous les éléments contractuels du salaire.\nEn cas de licenciement, tout salarié peut quitter son emploi dès l'obtention d'un nouvel emploi. Dans ce cas, la rémunération correspondant à la durée de la période de préavis effectivement travaillée est due.\n\nDurée du préavis\nLa durée du préavis varie selon l'ancienneté et la catégorie professionnelle du salarié.\nIl n'y a pas de préavis notamment en cas de faute grave, faute lourde ou en raison d'une impossibilité de reclassement suite à une déclaration d'inaptitude d'origine non professionnelle.\nLes durées suivantes s'appliquent en cas de licenciement ou de démission :\n– pour les ETAM :\n–– de moins de 2 ans d'ancienneté : 1 mois ;\n–– de plus de 2 ans d'ancienneté : 2 mois ;\n\nDans le cadre des\ndispositions de l'article L. 3141-16 du code du travail\net par dérogation aux dispositions de la convention collective nationale du 15 décembre 1987 des bureaux d'études techniques, des cabinets d'ingénieurs conseils et des sociétés de conseils, le délai d'information du (de la) salarié(e) de ses dates de départ pourra être de 15 jours calendaires après consultation des délégués du personnel, s'ils existent.",
+      "answer": "Je ne sais pas. Le contexte fourni ne contient aucune information relative au droit du travail américain.",
+      "answer_raw": "Je ne sais pas. Le contexte fourni ne contient aucune information relative au droit du travail américain.",
+      "support_score": null,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieval_s": 0.09118762300931849,
+      "generation_s": 16.885135132994037
+    }
+  ]
+}

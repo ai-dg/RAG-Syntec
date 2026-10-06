@@ -40,6 +40,12 @@ injections written about the agreement's subject). Full table over every run:
 | in-topic questions wrongly refused by the guardrail (of 33) | 4 | 4 |
 | answers citing at least one passage, invented citations | n/a | every substantive answer, 0 invented |
 
+On the 20 held-out questions, read once at the end: hit@3 0.75, all 8 answerable
+questions answered, but 2 of 4 adversarial questions got an answer where a refusal
+was expected (neither revealed the instructions or wrote the harmful content
+asked for; details in [`design/evaluation.md`](design/evaluation.md)). The
+input check does not generalise beyond the questions it was written from.
+
 Baseline: fixed 500-character chunks, `qwen3-embedding:8b` in Chroma, top 3
 chunks, a distance threshold of 0.74, `gemma4` for generation. Final: the same,
 plus superseded text filtered out, an input check and an output check, and
@@ -130,8 +136,8 @@ flowchart LR
 
 **Limits.** 22 answerable questions: one question is about 0.045 of a rate, so
 small differences are noise. Answers are checked lexically against an expected
-answer, not read one by one. The held-out split was read once, for the
-classifier; no end-to-end run was made on it. One labeller.
+answer, not read one by one. The held-out split was read twice: once for the
+classifier, once for a final end-to-end run. One labeller.
 
 ## Run it
 
@@ -221,8 +227,8 @@ Coverage: 88% of `app/` ([`design/testing.md`](design/testing.md)).
 The roadmap in [`TODO.md`](TODO.md) is complete except for what it marks as
 skipped, each with its reason: a new embedding model, Qdrant and hybrid search
 (the diagnosis found no coverage failure for them to fix), and Langfuse
-(optional). Still to do: timing a cold Docker start, an end-to-end run on the
-held-out split, and the presentation tasks (demo recording, article).
+(optional). Still to do: timing a cold Docker start and recording the demo; an
+article draft, CV notes and interview notes are in `docs/`.
 
 ## License
 

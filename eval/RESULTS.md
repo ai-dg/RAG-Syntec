@@ -42,3 +42,4 @@ Reading it:
   not comparable.
 - The abstention classifier (`design/abstention.md`) is evaluated at decision
   level only and is not in this table.
+| 2026-10-06 | final_held_out | held_out | 034c5ee | 20 | 0.17 | 0.38 | 0.69 | 0.54 | 0.96 | 2.456 / 2.685 | 27.1 / 35.0 (n=13) | 2026-10-06_final_held_out.json |
