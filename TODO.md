@@ -1454,7 +1454,7 @@ but a secondary one.*
 not read the code. This phase is the highest-leverage work in the file for
 both audiences.*
 
-### [ ] T17.1 — Draw the architecture diagram
+### [x] T17.1 — Draw the architecture diagram
 
 - **Goal.** Let a reader understand the system without reading any code.
 - **Concepts.** Mermaid; diagramming for a reader who will not read code; making decision points visible.
@@ -1486,7 +1486,7 @@ both audiences.*
   - Why is the refusal the most important thing to show?
 - **Commit.** `docs: add demo recording`
 
-### [ ] T17.3 — Rewrite the README as a case study
+### [x] T17.3 — Rewrite the README as a case study
 
 - **Goal.** Not documentation — a case study. Numbers and pictures above the
   fold; `uv sync` below it.
