@@ -1188,7 +1188,7 @@ API orchestration. Today `app/` contains no modelling at all.*
 
 # Phase 12 — Comparative evaluation (the ablation table)
 
-### [ ] T12.1 — Produce the full ablation
+### [x] T12.1 — Produce the full ablation
 
 - **Goal.** One table measuring every component's contribution on *your*
   corpus. This is the recruiter-facing centrepiece; the code was only how you
@@ -1241,7 +1241,7 @@ API orchestration. Today `app/` contains no modelling at all.*
 
 # Phase 13 — Citations and legal-text versioning
 
-### [ ] T13.1 — Implement chunk-level citations
+### [x] T13.1 — Implement chunk-level citations
 
 - **Goal.** For legal answers, "according to the Syntec agreement" is
   useless. "Article 15, salary grid, version of <date>" is the product.
@@ -1376,7 +1376,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - What is your coverage, and which uncovered part worries you most?
 - **Commit.** `test: consolidate and mark the test suite`
 
-### [ ] T15.2 — Update Docker Compose
+### [x] T15.2 — Update Docker Compose
 
 - **Goal.** One command must bring the whole system up from a clean clone.
 - **Concepts.** Healthchecks and dependency ordering; volumes and persistence; Docker layer caching.

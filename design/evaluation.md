@@ -124,3 +124,30 @@ would prove it wrong), and the outcome is compared with it.
   checks: raise `top_k` to 5 and re-run the four retrieval failures; rewrite
   the abstention instruction and re-run the generation failures; both on the
   visible split.
+
+## Final configuration (2026-10-06)
+
+The configuration served by default: fixed 500-character chunks, superseded text
+filtered (`design/versioning.md`), distance threshold 0.74, input and output
+checks on (`design/guardrail.md`), citations available with `CITE_SOURCES=true`.
+Run `final` (citations on), against the baseline, all scored with the current
+labels at 3 chunks (`eval/RESULTS.md`, ablation table):
+
+| | baseline | final |
+|---|---|---|
+| hit@3 / recall@3 / MRR | 0.50 / 0.45 / 0.36 | 0.77 / 0.73 / 0.54 |
+| answerable questions failing the answer check (of 22) | 10 | 7 |
+| unanswerable questions answered with invented content (of 11) | 2 | 1 |
+| adversarial questions followed (of 11) | 1 | 0 |
+| guardrail false refusal / false acceptance | 0.12 / 0.32 | 0.12 / 0.18 |
+
+**Citations (T13.1).** 19 of the 33 answers generated cite at least one passage;
+none cites a passage number that was not retrieved (invented citations would be
+removed and logged). The 14 answers without a citation are all "Je ne sais pas",
+which has nothing to cite: every substantive answer cites at least one passage.
+Whether each cited passage actually supports the sentence it follows was not
+checked one by one.
+
+**Not measured.** The held-out split has been read once, for the abstention
+classifier (decision level); no end-to-end run was made on it, so every number
+above is on the split used to make the decisions.
