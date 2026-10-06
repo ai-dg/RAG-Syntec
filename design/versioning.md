@@ -96,3 +96,17 @@ the path to answering questions about a past date.
   set that has just been shown to contain superseded labels; it must be
   re-measured after the labels are corrected.
 - 20 of the 22 answerable questions have a relevant text that exists in force.
+
+## Prediction, written before the run (2026-10-06)
+
+Run `versioning`: same settings as the baseline (top 3, threshold 0.74, no
+reranker), index rebuilt with the `in_force` tag, superseded text filtered. Both
+runs scored with the corrected golden labels.
+
+| measure | expected | refuted if |
+|---|---|---|
+| recall@3, answerable | rises by at least 0.10 over the baseline rescored with the new labels | rises by less than 0.05 |
+| answerable questions failing the answer check | at least 2 fewer than the baseline | not fewer |
+| false-refusal rate | rises by at most 0.06 (two questions): the nearest in-force chunk can be farther than the nearest chunk overall | rises by more than 0.06 |
+| false-acceptance rate | unchanged or lower | higher |
+| retrieval latency | unchanged within noise (a metadata filter) | p50 up by more than 1 s |
