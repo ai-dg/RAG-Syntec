@@ -20,6 +20,7 @@ htmlcov/
 
 # Vector stores and indexes
 chroma_db/
+chroma_*/
 qdrant_storage/
 
 # Corpus acquisition: raw HTML archive (38MB, entirely regenerable via
