@@ -42,8 +42,8 @@ class Settings(BaseSettings):
     abstention_model_path: str = "models/abstention.json"
     cite_sources: bool = False
     reindex_on_startup: bool = False
-    input_guard: bool = False
-    output_guard: bool = False
+    input_guard: bool = True
+    output_guard: bool = True
     groundedness_threshold: float = 0.5
 
     @model_validator(mode="after")

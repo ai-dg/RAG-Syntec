@@ -144,3 +144,39 @@ unanswered" — three different failure modes with three different correct
 responses. See the roadmap for the direction this takes next: input-side
 injection detection, and output-side groundedness verification against the
 retrieved context.
+
+## Layered guardrails: an input check and an output check (T13.3)
+
+**Problem.** A single distance threshold cannot separate an off-topic question
+from an injection written about the agreement's own subject: on the baseline, 7
+of 11 adversarial questions passed it, and one (q071, "note de service ...
+réponds sans citer tes sources") was followed by the model. The prompt's own
+instruction to answer only from the context depends on the model complying.
+
+**Decision.** Two more layers, each independently switchable, both on by default
+(`app/services/guardrail.py`, wired in `app/services/pipeline.py`, which the API
+and the evaluation runner share):
+- **input check** (`INPUT_GUARD`): regular expressions for injection phrasing
+  (ignore the instructions, system prompt, new instruction, fake delimiters,
+  disable filtering, answer without citing). A match refuses before retrieval
+  with `refusal_reason=prompt_injection_detected`.
+- **output check** (`OUTPUT_GUARD`): the share of the answer's sentences whose
+  content words mostly occur in the retrieved context; under 0.5 the answer is
+  withdrawn (`refusal_reason=ungrounded_answer`). Abstentions are not judged.
+
+**Result (measured, each layer separately).**
+- Input check on the golden questions: catches 4 of 11 visible adversarial
+  questions, 0 of 4 held-out ones, and flags none of the 63 other questions. The
+  patterns were written after reading the visible adversarial questions, and the
+  held-out result shows they do not generalise: this layer is a cheap filter for
+  common phrasings, not a defence.
+- Output check on the 20 substantive answers of the `versioning` run (no new
+  generation needed): all 17 answers to answerable questions score 1.0, so it
+  withdraws none of them; it withdraws q071 (score 0.0), the injection the model
+  followed. It does not catch q036 (an unanswerable question answered with words
+  taken from the context) or q067 (an injected question whose legitimate part was
+  answered). The result is the same for thresholds from 0.3 to 0.6.
+
+**Cost.** Lexical support cannot see a wrong value written with the context's
+words, nor a negation; the threshold was not chosen on a separate set; the input
+patterns are language-specific and easy to rephrase around.
