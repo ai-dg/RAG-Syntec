@@ -7,9 +7,9 @@ denominators when space allows: they are what makes the numbers credible.
 ## Bullets (English)
 
 - Built a question-answering system over the Syntec collective agreement that
-  refuses unsupported questions with a stated reason; adversarial questions
-  answered fell from 1 of 11 to 0 of 11 and the guardrail's false-acceptance
-  rate from 0.32 to 0.18, with no added false refusals.
+  cites the passage behind every answer (0 invented citations) and refuses
+  unsupported questions with a stated reason; the guardrail's false-acceptance
+  rate fell from 0.32 to 0.18 with no added false refusals.
 - Diagnosed retrieval failures with a labelled evaluation set and found 40% of
   the index was superseded legal text; filtering it raised the share of
   questions with a relevant passage in the top 3 from 50% to 77%, without
@@ -25,10 +25,9 @@ Stack line: Python, FastAPI, LangChain (ingestion), Chroma, Ollama
 ## Lignes de CV (français)
 
 - Conception d'un système de questions-réponses sur la convention collective
-  Syntec qui refuse les questions sans réponse dans le texte, en donnant la
-  raison : questions malveillantes suivies ramenées de 1 sur 11 à 0 sur 11,
-  taux de fausse acceptation du filtre de 0,32 à 0,18, sans refus à tort
-  supplémentaire.
+  Syntec qui cite le passage de chaque réponse (0 citation inventée) et refuse
+  les questions sans réponse dans le texte, en donnant la raison : taux de fausse
+  acceptation du filtre de 0,32 à 0,18, sans refus à tort supplémentaire.
 - Diagnostic des échecs de recherche sur un jeu de questions étiqueté : 40 % de
   l'index était du texte juridique abrogé ; l'exclure a porté la part de
   questions avec un passage pertinent parmi les 3 premiers de 50 % à 77 %, sans
@@ -61,3 +60,7 @@ two of them (a reranker, a trained classifier) were rejected.
   retrieval, evaluation, MLOps...) in the bullets; do not copy its slogans.
 - The figures are on 55 questions (22 answerable); say "on a labelled set of 55
   questions" if asked, never present them as production traffic.
+- Do not claim injections are blocked: 0 of 11 on the visible questions, but 2 of
+  4 held-out injections still got an answer (`design/evaluation.md`).
+- On the 20 held-out questions retrieval held (hit@3 0.75 against 0.77), which
+  you can quote as evidence the 50% to 77% gain is not tuned to the test set.

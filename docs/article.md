@@ -59,10 +59,15 @@ test set had a bug, and the fix to the system found it.
 
 Two cheap layers complete the threshold: a pattern check for injection phrasing
 before the search, and an output check that withdraws an answer whose sentences
-do not appear in the retrieved passages. Together they took the injections the
-model obeyed from 1 of 11 to 0 of 11 with no added wrong refusal. The pattern
-check is weak, and I say so: it catches 4 of 11 injections in the questions I
-wrote it from, and 0 of 4 in the questions kept aside.
+do not appear in the retrieved passages. On my working questions they took the
+injections the model answered from 1 of 11 to 0 of 11, with no added wrong
+refusal. On the 20 questions I had kept aside, the pattern check caught none of
+the 4 injections and 2 of them got an answer (neither revealed the instructions
+or wrote the harmful clause asked for). The pattern check was fitted to the
+questions I wrote it from; it does not generalise, and I say so.
+
+The retrieval gain, on the other hand, held on the questions kept aside: 75% of
+questions with a relevant passage in the top 3, against 77% on the working set.
 
 ## What I take from it
 
