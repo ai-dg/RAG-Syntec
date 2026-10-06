@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     top_k: int
     system_prompt: str
     relevance_threshold: float
+    rerank_enabled: bool = False
+    rerank_candidates: int = 20
+    rerank_model: str = "Qwen/Qwen3-Reranker-0.6B"
 
     @model_validator(mode="after")
     def validate_provider_configuration(self) -> Self:
