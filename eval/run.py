@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 from app.config import get_settings
 from app.services.generation import generate
 from app.services.ingestion import get_embedding
+from app.services.reranking import load_reranker
 from app.services.retrieval import get_vector_store, retrieve, set_vector_store
 from eval.metrics import (
     confusion_matrix,
@@ -87,11 +88,14 @@ def collect_run_metadata(split: str, label: str) -> dict:
         "chunk_size": settings.chunk_size,
         "chunk_overlap": settings.chunk_overlap,
         "system_prompt": settings.system_prompt,
+        "rerank_enabled": settings.rerank_enabled,
+        "rerank_candidates": settings.rerank_candidates,
+        "rerank_model": settings.rerank_model,
     }
 
 
 def run_predictions(questions: list[dict]) -> list[dict]:
-    retrieve("warm-up")
+    retrieve("Quelle est la durée du préavis en cas de démission ?")
 
     predictions = []
     for q in questions:
@@ -236,6 +240,9 @@ def main(argv=None) -> None:
         if args.limit:
             questions = questions[: args.limit]
         index_chunk_count = prepare_index(args.reindex)
+        settings = get_settings()
+        if settings.rerank_enabled:
+            load_reranker(settings.rerank_model)
         metadata = collect_run_metadata(split, args.label)
         metadata["index_chunk_count"] = index_chunk_count
         predictions = run_predictions(questions)
