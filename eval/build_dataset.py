@@ -35,28 +35,46 @@ def build_rows(store, search_filter) -> list[dict]:
         with open(ROOT / "eval" / name) as f:
             records = [json.loads(line) for line in f if line.strip()]
         for record in records:
-            results = store.similarity_search_with_score(record["question"], k=FEATURE_K, filter=search_filter)
-            features = extract_features([score for _, score in results], record["question"])
-            rows.append({"id": record["id"], "split": split, "class": record["class"],
-                         "label": label_for(record["class"]), **features})
+            results = store.similarity_search_with_score(
+                record["question"], k=FEATURE_K, filter=search_filter
+            )
+            features = extract_features(
+                [score for _, score in results], record["question"]
+            )
+            rows.append(
+                {
+                    "id": record["id"],
+                    "split": split,
+                    "class": record["class"],
+                    "label": label_for(record["class"]),
+                    **features,
+                }
+            )
     return rows
 
 
 def main() -> None:
     settings = get_settings()
-    store = Chroma(persist_directory=settings.chroma_dir, embedding_function=get_embedding(settings))
+    store = Chroma(
+        persist_directory=settings.chroma_dir,
+        embedding_function=get_embedding(settings),
+    )
     search_filter = None if settings.include_superseded else {"in_force": True}
     rows = build_rows(store, search_filter)
 
     with open(OUTPUT, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["id", "split", "class", "label", *FEATURE_NAMES])
+        writer = csv.DictWriter(
+            f, fieldnames=["id", "split", "class", "label", *FEATURE_NAMES]
+        )
         writer.writeheader()
         writer.writerows(rows)
 
     for split in SPLITS:
         part = [r for r in rows if r["split"] == split]
         positives = sum(r["label"] for r in part)
-        print(f"{split}: {len(part)} rows, {positives} to answer, {len(part) - positives} to refuse")
+        print(
+            f"{split}: {len(part)} rows, {positives} to answer, {len(part) - positives} to refuse"
+        )
     print(f"wrote {OUTPUT}")
 
 

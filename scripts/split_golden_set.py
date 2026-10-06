@@ -5,6 +5,7 @@ from collections import defaultdict, Counter
 
 random.seed(42)
 
+
 def load_records(path):
     with open(path) as file:
         return [json.loads(line) for line in file if line.strip()]
@@ -21,13 +22,11 @@ def split_golden_set(records, held_out_fraction=0.25):
 
     for class_name, items in by_class.items():
         random.shuffle(items)
-        n_held_out = round(len(items) * held_out_fraction) 
+        n_held_out = round(len(items) * held_out_fraction)
         held_out.extend(items[:n_held_out])
         visible.extend(items[n_held_out:])
-    
 
     return visible, held_out
-
 
 
 if __name__ == "__main__":
@@ -40,8 +39,8 @@ if __name__ == "__main__":
         for record in held_out:
             file.write(json.dumps(record, ensure_ascii=False) + "\n")
 
-    visible_count = Counter(record['class'] for record in visible)
-    held_out_count = Counter(record['class'] for record in held_out)
+    visible_count = Counter(record["class"] for record in visible)
+    held_out_count = Counter(record["class"] for record in held_out)
 
     print("Visible Count:")
     print(f"in_topic_answerable: {visible_count['in_topic_answerable']}")

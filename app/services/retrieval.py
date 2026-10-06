@@ -77,15 +77,23 @@ def retrieve(question):
     settings = get_settings()
     store = get_vector_store(settings)
 
-    model = load_model(settings.abstention_model_path) if settings.guardrail_mode == "classifier" else None
+    model = (
+        load_model(settings.abstention_model_path)
+        if settings.guardrail_mode == "classifier"
+        else None
+    )
     mode = "classifier" if model else "threshold"
     if settings.guardrail_mode == "classifier" and model is None:
-        logger.warning("guardrail_mode=classifier but no model: using the distance threshold")
+        logger.warning(
+            "guardrail_mode=classifier but no model: using the distance threshold"
+        )
 
     k = settings.rerank_candidates if settings.rerank_enabled else settings.top_k
     search_k = max(k, FEATURE_K) if model else k
     search_filter = None if settings.include_superseded else {"in_force": True}
-    found = store.similarity_search_with_score(question, k=search_k, filter=search_filter)
+    found = store.similarity_search_with_score(
+        question, k=search_k, filter=search_filter
+    )
     if not found:
         return _refused(None, "no_results", mode=mode)
 
@@ -121,10 +129,13 @@ def retrieve(question):
 def open_or_build_vector_store(settings):
     """Reuse the persisted index if it was built with the current settings;
     otherwise (or if REINDEX_ON_STARTUP is set) rebuild it from the documents."""
-    if not settings.reindex_on_startup and read_index_info(settings.chroma_dir) == index_info(settings):
+    if not settings.reindex_on_startup and read_index_info(
+        settings.chroma_dir
+    ) == index_info(settings):
         logger.info("reusing the persisted index at %s", settings.chroma_dir)
         return Chroma(
-            persist_directory=settings.chroma_dir, embedding_function=get_embedding(settings)
+            persist_directory=settings.chroma_dir,
+            embedding_function=get_embedding(settings),
         )
     logger.info("building the index from %s", settings.docs_dir)
     return create_vector_store(chunk_text(load_docs()))

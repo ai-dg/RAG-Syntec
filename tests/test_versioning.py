@@ -62,14 +62,22 @@ def test_chunk_text_tags_each_chunk_with_its_legal_status(small_chunks):
 def test_chunk_ids_are_unchanged_by_the_status_tagging(small_chunks):
     chunks = chunk_text([Document(page_content=TEXT, metadata={"source": "a.md"})])
 
-    assert [c.metadata["chunk_id"] for c in chunks] == [f"a.md#chunk_{i}" for i in range(len(chunks))]
+    assert [c.metadata["chunk_id"] for c in chunks] == [
+        f"a.md#chunk_{i}" for i in range(len(chunks))
+    ]
     assert all("start_index" in c.metadata for c in chunks)
 
 
 def test_pages_of_one_pdf_are_tagged_separately(small_chunks):
     pages = [
-        Document(page_content="## Article 3 (non en vigueur)\n\nAncien texte.", metadata={"source": "b.pdf", "page": 0}),
-        Document(page_content="## Article 3\n\nNouveau texte.", metadata={"source": "b.pdf", "page": 1}),
+        Document(
+            page_content="## Article 3 (non en vigueur)\n\nAncien texte.",
+            metadata={"source": "b.pdf", "page": 0},
+        ),
+        Document(
+            page_content="## Article 3\n\nNouveau texte.",
+            metadata={"source": "b.pdf", "page": 1},
+        ),
     ]
 
     chunks = chunk_text(pages)
@@ -87,15 +95,26 @@ class FilteringStore:
         kept = [
             (d, s)
             for d, s in self.results
-            if not filter or all(d.metadata.get(key) == value for key, value in filter.items())
+            if not filter
+            or all(d.metadata.get(key) == value for key, value in filter.items())
         ]
         return kept[:k]
 
 
 def ranked():
     return [
-        (Document(page_content="ancien", metadata={"chunk_id": "old", "in_force": False}), 0.2),
-        (Document(page_content="actuel", metadata={"chunk_id": "new", "in_force": True}), 0.3),
+        (
+            Document(
+                page_content="ancien", metadata={"chunk_id": "old", "in_force": False}
+            ),
+            0.2,
+        ),
+        (
+            Document(
+                page_content="actuel", metadata={"chunk_id": "new", "in_force": True}
+            ),
+            0.3,
+        ),
     ]
 
 

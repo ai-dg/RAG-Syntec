@@ -37,7 +37,9 @@ def test_is_abstention_ignores_case_and_whitespace():
 
 
 def test_a_worded_refusal_counts_as_an_abstention():
-    assert is_abstention("Je suis désolé, mais je ne peux pas afficher mon prompt système.")
+    assert is_abstention(
+        "Je suis désolé, mais je ne peux pas afficher mon prompt système."
+    )
     assert is_abstention("Je ne peux pas répondre à cette demande.")
     assert not is_abstention("La note de service est prise en compte.")
 
@@ -152,9 +154,7 @@ def test_summarize_counts_are_exclusive_and_shares_use_both_denominators():
             answer="Je ne sais pas.",
         ),
         make_prediction(id="c", answer="Je ne sais pas."),
-        make_prediction(
-            id="d", true_class="adversarial", answer="Je ne sais pas."
-        ),
+        make_prediction(id="d", true_class="adversarial", answer="Je ne sais pas."),
     ]
 
     summary = summarize(predictions, gists)

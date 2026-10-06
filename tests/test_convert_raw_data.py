@@ -1,5 +1,6 @@
 from scripts.convert_raw_data import html_to_markdown
 
+
 def test_html_to_markdown_extracts_title_and_content():
     fake_html = """
     <html><head><title>Article de test - Légifrance</title></head>

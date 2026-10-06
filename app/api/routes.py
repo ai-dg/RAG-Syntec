@@ -53,7 +53,10 @@ def health() -> HealthAnswer:
 
 def ollama_reachable(base_url: str) -> bool:
     try:
-        return httpx.get(f"{base_url.rstrip('/')}/api/tags", timeout=2.0).status_code == 200
+        return (
+            httpx.get(f"{base_url.rstrip('/')}/api/tags", timeout=2.0).status_code
+            == 200
+        )
     except httpx.HTTPError:
         return False
 
@@ -157,6 +160,9 @@ def query(payload: QueryQuestion) -> QueryAnswer:
         sources=generation_result["sources"],
         context_found=True,
         citations=generation_result.get("citations", []),
-        latency_ms={"retrieval": round(retrieval_ms, 1), "generation": round(generation_ms, 1)},
+        latency_ms={
+            "retrieval": round(retrieval_ms, 1),
+            "generation": round(generation_ms, 1),
+        },
         **common,
     )

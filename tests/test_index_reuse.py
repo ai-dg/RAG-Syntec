@@ -10,10 +10,14 @@ from app.services.ingestion import INDEX_INFO, index_info, read_index_info
 @pytest.fixture
 def calls(monkeypatch):
     seen = []
-    monkeypatch.setattr(retrieval, "Chroma", lambda **kwargs: seen.append("open") or "opened")
+    monkeypatch.setattr(
+        retrieval, "Chroma", lambda **kwargs: seen.append("open") or "opened"
+    )
     monkeypatch.setattr(retrieval, "load_docs", lambda: [])
     monkeypatch.setattr(retrieval, "chunk_text", lambda docs: [])
-    monkeypatch.setattr(retrieval, "create_vector_store", lambda chunks: seen.append("build") or "built")
+    monkeypatch.setattr(
+        retrieval, "create_vector_store", lambda chunks: seen.append("build") or "built"
+    )
     monkeypatch.setattr(retrieval, "get_embedding", lambda settings: None)
     return seen
 
@@ -57,4 +61,11 @@ def test_rebuilding_can_be_forced(calls, monkeypatch):
 def test_index_info_names_what_changes_the_vectors():
     info = index_info(get_settings())
 
-    assert {"chunking", "chunk_size", "chunk_overlap", "embedding_model", "docs_dir", "format"} <= set(info)
+    assert {
+        "chunking",
+        "chunk_size",
+        "chunk_overlap",
+        "embedding_model",
+        "docs_dir",
+        "format",
+    } <= set(info)

@@ -89,7 +89,9 @@ def generate(question: str, retrieval_result: dict):
     sources = sorted({doc.metadata.get("source") for doc in documents})
 
     if settings.cite_sources:
-        context = "\n\n".join(f"[{i}] {doc.page_content}" for i, doc in enumerate(documents, start=1))
+        context = "\n\n".join(
+            f"[{i}] {doc.page_content}" for i, doc in enumerate(documents, start=1)
+        )
         instruction = f"\n    {CITATION_INSTRUCTION}"
     else:
         context = "\n\n".join(doc.page_content for doc in documents)
@@ -107,7 +109,9 @@ def generate(question: str, retrieval_result: dict):
     Réponse :"""
     answer = llm.invoke(prompt).content
 
-    citations, invalid = resolve_citations(answer, chunks) if settings.cite_sources else ([], [])
+    citations, invalid = (
+        resolve_citations(answer, chunks) if settings.cite_sources else ([], [])
+    )
     return {
         "answer": answer,
         "sources": sources,

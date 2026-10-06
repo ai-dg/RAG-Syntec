@@ -72,11 +72,15 @@ def test_texts_equivalent_when_a_long_chunk_is_contained_in_another():
 
 
 def test_short_containment_is_not_equivalence():
-    assert not texts_equivalent("## Article", "## Article 2 : le préavis est de deux mois")
+    assert not texts_equivalent(
+        "## Article", "## Article 2 : le préavis est de deux mois"
+    )
 
 
 def test_unrelated_texts_are_not_equivalent():
-    assert not texts_equivalent(LONG_TEXT, "Les titres-restaurant sont maintenus en télétravail. " * 3)
+    assert not texts_equivalent(
+        LONG_TEXT, "Les titres-restaurant sont maintenus en télétravail. " * 3
+    )
 
 
 def test_text_equivalent_recall_counts_a_copy_under_another_id():
@@ -86,7 +90,10 @@ def test_text_equivalent_recall_counts_a_copy_under_another_id():
 
 
 def test_text_equivalent_recall_is_a_fraction_of_the_relevant_chunks():
-    second = "Autre article sur les congés payés, avec une règle précise et des conditions détaillées. " * 2
+    second = (
+        "Autre article sur les congés payés, avec une règle précise et des conditions détaillées. "
+        * 2
+    )
     texts = {"r1": LONG_TEXT, "r2": second, "other": "Sans rapport. " * 10}
 
     assert text_equivalent_recall(["r1", "other"], ["r1", "r2"], texts, k=3) == 0.5

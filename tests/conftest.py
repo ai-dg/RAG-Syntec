@@ -32,6 +32,3 @@ def settings_env(monkeypatch, tmp_path):
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()
-
-
-

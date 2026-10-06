@@ -1,4 +1,3 @@
-
 import argparse
 import json
 import subprocess
@@ -15,7 +14,12 @@ sys.path.insert(0, str(ROOT))
 
 from app.config import get_settings
 from app.services.generation import generate, strip_citations
-from app.services.ingestion import chunk_text, create_vector_store, get_embedding, load_docs
+from app.services.ingestion import (
+    chunk_text,
+    create_vector_store,
+    get_embedding,
+    load_docs,
+)
 from eval.labels import labels_for_chunking
 from app.services.reranking import load_reranker
 from app.services.retrieval import get_vector_store, retrieve, set_vector_store
@@ -36,12 +40,26 @@ CLASSES = ["in_topic_answerable", "in_topic_unanswerable", "off_topic", "adversa
 
 
 def parse_args(argv=None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run the evaluation and write a result file.")
+    parser = argparse.ArgumentParser(
+        description="Run the evaluation and write a result file."
+    )
     parser.add_argument("--label", required=True)
-    parser.add_argument("--held-out", action="store_true", help="use the held-out split (final measurement only)")
-    parser.add_argument("--from-predictions", type=Path, help="replay metrics from a saved result file")
-    parser.add_argument("--limit", type=int, help="only the first N questions (smoke tests)")
-    parser.add_argument("--reindex", action="store_true", help="rebuild the vector store from the corpus first (slow)")
+    parser.add_argument(
+        "--held-out",
+        action="store_true",
+        help="use the held-out split (final measurement only)",
+    )
+    parser.add_argument(
+        "--from-predictions", type=Path, help="replay metrics from a saved result file"
+    )
+    parser.add_argument(
+        "--limit", type=int, help="only the first N questions (smoke tests)"
+    )
+    parser.add_argument(
+        "--reindex",
+        action="store_true",
+        help="rebuild the vector store from the corpus first (slow)",
+    )
     return parser.parse_args(argv)
 
 
@@ -52,7 +70,9 @@ def load_golden(held_out: bool) -> list[dict]:
 
 
 def _git(*args: str) -> str:
-    out = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, check=True)
+    out = subprocess.run(
+        ["git", *args], cwd=ROOT, capture_output=True, text=True, check=True
+    )
     return out.stdout.strip()
 
 
@@ -84,7 +104,9 @@ def collect_run_metadata(split: str, label: str) -> dict:
         "corpus_hash": manifest["corpus_hash"],
         "llm_provider": settings.llm_provider,
         "chat_model": settings.chat_model_local if local else settings.chat_model,
-        "embedding_model": settings.embedding_model_local if local else settings.embedding_model,
+        "embedding_model": (
+            settings.embedding_model_local if local else settings.embedding_model
+        ),
         "top_k": settings.top_k,
         "chunking": settings.chunking,
         "include_superseded": settings.include_superseded,
@@ -96,7 +118,11 @@ def collect_run_metadata(split: str, label: str) -> dict:
         "rerank_candidates": settings.rerank_candidates,
         "rerank_model": settings.rerank_model,
         "guardrail_mode": settings.guardrail_mode,
-        "abstention_model_path": settings.abstention_model_path if settings.guardrail_mode == "classifier" else None,
+        "abstention_model_path": (
+            settings.abstention_model_path
+            if settings.guardrail_mode == "classifier"
+            else None
+        ),
         "cite_sources": settings.cite_sources,
     }
 
@@ -135,7 +161,9 @@ def run_predictions(questions: list[dict]) -> list[dict]:
             record["generation_s"] = time.perf_counter() - start
             record["answer_raw"] = generated["answer"]
             record["answer"] = strip_citations(generated["answer"])
-            record["citations"] = [c["chunk_id"] for c in generated.get("citations", [])]
+            record["citations"] = [
+                c["chunk_id"] for c in generated.get("citations", [])
+            ]
             record["invalid_citations"] = generated.get("invalid_citations", [])
 
         predictions.append(record)
@@ -165,8 +193,12 @@ def compute_metrics(predictions: list[dict]) -> dict:
     retrieval = {
         "n": len(answerable),
         "k": k,
-        "recall_at_k": _mean([recall_at_k(r, rel, k) for r, rel in zip(retrieved, relevant)]),
-        "precision_at_k": _mean([precision_at_k(r, rel, k) for r, rel in zip(retrieved, relevant)]),
+        "recall_at_k": _mean(
+            [recall_at_k(r, rel, k) for r, rel in zip(retrieved, relevant)]
+        ),
+        "precision_at_k": _mean(
+            [precision_at_k(r, rel, k) for r, rel in zip(retrieved, relevant)]
+        ),
         "mrr": float(mrr(retrieved, relevant)) if answerable else None,
     }
 
@@ -196,7 +228,9 @@ def compute_metrics(predictions: list[dict]) -> dict:
     citations = {
         "answered": len(answered),
         "with_a_citation": sum(1 for p in answered if p.get("citations")),
-        "with_an_invalid_citation": sum(1 for p in answered if p.get("invalid_citations")),
+        "with_an_invalid_citation": sum(
+            1 for p in answered if p.get("invalid_citations")
+        ),
     }
 
     return {
@@ -257,13 +291,21 @@ def main(argv=None) -> None:
     if args.from_predictions:
         saved = json.loads(args.from_predictions.read_text())
         predictions = saved["predictions"]
-        metadata = {**saved["metadata"], "label": args.label, "date": date.today().isoformat(),
-                    "replayed_from": args.from_predictions.name}
+        metadata = {
+            **saved["metadata"],
+            "label": args.label,
+            "date": date.today().isoformat(),
+            "replayed_from": args.from_predictions.name,
+        }
     else:
         questions = load_golden(args.held_out)
         mode = get_settings().chunking
-        translated = labels_for_chunking({q["id"]: q["relevant_chunk_ids"] for q in questions}, mode)
-        questions = [{**q, "relevant_chunk_ids": translated[q["id"]]} for q in questions]
+        translated = labels_for_chunking(
+            {q["id"]: q["relevant_chunk_ids"] for q in questions}, mode
+        )
+        questions = [
+            {**q, "relevant_chunk_ids": translated[q["id"]]} for q in questions
+        ]
         if args.limit:
             questions = questions[: args.limit]
         index_chunk_count = prepare_index(args.reindex)

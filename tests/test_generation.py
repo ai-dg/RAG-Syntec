@@ -28,9 +28,15 @@ def test_sources_are_deduplicated_and_sorted(monkeypatch):
     )
 
     documents = [
-        (Document(page_content="...", metadata={"source": "syntec_annexe_iii.md"}), 0.2),
+        (
+            Document(page_content="...", metadata={"source": "syntec_annexe_iii.md"}),
+            0.2,
+        ),
         (Document(page_content="...", metadata={"source": "syntec_base.md"}), 0.3),
-        (Document(page_content="...", metadata={"source": "syntec_annexe_iii.md"}), 0.4),
+        (
+            Document(page_content="...", metadata={"source": "syntec_annexe_iii.md"}),
+            0.4,
+        ),
         (Document(page_content="...", metadata={"source": "syntec_avenant_4.md"}), 0.5),
     ]
 

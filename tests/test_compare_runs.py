@@ -129,7 +129,9 @@ def test_comparing_a_run_with_itself_changes_nothing(synthetic_gists):
 
 
 def test_a_wider_run_is_compared_at_the_same_k(synthetic_gists):
-    narrow = make_result([make_prediction(retrieved_chunk_ids=["c2", "c3", "c4"])], top_k=3)
+    narrow = make_result(
+        [make_prediction(retrieved_chunk_ids=["c2", "c3", "c4"])], top_k=3
+    )
     wide = make_result(
         [make_prediction(retrieved_chunk_ids=["c2", "c3", "c4", "c1"])], top_k=4
     )
@@ -147,7 +149,11 @@ def test_failures_are_classified_on_the_first_k_chunks_of_each_run(synthetic_gis
         [make_prediction(retrieved_chunk_ids=["c2", "c3", "c4"], answer=abstention)]
     )
     long = make_result(
-        [make_prediction(retrieved_chunk_ids=["c2", "c3", "c4", "c1"], answer=abstention)],
+        [
+            make_prediction(
+                retrieved_chunk_ids=["c2", "c3", "c4", "c1"], answer=abstention
+            )
+        ],
         top_k=4,
     )
 
@@ -180,7 +186,9 @@ def test_relabel_keeps_the_saved_label_for_an_unknown_question():
 
 
 def test_hit_rate_counts_a_question_once_even_with_several_relevant_chunks():
-    prediction = make_prediction(retrieved_chunk_ids=["c1", "c2", "c3"], relevant_chunk_ids=["c1", "c4"])
+    prediction = make_prediction(
+        retrieved_chunk_ids=["c1", "c2", "c3"], relevant_chunk_ids=["c1", "c4"]
+    )
 
     result = retrieval_at_k([prediction], k=3)
 

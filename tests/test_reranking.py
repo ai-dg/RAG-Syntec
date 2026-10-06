@@ -12,7 +12,9 @@ from app.services.reranking import rerank
 
 
 def doc(text, chunk_id, in_force=True):
-    return Document(page_content=text, metadata={"chunk_id": chunk_id, "in_force": in_force})
+    return Document(
+        page_content=text, metadata={"chunk_id": chunk_id, "in_force": in_force}
+    )
 
 
 def by_length(question, texts):
@@ -55,7 +57,9 @@ def test_rerank_does_not_modify_the_original_documents():
 
 
 def test_rerank_keeps_the_dense_order_between_equal_scores():
-    result = rerank("q", CANDIDATES, top_n=4, scorer=lambda q, texts: [1.0] * len(texts))
+    result = rerank(
+        "q", CANDIDATES, top_n=4, scorer=lambda q, texts: [1.0] * len(texts)
+    )
 
     assert ids(result) == ["c1", "c2", "c3", "c4"]
 
@@ -115,7 +119,8 @@ class FakeStore:
         kept = [
             (d, s)
             for d, s in self.results
-            if not filter or all(d.metadata.get(key) == value for key, value in filter.items())
+            if not filter
+            or all(d.metadata.get(key) == value for key, value in filter.items())
         ]
         return kept[:k]
 
@@ -189,10 +194,14 @@ def test_the_threshold_filters_candidates_before_they_are_reranked(
     assert seen["candidates"] == ["c0", "c1", "c2", "c3", "c4"]
 
 
-def test_best_score_stays_the_dense_distance_after_reranking(monkeypatch, enable_rerank):
+def test_best_score_stays_the_dense_distance_after_reranking(
+    monkeypatch, enable_rerank
+):
     use_store(monkeypatch, FakeStore(ranked_results()))
     monkeypatch.setattr(
-        retrieval, "rerank", lambda question, candidates, top_n: candidates[::-1][:top_n]
+        retrieval,
+        "rerank",
+        lambda question, candidates, top_n: candidates[::-1][:top_n],
     )
 
     result = retrieval.retrieve("q")

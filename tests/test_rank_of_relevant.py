@@ -6,7 +6,10 @@ from scripts.rank_of_relevant import (
 )
 
 LONG_TEXT = "Le préavis du salarié est de deux mois après deux ans d'ancienneté dans l'entreprise, sauf accord plus favorable."
-UNRELATED = "Les titres-restaurant sont maintenus en télétravail pour les salariés concernés. " * 2
+UNRELATED = (
+    "Les titres-restaurant sont maintenus en télétravail pour les salariés concernés. "
+    * 2
+)
 
 
 def test_rank_is_one_based_and_points_at_the_first_relevant_chunk():

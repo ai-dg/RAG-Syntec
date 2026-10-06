@@ -15,7 +15,13 @@ from pathlib import Path
 import numpy as np
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import average_precision_score, f1_score, precision_score, recall_score, roc_auc_score
+from sklearn.metrics import (
+    average_precision_score,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
 from sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -42,11 +48,16 @@ def load(split: str) -> tuple[np.ndarray, np.ndarray, list[dict]]:
 
 
 def logistic():
-    return make_pipeline(StandardScaler(), LogisticRegression(C=1.0, class_weight="balanced", max_iter=1000))
+    return make_pipeline(
+        StandardScaler(),
+        LogisticRegression(C=1.0, class_weight="balanced", max_iter=1000),
+    )
 
 
 def boosting():
-    return GradientBoostingClassifier(n_estimators=100, max_depth=2, learning_rate=0.1, random_state=SEED)
+    return GradientBoostingClassifier(
+        n_estimators=100, max_depth=2, learning_rate=0.1, random_state=SEED
+    )
 
 
 def decision_metrics(y: np.ndarray, answer: np.ndarray) -> dict:
@@ -57,12 +68,17 @@ def decision_metrics(y: np.ndarray, answer: np.ndarray) -> dict:
         "recall": recall_score(y, answer, zero_division=0),
         "f1": f1_score(y, answer, zero_division=0),
         "false_refusal": float(np.mean(answer[y == 1] == 0)) if (y == 1).any() else 0.0,
-        "false_acceptance": float(np.mean(answer[y == 0] == 1)) if (y == 0).any() else 0.0,
+        "false_acceptance": (
+            float(np.mean(answer[y == 0] == 1)) if (y == 0).any() else 0.0
+        ),
     }
 
 
 def ranking_metrics(y: np.ndarray, score: np.ndarray) -> dict:
-    return {"roc_auc": roc_auc_score(y, score), "pr_auc": average_precision_score(y, score)}
+    return {
+        "roc_auc": roc_auc_score(y, score),
+        "pr_auc": average_precision_score(y, score),
+    }
 
 
 def out_of_fold(make_model, X, y, repeats=10):
@@ -89,40 +105,80 @@ def main() -> None:
     threshold = get_settings().relevance_threshold
     X, y, _ = load("visible")
     best = X[:, FEATURE_NAMES.index("best_distance")]
-    print(f"visible split: {len(y)} rows, {int(y.sum())} to answer, {int(len(y) - y.sum())} to refuse")
+    print(
+        f"visible split: {len(y)} rows, {int(y.sum())} to answer, {int(len(y) - y.sum())} to refuse"
+    )
 
     print(f"\nbaseline, distance threshold {threshold}:")
-    print("  ", fmt(ranking_metrics(y, -best)), " ", fmt(decision_metrics(y, (best <= threshold).astype(int))))
+    print(
+        "  ",
+        fmt(ranking_metrics(y, -best)),
+        " ",
+        fmt(decision_metrics(y, (best <= threshold).astype(int))),
+    )
 
     oofs = {}
-    for name, make_model in (("logistic regression", logistic), ("gradient boosting", boosting)):
+    for name, make_model in (
+        ("logistic regression", logistic),
+        ("gradient boosting", boosting),
+    ):
         oof = out_of_fold(make_model, X, y)
         oofs[name] = oof
         auc = np.mean([roc_auc_score(y, o) for o in oof])
         pr = np.mean([average_precision_score(y, o) for o in oof])
-        print(f"\n{name}, 5-fold CV x10: roc_auc {auc:.3f} (sd {np.std([roc_auc_score(y, o) for o in oof]):.3f})  pr_auc {pr:.3f}")
+        print(
+            f"\n{name}, 5-fold CV x10: roc_auc {auc:.3f} (sd {np.std([roc_auc_score(y, o) for o in oof]):.3f})  pr_auc {pr:.3f}"
+        )
 
     oof_mean = oofs["logistic regression"].mean(axis=0)
     cut = operating_point(y, oof_mean)
-    print(f"\nlogistic regression operating point (out-of-fold, at most {MAX_FALSE_REFUSAL:.0%} answerable refused): {cut:.3f}")
-    print("   out-of-fold decisions:", fmt(decision_metrics(y, (oof_mean >= cut).astype(int))))
+    print(
+        f"\nlogistic regression operating point (out-of-fold, at most {MAX_FALSE_REFUSAL:.0%} answerable refused): {cut:.3f}"
+    )
+    print(
+        "   out-of-fold decisions:",
+        fmt(decision_metrics(y, (oof_mean >= cut).astype(int))),
+    )
 
     model = logistic().fit(X, y)
-    scaler, regression = model.named_steps["standardscaler"], model.named_steps["logisticregression"]
-    print("\nstandardised coefficients (visible split, positive = more likely to answer):")
-    for name, w in sorted(zip(FEATURE_NAMES, regression.coef_[0]), key=lambda t: -abs(t[1])):
+    scaler, regression = (
+        model.named_steps["standardscaler"],
+        model.named_steps["logisticregression"],
+    )
+    print(
+        "\nstandardised coefficients (visible split, positive = more likely to answer):"
+    )
+    for name, w in sorted(
+        zip(FEATURE_NAMES, regression.coef_[0]), key=lambda t: -abs(t[1])
+    ):
         print(f"   {name:24s} {w:+.3f}")
 
     Xh, yh, rows_h = load("held_out")
     best_h = Xh[:, FEATURE_NAMES.index("best_distance")]
     proba_h = model.predict_proba(Xh)[:, 1]
     print(f"\nheld-out split, read once: {len(yh)} rows, {int(yh.sum())} to answer")
-    print("   threshold :", fmt(ranking_metrics(yh, -best_h)), " ", fmt(decision_metrics(yh, (best_h <= threshold).astype(int))))
-    print("   classifier:", fmt(ranking_metrics(yh, proba_h)), " ", fmt(decision_metrics(yh, (proba_h >= cut).astype(int))))
+    print(
+        "   threshold :",
+        fmt(ranking_metrics(yh, -best_h)),
+        " ",
+        fmt(decision_metrics(yh, (best_h <= threshold).astype(int))),
+    )
+    print(
+        "   classifier:",
+        fmt(ranking_metrics(yh, proba_h)),
+        " ",
+        fmt(decision_metrics(yh, (proba_h >= cut).astype(int))),
+    )
 
     MODEL_PATH.parent.mkdir(exist_ok=True)
-    spec = to_spec(scaler.mean_, scaler.scale_, regression.coef_[0], regression.intercept_[0], cut,
-                   version="logreg-v1-visible55")
+    spec = to_spec(
+        scaler.mean_,
+        scaler.scale_,
+        regression.coef_[0],
+        regression.intercept_[0],
+        cut,
+        version="logreg-v1-visible55",
+    )
     MODEL_PATH.write_text(json.dumps(spec, indent=2))
     print(f"\nwrote {MODEL_PATH}")
 

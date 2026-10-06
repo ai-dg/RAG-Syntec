@@ -3,6 +3,7 @@ import jsonschema.exceptions
 import pytest
 import jsonschema
 
+
 def test_schema_itself_is_valid():
     schema = json.loads(open("eval/schema.json").read())
 
@@ -24,6 +25,7 @@ def test_valid_example_passes():
 
     jsonschema.validate(example, schema)
 
+
 def test_invalid_class_is_rejected():
     schema = json.loads(open("eval/schema.json").read())
 
@@ -39,4 +41,3 @@ def test_invalid_class_is_rejected():
 
     with pytest.raises(jsonschema.exceptions.ValidationError):
         jsonschema.validate(example, schema)
-

@@ -18,6 +18,7 @@ ANSWER:
 {answer}
 """
 
+
 def judge_faithfulness(
     question: str, answer: str, context: str, model: str = "llama3.2:3b"
 ) -> dict:

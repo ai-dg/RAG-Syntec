@@ -8,6 +8,7 @@ GOLDEN_PATH = Path("eval/golden.jsonl")
 HELD_OUT_PATH = Path("eval/golden_held_out.jsonl")
 SCHEMA_PATH = Path("eval/schema.json")
 
+
 def load_records():
     schema = json.loads(SCHEMA_PATH.read_text())
     records = []
@@ -28,8 +29,9 @@ def load_records():
             record = json.loads(line)
             jsonschema.validate(record, schema)
             records.append(record)
-    
+
     return records
+
 
 def test_every_record_is_schema_valid():
     records = load_records()
@@ -49,13 +51,11 @@ def test_no_duplicate_ids():
         assert counter[id] == 1
 
 
-
 def test_class_counts_meet_targets():
     records = load_records()
     counts = Counter(r["class"] for r in records)
 
-    assert counts['in_topic_answerable'] >= 25
-    assert counts['in_topic_unanswerable'] >= 10
-    assert counts['off_topic'] >= 10
-    assert counts['adversarial'] >= 10
-    
+    assert counts["in_topic_answerable"] >= 25
+    assert counts["in_topic_unanswerable"] >= 10
+    assert counts["off_topic"] >= 10
+    assert counts["adversarial"] >= 10

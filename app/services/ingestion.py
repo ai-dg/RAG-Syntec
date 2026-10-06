@@ -79,7 +79,9 @@ def article_sections(text: str) -> list[tuple[int, bool]]:
     """(start offset, in force) for each article; text before the first heading is in force."""
     sections = [(0, True)]
     for match in ARTICLE_HEADING.finditer(text):
-        sections.append((match.start(), SUPERSEDED_MARKER not in match.group(1).lower()))
+        sections.append(
+            (match.start(), SUPERSEDED_MARKER not in match.group(1).lower())
+        )
     return sections
 
 
@@ -116,7 +118,9 @@ def split_into_articles(text: str) -> list[tuple[int, str]]:
     return sections
 
 
-def article_chunks(document: Document, splitter: RecursiveCharacterTextSplitter) -> list[Document]:
+def article_chunks(
+    document: Document, splitter: RecursiveCharacterTextSplitter
+) -> list[Document]:
     """Chunks that never cross an article boundary; each chunk repeats its article heading
     so that a piece cut from the middle of a long article still names it. `start_index`
     points at the original text, not at the repeated heading."""
@@ -124,7 +128,7 @@ def article_chunks(document: Document, splitter: RecursiveCharacterTextSplitter)
     for section_start, section in split_into_articles(document.page_content):
         heading = section.split("\n", 1)[0] if section.startswith("## ") else ""
         body_start = section_start + len(heading)
-        for piece in splitter.create_documents([section[len(heading):]]):
+        for piece in splitter.create_documents([section[len(heading) :]]):
             text = f"{heading}\n{piece.page_content}" if heading else piece.page_content
             start = body_start + piece.metadata["start_index"]
             metadata = {
@@ -148,7 +152,11 @@ def chunk_text(documents, mode: str | None = None):
     )
 
     if mode == "article":
-        chunks = [chunk for document in documents for chunk in article_chunks(document, splitter)]
+        chunks = [
+            chunk
+            for document in documents
+            for chunk in article_chunks(document, splitter)
+        ]
     else:
         chunks = splitter.split_documents(documents)
 
@@ -170,7 +178,9 @@ def chunk_text(documents, mode: str | None = None):
         counters[source] = index + 1
 
         if "article" in chunk.metadata:
-            chunk.metadata["in_force"] = SUPERSEDED_MARKER not in chunk.metadata["article"].lower()
+            chunk.metadata["in_force"] = (
+                SUPERSEDED_MARKER not in chunk.metadata["article"].lower()
+            )
             continue
 
         start = chunk.metadata.get("start_index", -1)
@@ -307,7 +317,9 @@ def index_info(settings: Settings) -> dict:
         "chunking": settings.chunking,
         "chunk_size": settings.chunk_size,
         "chunk_overlap": settings.chunk_overlap,
-        "embedding_model": settings.embedding_model_local if local else settings.embedding_model,
+        "embedding_model": (
+            settings.embedding_model_local if local else settings.embedding_model
+        ),
     }
 
 
@@ -335,7 +347,9 @@ def create_vector_store(chunks):
         documents=chunks, embedding=embedding, persist_directory=settings.chroma_dir
     )
 
-    (Path(settings.chroma_dir) / INDEX_INFO).write_text(json.dumps(index_info(settings), indent=2))
+    (Path(settings.chroma_dir) / INDEX_INFO).write_text(
+        json.dumps(index_info(settings), indent=2)
+    )
 
     logger.info(
         "%d chunks stored in Chroma at %s",

@@ -33,20 +33,31 @@ def rank_of_equivalent(
 ) -> int | None:
     relevant_texts = [texts_by_id[r] for r in relevant_ids]
     for position, chunk_id in enumerate(ranked_ids, start=1):
-        if any(texts_equivalent(texts_by_id[chunk_id], text) for text in relevant_texts):
+        if any(
+            texts_equivalent(texts_by_id[chunk_id], text) for text in relevant_texts
+        ):
             return position
     return None
 
 
-def hit_rate_at_k(ranks: list[int | None], ks: tuple[int, ...] = HIT_KS) -> dict[int, float]:
+def hit_rate_at_k(
+    ranks: list[int | None], ks: tuple[int, ...] = HIT_KS
+) -> dict[int, float]:
     return {
-        k: sum(1 for r in ranks if r is not None and r <= k) / len(ranks) if ranks else 0.0
+        k: (
+            sum(1 for r in ranks if r is not None and r <= k) / len(ranks)
+            if ranks
+            else 0.0
+        )
         for k in ks
     }
 
 
 def split_across_chunks(
-    relevant_id: str, gist: str, texts_by_id: dict[str, str], min_gain: float = MIN_BOUNDARY_GAIN
+    relevant_id: str,
+    gist: str,
+    texts_by_id: dict[str, str],
+    min_gain: float = MIN_BOUNDARY_GAIN,
 ) -> bool:
     document, number = relevant_id.rsplit("#chunk_", 1)
     alone = gist_coverage(texts_by_id[relevant_id], gist)
@@ -66,11 +77,20 @@ def load_golden(split: str) -> dict[str, dict]:
 
 
 def main(argv=None) -> None:
-    parser = argparse.ArgumentParser(description="Rank of the relevant chunk without the distance threshold.")
-    parser.add_argument("result", type=Path, nargs="?", help="result JSON (default: newest in eval/results/)")
+    parser = argparse.ArgumentParser(
+        description="Rank of the relevant chunk without the distance threshold."
+    )
+    parser.add_argument(
+        "result",
+        type=Path,
+        nargs="?",
+        help="result JSON (default: newest in eval/results/)",
+    )
     args = parser.parse_args(argv)
 
-    path = args.result or max(RESULTS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime)
+    path = args.result or max(
+        RESULTS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime
+    )
     saved = json.loads(path.read_text())
     golden = load_golden(saved["metadata"]["split"])
 
@@ -79,7 +99,9 @@ def main(argv=None) -> None:
         persist_directory=settings.chroma_dir,
         embedding_function=get_embedding(settings),
     )
-    texts_by_id = {c.metadata["chunk_id"]: c.page_content for c in chunk_text(load_docs())}
+    texts_by_id = {
+        c.metadata["chunk_id"]: c.page_content for c in chunk_text(load_docs())
+    }
 
     rows = []
     for p in saved["predictions"]:
@@ -92,7 +114,9 @@ def main(argv=None) -> None:
         relevant = record["relevant_chunk_ids"]
         id_rank = rank_of_relevant(ranked_ids, relevant)
         text_rank = rank_of_equivalent(ranked_ids, relevant, texts_by_id)
-        right_rank = min((r for r in (id_rank, text_rank) if r is not None), default=None)
+        right_rank = min(
+            (r for r in (id_rank, text_rank) if r is not None), default=None
+        )
         rows.append(
             {
                 "id": p["id"],
@@ -103,12 +127,15 @@ def main(argv=None) -> None:
                 "right_distance": distances[right_rank - 1] if right_rank else None,
                 "failure": classify_failure(p, record["expected_answer_gist"]),
                 "boundary": any(
-                    split_across_chunks(r, record["expected_answer_gist"], texts_by_id) for r in relevant
+                    split_across_chunks(r, record["expected_answer_gist"], texts_by_id)
+                    for r in relevant
                 ),
             }
         )
 
-    print(f"result file: {path.name}; {len(rows)} answerable questions; ranking up to {K_MAX}, no threshold\n")
+    print(
+        f"result file: {path.name}; {len(rows)} answerable questions; ranking up to {K_MAX}, no threshold\n"
+    )
     print("hit rate = share of questions with at least one relevant chunk in the top k")
     for label, key in (("by id", "id_rank"), ("by text equivalence", "right_rank")):
         curve = hit_rate_at_k([r[key] for r in rows])
@@ -117,15 +144,23 @@ def main(argv=None) -> None:
     print("\nretrieval failures (taxonomy), rank of the right chunk:")
     for r in rows:
         if r["failure"] == "retrieval":
-            rd = f"{r['right_distance']:.3f}" if r["right_distance"] is not None else "n/a"
-            print(f"  {r['id']}: id rank {r['id_rank']}, text rank {r['text_rank']}, "
-                  f"best distance {r['best_distance']:.3f}, right-chunk distance {rd}, "
-                  f"split across chunks: {r['boundary']}")
+            rd = (
+                f"{r['right_distance']:.3f}"
+                if r["right_distance"] is not None
+                else "n/a"
+            )
+            print(
+                f"  {r['id']}: id rank {r['id_rank']}, text rank {r['text_rank']}, "
+                f"best distance {r['best_distance']:.3f}, right-chunk distance {rd}, "
+                f"split across chunks: {r['boundary']}"
+            )
 
     print("\nall answerable questions (id rank / text rank / best distance):")
     for r in rows:
-        print(f"  {r['id']}: {r['id_rank']} / {r['text_rank']} / {r['best_distance']:.3f}"
-              + ("  [boundary?]" if r["boundary"] else ""))
+        print(
+            f"  {r['id']}: {r['id_rank']} / {r['text_rank']} / {r['best_distance']:.3f}"
+            + ("  [boundary?]" if r["boundary"] else "")
+        )
 
 
 if __name__ == "__main__":

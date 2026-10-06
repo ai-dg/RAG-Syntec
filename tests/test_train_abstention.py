@@ -3,7 +3,12 @@ import pytest
 
 pytest.importorskip("sklearn")
 
-from scripts.train_abstention import decision_metrics, logistic, operating_point, out_of_fold
+from scripts.train_abstention import (
+    decision_metrics,
+    logistic,
+    operating_point,
+    out_of_fold,
+)
 
 
 def test_decision_metrics_treat_answering_as_the_positive_class():

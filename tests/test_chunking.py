@@ -4,7 +4,9 @@ from langchain_core.documents import Document
 from app.config import get_settings
 from app.services.ingestion import chunk_text, split_into_articles
 
-LONG_RULE = " ".join(f"Phrase numéro {i} de l'article sur le préavis." for i in range(12))
+LONG_RULE = " ".join(
+    f"Phrase numéro {i} de l'article sur le préavis." for i in range(12)
+)
 TEXT = (
     "# Convention\n\n> Identifiant Légifrance : `KALITEXT0001`\n\n"
     "## Article 1 (non en vigueur)\n\nAncienne règle : préavis de deux ans.\n\n"
@@ -30,8 +32,13 @@ def test_sections_start_at_headings_and_drop_heading_only_sections():
     sections = split_into_articles(TEXT)
     firsts = [s.split("\n", 1)[0] for _, s in sections]
 
-    assert firsts == ["# Convention", "## Article 1 (non en vigueur)", "## Article 2", "## Article 3"]
-    assert all(TEXT[start:start + len(s)] == s for start, s in sections)
+    assert firsts == [
+        "# Convention",
+        "## Article 1 (non en vigueur)",
+        "## Article 2",
+        "## Article 3",
+    ]
+    assert all(TEXT[start : start + len(s)] == s for start, s in sections)
 
 
 def test_no_chunk_crosses_an_article_boundary(article_mode):
@@ -64,7 +71,9 @@ def test_no_empty_chunks_and_ids_are_sequential(article_mode):
     chunks = chunks_of(TEXT)
 
     assert all(c.page_content.strip() for c in chunks)
-    assert [c.metadata["chunk_id"] for c in chunks] == [f"a.md#chunk_{i}" for i in range(len(chunks))]
+    assert [c.metadata["chunk_id"] for c in chunks] == [
+        f"a.md#chunk_{i}" for i in range(len(chunks))
+    ]
 
 
 def test_fixed_mode_is_still_the_default():

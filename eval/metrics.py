@@ -160,4 +160,3 @@ def faithfulness_proxy(answer: str, context: str, threshold: float = 0.6) -> flo
         return faithfulness
 
     return faithfulness
-

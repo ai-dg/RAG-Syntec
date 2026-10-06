@@ -20,8 +20,14 @@ def test_the_interface_builds():
 
 
 def test_a_refusal_is_shown_with_its_reason(monkeypatch):
-    body = {"context_found": False, "answer": "x", "refusal_reason": "below_relevance_threshold",
-            "citations": [], "guardrail_mode": "threshold", "best_distance": 1.2}
+    body = {
+        "context_found": False,
+        "answer": "x",
+        "refusal_reason": "below_relevance_threshold",
+        "citations": [],
+        "guardrail_mode": "threshold",
+        "best_distance": 1.2,
+    }
     monkeypatch.setattr(demo_app.httpx, "post", lambda *a, **k: response(body))
 
     answer, citations, inspector = demo_app.ask("q")
@@ -32,8 +38,19 @@ def test_a_refusal_is_shown_with_its_reason(monkeypatch):
 
 
 def test_an_answer_shows_its_citations(monkeypatch):
-    body = {"context_found": True, "answer": "Deux mois [1].", "refusal_reason": None,
-            "citations": [{"number": 1, "article": "Article 4.1", "source": "data/converted/a.md", "in_force": True}]}
+    body = {
+        "context_found": True,
+        "answer": "Deux mois [1].",
+        "refusal_reason": None,
+        "citations": [
+            {
+                "number": 1,
+                "article": "Article 4.1",
+                "source": "data/converted/a.md",
+                "in_force": True,
+            }
+        ],
+    }
     monkeypatch.setattr(demo_app.httpx, "post", lambda *a, **k: response(body))
 
     answer, citations, _ = demo_app.ask("q")

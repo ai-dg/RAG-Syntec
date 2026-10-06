@@ -56,5 +56,7 @@ def load_model(path: str) -> AbstentionModel | None:
     try:
         return AbstentionModel(json.loads(Path(path).read_text()))
     except (OSError, ValueError, KeyError) as exc:
-        logger.warning("abstention model unavailable (%s): falling back to the threshold", exc)
+        logger.warning(
+            "abstention model unavailable (%s): falling back to the threshold", exc
+        )
         return None

@@ -17,7 +17,9 @@ def span(chunk: Document) -> tuple[str, int, int]:
     return metadata["source"], metadata["start_index"], metadata["end_index"]
 
 
-def overlaps(a: tuple[str, int, int], b: tuple[str, int, int], min_share: float = MIN_OVERLAP) -> bool:
+def overlaps(
+    a: tuple[str, int, int], b: tuple[str, int, int], min_share: float = MIN_OVERLAP
+) -> bool:
     if a[0] != b[0]:
         return False
     shared = min(a[2], b[2]) - max(a[1], b[1])
@@ -37,7 +39,9 @@ def translate_ids(
     ]
 
 
-def labels_for_chunking(golden: dict[str, list[str]], mode: str) -> dict[str, list[str]]:
+def labels_for_chunking(
+    golden: dict[str, list[str]], mode: str
+) -> dict[str, list[str]]:
     """Golden labels expressed in the chunk ids of `mode` (identity for the fixed chunking)."""
     if mode == "fixed":
         return golden

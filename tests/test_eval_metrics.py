@@ -130,7 +130,10 @@ def test_faithfulness_proxy_threshold_is_inclusive():
 
 
 def test_judge_agreement_rate():
-    assert judge_agreement_rate([True, False, True, True], [True, False, False, True]) == 0.75
+    assert (
+        judge_agreement_rate([True, False, True, True], [True, False, False, True])
+        == 0.75
+    )
 
 
 def test_judge_agreement_rate_unparseable_verdict_counts_as_disagreement():

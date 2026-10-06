@@ -1,4 +1,3 @@
-
 import logging
 import threading
 import time
@@ -6,15 +5,14 @@ from typing import Callable
 
 from langchain_core.documents import Document
 
-
 logger = logging.getLogger(__name__)
 _model = None
 _lock = threading.Lock()
 RERANK_BATCH_SIZE = 4
 
 
+Scorer = Callable[[str, list[str]], list[float]]  # higher = more relevant
 
-Scorer = Callable[[str, list[str]], list[float]]   # higher = more relevant
 
 def load_reranker(model_name: str) -> None:
     global _model
@@ -28,15 +26,15 @@ def load_reranker(model_name: str) -> None:
 
     dtype = torch.float16 if torch.cuda.is_available() else torch.float32
     start = time.perf_counter()
-    _model = CrossEncoder(
-        model_name, 
-        device="cpu", 
-        model_kwargs={"torch_dtype": dtype}
-    )
-    
+    _model = CrossEncoder(model_name, device="cpu", model_kwargs={"torch_dtype": dtype})
+
     logger.info(
-        "reranker %s loaded in %.1f s (%s)", model_name, time.perf_counter() - start, dtype
+        "reranker %s loaded in %.1f s (%s)",
+        model_name,
+        time.perf_counter() - start,
+        dtype,
     )
+
 
 def _score_with_borrowed_gpu(question: str, texts: list[str]) -> list[float]:
     import torch
@@ -56,7 +54,7 @@ def _score_with_borrowed_gpu(question: str, texts: list[str]) -> list[float]:
             torch.cuda.empty_cache()
     return [float(s) for s in scores]
 
-    
+
 def rerank(
     question: str,
     candidates: list[tuple[Document, float]],
@@ -70,13 +68,20 @@ def rerank(
     start = time.perf_counter()
     scores = scorer(question, [doc.page_content for doc, _ in candidates])
     if len(scores) != len(candidates):
-        raise ValueError(f"scorer returned {len(scores)} scores for {len(candidates)} candidates")
+        raise ValueError(
+            f"scorer returned {len(scores)} scores for {len(candidates)} candidates"
+        )
 
     scored = []
     for (doc, distance), score in zip(candidates, scores):
-        copy = Document(page_content=doc.page_content, metadata={**doc.metadata, "rerank_score": score})
+        copy = Document(
+            page_content=doc.page_content,
+            metadata={**doc.metadata, "rerank_score": score},
+        )
         scored.append((copy, distance))
     scored.sort(key=lambda pair: pair[0].metadata["rerank_score"], reverse=True)
 
-    logger.info("reranked %d candidates in %.2f s", len(candidates), time.perf_counter() - start)
+    logger.info(
+        "reranked %d candidates in %.2f s", len(candidates), time.perf_counter() - start
+    )
     return scored[:top_n]

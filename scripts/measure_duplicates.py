@@ -59,7 +59,10 @@ def texts_equivalent(a: str, b: str) -> bool:
 
 
 def text_equivalent_recall(
-    retrieved_ids: list[str], relevant_ids: list[str], texts_by_id: dict[str, str], k: int
+    retrieved_ids: list[str],
+    relevant_ids: list[str],
+    texts_by_id: dict[str, str],
+    k: int,
 ) -> float:
     top = [texts_by_id[c] for c in retrieved_ids[:k]]
     found = sum(
@@ -71,11 +74,20 @@ def text_equivalent_recall(
 
 
 def main(argv=None) -> None:
-    parser = argparse.ArgumentParser(description="Measure chunk duplication and its effect on the top-k.")
-    parser.add_argument("result", type=Path, nargs="?", help="result JSON (default: newest in eval/results/)")
+    parser = argparse.ArgumentParser(
+        description="Measure chunk duplication and its effect on the top-k."
+    )
+    parser.add_argument(
+        "result",
+        type=Path,
+        nargs="?",
+        help="result JSON (default: newest in eval/results/)",
+    )
     args = parser.parse_args(argv)
 
-    path = args.result or max(RESULTS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime)
+    path = args.result or max(
+        RESULTS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime
+    )
     saved = json.loads(path.read_text())
     k = saved["metadata"]["top_k"]
 
@@ -84,32 +96,51 @@ def main(argv=None) -> None:
 
     stats = duplicate_stats(texts_by_id)
     print(f"index: {stats['n_chunks']} chunks")
-    print(f"  chunks whose exact text appears more than once: {stats['chunks_in_groups']} "
-          f"({stats['share_in_groups']:.1%}) in {stats['n_groups']} groups")
+    print(
+        f"  chunks whose exact text appears more than once: {stats['chunks_in_groups']} "
+        f"({stats['share_in_groups']:.1%}) in {stats['n_groups']} groups"
+    )
     print(f"  redundant copies (beyond one per group): {stats['redundant_copies']}")
-    print(f"  groups spanning more than one document: {stats['groups_spanning_documents']}")
+    print(
+        f"  groups spanning more than one document: {stats['groups_spanning_documents']}"
+    )
     print(f"  largest group: {stats['largest_group']} copies")
 
-    answerable = [p for p in saved["predictions"] if p["true_class"] == "in_topic_answerable"]
-    with_results = [p for p in saved["predictions"] if len(p["retrieved_chunk_ids"]) >= 2]
+    answerable = [
+        p for p in saved["predictions"] if p["true_class"] == "in_topic_answerable"
+    ]
+    with_results = [
+        p for p in saved["predictions"] if len(p["retrieved_chunk_ids"]) >= 2
+    ]
     with_duplicates = [
-        p for p in with_results
-        if distinct_texts(p["retrieved_chunk_ids"], texts_by_id) < len(p["retrieved_chunk_ids"])
+        p
+        for p in with_results
+        if distinct_texts(p["retrieved_chunk_ids"], texts_by_id)
+        < len(p["retrieved_chunk_ids"])
     ]
     print(f"\nresult file: {path.name} (k={k})")
-    print(f"questions with at least 2 retrieved chunks: {len(with_results)}; "
-          f"of those, top-{k} contained a repeated text: {len(with_duplicates)}")
+    print(
+        f"questions with at least 2 retrieved chunks: {len(with_results)}; "
+        f"of those, top-{k} contained a repeated text: {len(with_duplicates)}"
+    )
 
-    id_recall = [recall_at_k(p["retrieved_chunk_ids"], p["relevant_chunk_ids"], k) for p in answerable]
+    id_recall = [
+        recall_at_k(p["retrieved_chunk_ids"], p["relevant_chunk_ids"], k)
+        for p in answerable
+    ]
     text_recall = [
-        text_equivalent_recall(p["retrieved_chunk_ids"], p["relevant_chunk_ids"], texts_by_id, k)
+        text_equivalent_recall(
+            p["retrieved_chunk_ids"], p["relevant_chunk_ids"], texts_by_id, k
+        )
         for p in answerable
     ]
     print(f"\nanswerable questions: {len(answerable)}")
     print(f"  id-based recall@{k}:        {np.mean(id_recall):.3f}")
     print(f"  text-equivalent recall@{k}: {np.mean(text_recall):.3f}")
     flipped = [p["id"] for p, a, b in zip(answerable, id_recall, text_recall) if b > a]
-    print(f"  questions whose recall rises with text equivalence ({len(flipped)}): {flipped}")
+    print(
+        f"  questions whose recall rises with text equivalence ({len(flipped)}): {flipped}"
+    )
 
 
 if __name__ == "__main__":

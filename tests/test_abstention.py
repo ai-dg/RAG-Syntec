@@ -7,7 +7,12 @@ from langchain_core.documents import Document
 from app.config import get_settings
 from app.services import retrieval
 from app.services.abstention import AbstentionModel, load_model, to_spec
-from app.services.features import FEATURE_K, FEATURE_NAMES, extract_features, feature_vector
+from app.services.features import (
+    FEATURE_K,
+    FEATURE_NAMES,
+    extract_features,
+    feature_vector,
+)
 
 
 def test_features_come_from_distances_and_question_only():
@@ -84,14 +89,24 @@ def test_a_saved_model_loads_and_predicts(tmp_path):
 
     model = load_model(str(path))
 
-    assert model.should_answer(extract_features([0.3, 0.4], "q"))[1] == pytest.approx(0.5)
-    assert np.allclose(feature_vector(extract_features([0.3], "q")).shape, (len(FEATURE_NAMES),))
+    assert model.should_answer(extract_features([0.3, 0.4], "q"))[1] == pytest.approx(
+        0.5
+    )
+    assert np.allclose(
+        feature_vector(extract_features([0.3], "q")).shape, (len(FEATURE_NAMES),)
+    )
 
 
 class RecordingStore:
     def __init__(self, distances):
         self.results = [
-            (Document(page_content=f"t{i}", metadata={"chunk_id": f"c{i}", "in_force": True}), d)
+            (
+                Document(
+                    page_content=f"t{i}",
+                    metadata={"chunk_id": f"c{i}", "in_force": True},
+                ),
+                d,
+            )
             for i, d in enumerate(distances)
         ]
         self.requested_k = None
@@ -117,7 +132,9 @@ def classifier_mode(monkeypatch, tmp_path):
     load_model.cache_clear()
 
 
-def test_classifier_mode_reads_enough_distances_for_its_features(monkeypatch, classifier_mode):
+def test_classifier_mode_reads_enough_distances_for_its_features(
+    monkeypatch, classifier_mode
+):
     classifier_mode(threshold=0.5)
     store = RecordingStore([0.3 + 0.05 * i for i in range(12)])
     monkeypatch.setattr(retrieval, "_vector_store", store)
@@ -129,7 +146,9 @@ def test_classifier_mode_reads_enough_distances_for_its_features(monkeypatch, cl
     assert len(result["chunks"]) == 3
 
 
-def test_classifier_mode_can_answer_beyond_the_distance_threshold(monkeypatch, classifier_mode):
+def test_classifier_mode_can_answer_beyond_the_distance_threshold(
+    monkeypatch, classifier_mode
+):
     classifier_mode(threshold=0.0)
     monkeypatch.setattr(retrieval, "_vector_store", RecordingStore([0.95, 0.96, 0.97]))
 
@@ -140,7 +159,9 @@ def test_classifier_mode_can_answer_beyond_the_distance_threshold(monkeypatch, c
     assert 0.0 <= result["confidence"] <= 1.0
 
 
-def test_classifier_refusal_states_its_reason_and_confidence(monkeypatch, classifier_mode):
+def test_classifier_refusal_states_its_reason_and_confidence(
+    monkeypatch, classifier_mode
+):
     classifier_mode(threshold=1.0)
     monkeypatch.setattr(retrieval, "_vector_store", RecordingStore([0.2, 0.3]))
 

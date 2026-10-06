@@ -25,8 +25,8 @@ def html_to_markdown(html: str, kali_id: str):
 
         lines.extend([f"## {title}", "", content, ""])
 
-
     return "\n".join(lines)
+
 
 def convert_all(raw_dir: Path, dest_dir: Path):
     dest_dir.mkdir(parents=True, exist_ok=True)
