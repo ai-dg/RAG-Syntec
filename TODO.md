@@ -1358,7 +1358,7 @@ API orchestration. Today `app/` contains no modelling at all.*
 
 # Phase 15 — Tests, Docker and observability
 
-### [ ] T15.1 — Consolidate the test suite
+### [x] T15.1 — Consolidate the test suite
 
 - **Goal.** Make the suite fast, hermetic, and honest about what it does not cover.
 - **Concepts.** The test pyramid; hermetic tests; markers; coverage as a signal rather than a target.
@@ -1376,7 +1376,9 @@ API orchestration. Today `app/` contains no modelling at all.*
   - What is your coverage, and which uncovered part worries you most?
 - **Commit.** `test: consolidate and mark the test suite`
 
-### [x] T15.2 — Update Docker Compose
+### [ ] T15.2 — Update Docker Compose
+
+> **Partly done (2026-10-06).** Multi-stage Dockerfile (app and demo targets), app healthcheck on `/ready`, demo service; `docker compose config` validates. Not done: Qdrant (Phase 8 skipped) and the cold-start verification from a clean clone, which downloads several GB of images and models.
 
 - **Goal.** One command must bring the whole system up from a clean clone.
 - **Concepts.** Healthchecks and dependency ordering; volumes and persistence; Docker layer caching.
