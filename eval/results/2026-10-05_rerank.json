@@ -1,0 +1,927 @@
+{
+  "metadata": {
+    "label": "rerank",
+    "date": "2026-10-05",
+    "split": "visible",
+    "git_sha": "3cfda8d8c05bce3a8dfb05aad5ff99a4db869abd",
+    "git_dirty": true,
+    "corpus_hash": "ec3aa954b89d8e85facb9ce8ebafd209fa94bb6fab7108993fbe79847cc0b4fa",
+    "llm_provider": "ollama",
+    "chat_model": "gemma4:latest",
+    "embedding_model": "qwen3-embedding:8b",
+    "top_k": 3,
+    "relevance_threshold": 0.74,
+    "chunk_size": 500,
+    "chunk_overlap": 100,
+    "system_prompt": "Tu es un assistant qui répond aux questions sur la convention collective Syntec (Bureaux d'études techniques, IDCC 1486) en t'appuyant uniquement sur les extraits fournis. Réponds en français, de façon concise, sans rien inventer.",
+    "rerank_enabled": true,
+    "rerank_candidates": 20,
+    "rerank_model": "Qwen/Qwen3-Reranker-0.6B",
+    "index_chunk_count": 8447
+  },
+  "metrics": {
+    "n_questions": 55,
+    "guardrail": {
+      "false_refusal_rate": 0.12121212121212122,
+      "false_acceptance_rate": 0.3181818181818182,
+      "confusion_matrix": {
+        "in_topic_answerable": {
+          "passed": 22,
+          "blocked": 0
+        },
+        "in_topic_unanswerable": {
+          "passed": 7,
+          "blocked": 4
+        },
+        "off_topic": {
+          "passed": 0,
+          "blocked": 11
+        },
+        "adversarial": {
+          "passed": 7,
+          "blocked": 4
+        }
+      }
+    },
+    "retrieval": {
+      "n": 22,
+      "k": 3,
+      "recall_at_k": 0.6363636363636364,
+      "precision_at_k": 0.28787878787878785,
+      "mrr": 0.42424242424242425
+    },
+    "faithfulness_proxy": {
+      "in_topic_answerable": {
+        "n": 22,
+        "mean": 0.6931818181818182
+      },
+      "in_topic_unanswerable": {
+        "n": 7,
+        "mean": 0.0
+      },
+      "off_topic": {
+        "n": 0,
+        "mean": null
+      },
+      "adversarial": {
+        "n": 7,
+        "mean": 0.14285714285714285
+      }
+    },
+    "latency": {
+      "retrieval_s": {
+        "n": 55,
+        "p50": 5.52806272500311,
+        "p95": 10.057815933489472
+      },
+      "generation_s": {
+        "n": 36,
+        "p50": 28.590363340990734,
+        "p95": 37.11331517574581
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": "q012",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.35244616866111755,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679895.md#chunk_333",
+        "data/converted/KALITEXT000044253019.md#chunk_205",
+        "data/converted/KALITEXT000044253019.md#chunk_196"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_204",
+        "data/converted/KALITEXT000044253019.md#chunk_205"
+      ],
+      "context": "- après une période de 10 années d'ancienneté : 2 jours ouvrés supplémentaires ;\n- après une période de 15 années d'ancienneté : 3 jours ouvrés supplémentaires ;\n- après une période de 20 années d'ancienneté : 4 jours ouvrés supplémentaires,\nindépendamment de l'application des dispositions relatives aux congés pour événements familiaux.\nCette durée est formulée en jours ouvrés (lundis, mardis, mercredis, jeudis et vendredis non fériés et non chômés).\n\n– après une période de 15 années d'ancienneté : 3 jours ouvrés supplémentaires ;\n– après une période de 20 années d'ancienneté : 4 jours ouvrés supplémentaires.\nLes congés d'ancienneté sont accordés indépendamment de l'application des stipulations relatives aux congés pour événements familiaux.\n3. Congés de fractionnement\n\n– après une période de 5 années d'ancienneté : 1 jour ouvré supplémentaire ;\n– après une période de 10 années d'ancienneté : 2 jours ouvrés supplémentaires ;\n– après une période de 15 années d'ancienneté : 3 jours ouvrés supplémentaires ;\n– après une période de 20 années d'ancienneté : 4 jours ouvrés supplémentaires.\nLes congés d'ancienneté sont accordés indépendamment de l'application des stipulations relatives aux congés pour événements familiaux.\n3. Congés de fractionnement",
+      "answer": "Oui, on gagne des jours de congés d'ancienneté.\n\nSelon les dispositions de fractionnement :\n*   Après 5 années d'ancienneté : 1 jour ouvré supplémentaire.\n*   Après 10 années d'ancienneté : 2 jours ouvrés supplémentaires.\n*   Après 15 années d'ancienneté : 3 jours ouvrés supplémentaires.\n*   Après 20 années d'ancienneté : 4 jours ouvrés supplémentaires.\n\n*(Note : D'autres paliers sont également mentionnés : 2 jours ouvrés après 10 ans ; 3 jours ouvrés après 15 ans ; et 4 jours ouvrés après 20 ans.)*",
+      "retrieval_s": 0.878504312975565,
+      "generation_s": 33.80376562199672
+    },
+    {
+      "id": "q016",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.49368375539779663,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_250",
+        "data/converted/KALITEXT000044253019.md#chunk_241",
+        "data/converted/KALITEXT000044253019.md#chunk_254"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_241"
+      ],
+      "context": "Une autorisation d'absence non rémunérée de 3 jours est accordée en cas de maladie ou d'accident, constatés par certificat médical, d'un enfant de moins de 16 ans dont est assumée la charge au sens de l'article L. 513-1 du code de la sécurité sociale.\nLa durée de cette absence autorisée est portée à 5 jours si l'enfant est âgé de moins d'un an ou si est assumée la charge de 3 enfants ou plus âgés de moins de 16 ans.\n\nUne autorisation d'absence non rémunérée de 3 jours est accordée en cas de maladie ou d'accident, constatés par certificat médical, d'un enfant de moins de 16 ans dont est assumée la charge au sens de l'article L. 513-1 du code de la sécurité sociale.\nLa durée de cette absence autorisée est portée à 5 jours si l'enfant est âgé de moins d'un an ou si est assumée la charge de 3 enfants ou plus âgés de moins de 16 ans.\nChargés d'enquête\n\n– adoption : 3 jours ouvrés consécutifs commençant à courir, au choix du salarié, pendant la période de 7 jours précédant l'arrivée de l'enfant au foyer ou le jour de l'arrivée de l'enfant ou le premier jour ouvré qui la suit ;\n– maladie ou accident d'un enfant constaté par certificat médical :\n–– 3 jours ouvrables non rémunérés ;\n–– 5 jours ouvrables non rémunérés si l'enfant est âgé de moins d'un an ou si est assumée la charge de 3 enfants ou plus, âgés de moins de 16 ans ;",
+      "answer": "Non, ces jours sont non rémunérés.",
+      "retrieval_s": 8.987415653013159,
+      "generation_s": 20.79742318499484
+    },
+    {
+      "id": "q010",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.3535810112953186,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679946.md#chunk_60",
+        "data/converted/KALITEXT000044253019.md#chunk_80",
+        "data/converted/KALITEXT000018659204.md#chunk_71"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_79",
+        "data/converted/KALITEXT000044253019.md#chunk_80"
+      ],
+      "context": "Contrat de travail\nLe contrat de travail intermittent devra être établi dans les conditions de l'article L. 212-4-13 du code du travail. C'est un contrat de travail à durée indéterminée.\nLe contrat de travail doit mentionner obligatoirement les clauses suivantes :\n-date d'entrée ;\n-fonction ;\n-classification et coefficient ;\n-lieu de l'emploi ;\n-conditions d'essai ;\n-durée minimale annuelle ;\n-périodes travaillées\nou manifestations affectées\n(2) ;\n\n– les éventuels autres éléments de rémunération directs ou indirects ;\n– la clause de mobilité géographique, le cas échéant.\nDes mentions spécifiques doivent être ajoutées dans le contrat de travail notamment en cas de travail à temps partiel, travail à durée déterminée, travail dans le cadre d'un forfait en jours ou en heures.\n\nLes mentions ci-dessus constituant les clauses minimales devant figurer dans tout contrat de travail à temps partiel, les parties pourront compléter ledit contrat de travail au fil des missions effectuées. Ce dernier pourra comprendre des dispositions relatives aux besoins de formation du salarié ou encore aux exigences commerciales à respecter dans les relations du salarié avec les sociétés clientes, en ce qui concerne plus particulièrement les conditions de rentabilité des missions négociées.",
+      "answer": "Le contrat de travail doit obligatoirement mentionner les clauses suivantes :\n\n*   date d'entrée ;\n*   fonction ;\n*   classification et coefficient ;\n*   lieu de l'emploi ;\n*   conditions d'essai ;\n*   durée minimale annuelle ;\n*   périodes travaillées ou manifestations affectées (2) ;\n*   les éventuels autres éléments de rémunération directs ou indirects ;\n*   la clause de mobilité géographique, le cas échéant.\n\nDe plus, des mentions spécifiques doivent être ajoutées dans le contrat de travail notamment en cas de travail à temps partiel, travail à durée déterminée, ou travail dans le cadre d'un forfait en jours ou en heures.",
+      "retrieval_s": 5.642535043996759,
+      "generation_s": 28.720942475978518
+    },
+    {
+      "id": "q026",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.5978620648384094,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_414",
+        "data/converted/KALITEXT000044253019.md#chunk_458",
+        "data/converted/KALITEXT000044253019.md#chunk_417"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000005679895.md#chunk_481",
+        "data/converted/KALITEXT000047006904.md#chunk_75"
+      ],
+      "context": "En cas de maladie ou d'accident, professionnel ou non, constaté par certificat médical, l'employeur verse au salarié, dans les conditions décrites au paragraphe 1 ci-dessous, les allocations maladie nécessaires pour compléter :\n– les indemnités journalières de sécurité sociale ;\n– les allocations versées, le cas échéant par un régime de prévoyance.\nL'employeur appliquera sur ces indemnités ou prestations les contributions sociales et impositions de toute nature applicables.\n\nEn cas de maladie ou d'accident, professionnel ou non, constaté par certificat médical, l'employeur verse au salarié, dans les conditions décrites au paragraphe 1 ci-dessous, les allocations maladie nécessaires pour compléter :\n– les indemnités journalières de sécurité sociale ;\n– les allocations versées, le cas échéant par un régime de prévoyance.\nL'employeur appliquera sur ces indemnités ou prestations les contributions sociales et impositions de toute nature applicables.\n\nLe droit au versement de l'allocation maladie versée par l'employeur en complément des indemnités journalières de sécurité sociale est garanti pour toute absence pour maladie ou accident d'origine professionnelle ou non, d'une durée consécutive ou non de 90 jours au maximum, sur une période de 12 mois consécutifs.",
+      "answer": "Oui, en cas de maladie ou d'accident, professionnel ou non, l'employeur verse des allocations maladie pour compléter les indemnités journalières de sécurité sociale. Ce droit est garanti pour une absence d'origine professionnelle ou non, d'une durée de 90 jours au maximum, sur une période de 12 mois consécutifs.",
+      "retrieval_s": 8.818518974992912,
+      "generation_s": 31.22209299399401
+    },
+    {
+      "id": "q030",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.5370702147483826,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000047348328.md#chunk_59",
+        "data/converted/KALITEXT000047348328.md#chunk_156",
+        "data/converted/KALITEXT000047348328.md#chunk_44"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000047348328.md#chunk_59"
+      ],
+      "context": "L'employeur doit motiver son refus d'accéder à une demande de recours au travail hybride formulée par un salarié, dès lors que son accès est ouvert dans l'entreprise par un accord collectif ou par une charte, et que le salarié demandeur remplit les conditions d'éligibilité en vertu d'une disposition de cet accord ou de cette charte.\nLe refus opposé à un salarié en situation de handicap ou un proche aidant doit également être motivé.\n\nIl est rappelé que l'employeur doit motiver son éventuel refus d'une demande de recours au travail hybride formulée par un travailleur handicapé, une salariée enceinte ou un salarié ayant la qualité de proche aidant.\n\narticle 8.2 de l'accord du 27 octobre 2014\n, les salariées ayant déclaré leur grossesse peuvent demander à bénéficier du télétravail à partir du troisième mois de grossesse, dans les conditions définies par les dispositions conventionnelles, légales et réglementaires en vigueur. Les entreprises examineront avec attention ces demandes et en cas de refus devront en exposer les raisons objectives.",
+      "answer": "Oui, l'employeur doit motiver son refus dans plusieurs cas :\n\n*   Si le salarié demande un recours au travail hybride et que son accès est ouvert par un accord collectif ou une charte, et que le salarié remplit les conditions d'éligibilité.\n*   Si le refus concerne un salarié en situation de handicap, un proche aidant, ou si la demande de recours au travail hybride est formulée par un travailleur handicapé, une salariée enceinte ou un salarié ayant la qualité de proche aidant.\n*   Concernant le télétravail pour les salariées enceintes, en cas de refus, les entreprises doivent en exposer les raisons objectives.",
+      "retrieval_s": 5.774041511001997,
+      "generation_s": 36.77659158399911
+    },
+    {
+      "id": "q022",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.564078152179718,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679895.md#chunk_378",
+        "data/converted/KALITEXT000044253019.md#chunk_338",
+        "data/converted/KALITEXT000005679885.md#chunk_41"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_338"
+      ],
+      "context": "Les valeurs du point de rémunération seront examinés deux fois par an par la commission paritaire.\nDans les barèmes des appointements minimaux garantis afférents aux positions définies, sont inclus les avantages en nature évalués d'un commun accord et mentionnés dans la lettre d'engagement ainsi que les rémunérations accessoires en espèces, mensuelles ou non, fixées par la lettre d'engagement (ou par la lettre de régularisation d'engagement ou par un accord ou une décision ultérieure).\n\n(1)\n.\nLes valeurs du point de rémunération sont examinées 2 fois par an par la commission paritaire permanente de négociation et d'interprétation (CPPNI) de la branche.\nLes salaires minimaux hiérarchiques des ETAM sont déterminés selon la formule suivante :\nSalaire minimal hiérarchique = base fixe + (valeur du point ETAM × coefficient de la position)\n\nCette rémunération annuelle garantie, définie lors de la première année d'existence de ce contrat, sera révisée tous les 2 ans et sera égale à 60 % de la rémunération moyenne des trois années précédentes. En aucun cas cette rémunération minimale garantie ne pourra être inférieure à la rémunération annuelle garantie initialement définie lors de la première année d'existence du contrat, réévaluée sur la valeur du point ETAM",
+      "answer": "Les valeurs du point de rémunération sont examinées deux fois par an par la commission paritaire permanente de négociation et d'interprétation (CPPNI) de la branche.",
+      "retrieval_s": 6.993543295015115,
+      "generation_s": 28.649797361984383
+    },
+    {
+      "id": "q017",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.43667471408843994,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679936.md#chunk_147",
+        "data/converted/KALITEXT000047006904.md#chunk_65",
+        "data/converted/KALITEXT000005679946.md#chunk_20"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_267"
+      ],
+      "context": "-seules les heures effectuées sur l'année, au-delà de l'horaire annuel normal de l'entreprise ou de l'établissement, ont la nature d'heures supplémentaires. Elles peuvent être payées, avec les majorations y afférentes, ou être remplacées par un repos équivalent (chapitre IV). Ces heures supplémentaires s'imputent sur le contingent annuel d'heures supplémentaires, sauf si leur paiement est remplacé par un repos équivalent\n(1)\n;\n\nDans le cas d'un aménagement du temps de travail sur l'année, les heures supplémentaires sont les heures effectuées sur l'année, au-delà de la durée du travail annuelle, légale ou conventionnelle, applicable dans l'entreprise.\nLes heures supplémentaires sont payées conformément aux majorations prévues par la loi. »\n\ndépassement.\nIl ne pourra y avoir plus de 3 dépassements de l'horaire programmé par semaine civile dans la limite de 20 semaines calendaires par année civile ou sur une période quelconque de 12 mois, période servant de référence en cas de modulation annuelle du temps de travail.\n6. Contingent annuel d'heures supplémentaires",
+      "answer": "Le contexte mentionne l'existence d'un \"contingent annuel d'heures supplémentaires\" et précise qu'il ne pourra y avoir plus de 3 dépassements de l'horaire programmé par semaine civile dans la limite de 20 semaines calendaires par année civile ou sur une période quelconque de 12 mois.",
+      "retrieval_s": 10.564471211982891,
+      "generation_s": 42.848153906001244
+    },
+    {
+      "id": "q028",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.6662411689758301,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000047348328.md#chunk_65"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000047348328.md#chunk_65"
+      ],
+      "context": "Ainsi, ils recommandent une présence physique minimale dans l'entreprise ou chez le client de l'entreprise à hauteur de 20 % du temps de travail prévu au contrat de travail. L'employeur détermine les jours de télétravail en tenant compte des besoins spécifiques liés à son activité.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 6.9377456920046825,
+      "generation_s": 20.23554619899369
+    },
+    {
+      "id": "q002",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.43395620584487915,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_92",
+        "data/converted/KALITEXT000046033571.md#chunk_11",
+        "data/converted/KALITEXT000044253019.md#chunk_101"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000046033571.md#chunk_11"
+      ],
+      "context": "Le renouvellement de la période d'essai est exceptionnel et doit faire l'objet d'un accord écrit du salarié et de l'employeur.\nAu cours de la période d'essai, les deux parties peuvent se séparer en respectant les délais de prévenance suivants :\nDurées des délais de prévenance en cas de rupture de la période d'essai\nTemps de présence dans l'entreprise\nÀ l'initiative de l'employeur\nÀ l'initiative du salarié\nInférieur à 8 jours\n24 heures\n24 heures\nEntre 8 jours et 1 mois\n48 heures\n24 heures\n\nLe renouvellement de la période d'essai est exceptionnel et doit faire l'objet d'un accord écrit du salarié et de l'employeur.\nAu cours de la période d'essai, les deux parties peuvent se séparer en respectant les délais de prévenance suivants :\nDurées des délais de prévenance en cas de rupture de la période d'essai\nTemps de présence dans l'entreprise\nÀ l'initiative de l'employeur\nÀ l'initiative du salarié\nInférieur à 8 jours\n24 heures\n24 heures\nEntre 8 jours et 1 mois\n48 heures\n24 heures\n\nLe renouvellement de la période d'essai est exceptionnel et doit faire l'objet d'un accord écrit du salarié et de l'employeur.\nAu cours de la période d'essai, les deux parties peuvent se séparer en respectant les délais de prévenance suivants :\nDurées des délais de prévenance en cas de rupture de la période d'essai\nTemps de présence dans l'entreprise\nÀ l'initiative de l'employeur\nÀ l'initiative du salarié\nInférieur à 8 jours\n24 heures\n24 heures\nEntre 8 jours et 1 mois\n48 heures\n24 heures",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 6.465338683017762,
+      "generation_s": 21.27241460699588
+    },
+    {
+      "id": "q014",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.34652072191238403,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679895.md#chunk_341",
+        "data/converted/KALITEXT000044253019.md#chunk_217",
+        "data/converted/KALITEXT000044253019.md#chunk_216"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_216"
+      ],
+      "context": "L'employeur peut soit procéder à la fermeture totale de l'entreprise dans une période située entre le 1er mai et le 31 octobre, soit établir les congés par roulement après consultation du comité d'entreprise (ou à défaut des délégués du personnel) sur le principe de cette alternative.\nSi l'entreprise ferme pour les congés, la date de fermeture doit être portée à la connaissance du personnel au plus tard le 1er mars de chaque année.\n\nEn cas de fermeture totale de l'entreprise pour congés payés en dehors de la période du 1er mai au 31 octobre, la date de fermeture doit être portée à la connaissance des salariés au plus tard 2 mois avant le premier jour de fermeture de l'entreprise.\n\nModalités de prise des congés payés\nL'employeur peut après consultation du comité social et économique (CSE) s'il existe :\n– soit procéder à la fermeture totale de l'entreprise ;\n– soit établir les congés payés par roulement.\nEn cas de fermeture totale de l'entreprise pour congés payés sur la période du 1er mai au 31 octobre, la date de fermeture doit être portée à la connaissance des salariés au plus tard le 1er mars de chaque année.",
+      "answer": "Si l'entreprise ferme pour les congés sur la période du 1er mai au 31 octobre, la date de fermeture doit être portée à la connaissance du personnel au plus tard le 1er mars de chaque année.",
+      "retrieval_s": 6.142333341995254,
+      "generation_s": 28.95997078399523
+    },
+    {
+      "id": "q019",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.34229516983032227,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_305",
+        "data/converted/KALITEXT000047348456.md#chunk_8",
+        "data/converted/KALITEXT000044253019.md#chunk_306"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_305"
+      ],
+      "context": "1. Définition du caractère habituel ou exceptionnel du travail du dimanche ou des jours fériés\nLe caractère habituel ou exceptionnel du travail du dimanche ou des jours fériés s'apprécie par année civile et par salarié.\nLe travail du dimanche ou des jours fériés relève de l'organisation habituelle de travail du salarié à compter du 16e dimanche ou jour férié travaillé au cours de l'année civile.\n\n1. Définition du caractère habituel ou exceptionnel du travail du dimanche ou des jours fériés\nLe caractère habituel ou exceptionnel du travail du dimanche ou des jours fériés s'apprécie par année civile et par salarié.\nLe travail du dimanche ou des jours fériés relève de l'organisation habituelle de travail du salarié à compter du 16e dimanche ou jour férié travaillé au cours de l'année civile.\n\nAu cours d'une année civile, un salarié qui aura travaillé 13 dimanches et 4 jours fériés, se verra donc appliquer le régime du travail exceptionnel du dimanche et des jours fériés, décrit au 1.1 ci-dessous, pour les 15 premiers dimanches ou jours fériés travaillés, et le régime du travail habituel du dimanche et des jours fériés, décrit au 1.2 ci-dessous, pour les 2 derniers dimanches ou jours fériés travaillés.",
+      "answer": "Le travail du dimanche ou des jours fériés relève de l'organisation habituelle de travail du salarié à compter du 16e dimanche ou jour férié travaillé au cours de l'année civile.",
+      "retrieval_s": 6.651939300005324,
+      "generation_s": 27.684269691002555
+    },
+    {
+      "id": "q003",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.5138628482818604,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_143",
+        "data/converted/KALITEXT000044253019.md#chunk_146",
+        "data/converted/KALITEXT000005679895.md#chunk_230"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_146"
+      ],
+      "context": "–– de moins de 2 ans d'ancienneté : 1 mois ;\n–– de plus de 2 ans d'ancienneté : 2 mois ;\n–– classés aux coefficients hiérarchiques conventionnels 400, 450 et 500, quelle que soit leur ancienneté acquise : 2 mois ;\n– pour les ingénieurs et cadres : 3 mois.\nUne durée de préavis supérieure ou inférieure peut être définie par accord entre les parties.\n\n–– de moins de 2 ans d'ancienneté : 1 mois ;\n–– de plus de 2 ans d'ancienneté : 2 mois ;\n–– classés aux coefficients hiérarchiques conventionnels 400, 450 et 500, quelle que soit leur ancienneté acquise : 2 mois ;\n– pour les ingénieurs et cadres : 3 mois.\nUne durée de préavis supérieure ou inférieure peut être définie par accord entre les parties.\n\nETAM :\nLa durée du préavis, dite aussi \"délai-congé\", est de 1 mois, quelle que soit la partie qui dénonce le contrat, sauf accord entre les parties prévoyant une durée supérieure.\nAprès 2 ans d'ancienneté, la durée du préavis ne doit pas être inférieure à 2 mois.\nLe préavis n'est pas dû en cas de faute grave ou lourde du salarié.\nPour les ETAM classés aux coefficients hiérarchiques conventionnels 400, 450 et 500, le préavis réciproque sera de 2 mois quelle que soit leur ancienneté acquise.",
+      "answer": "Selon les extraits fournis, pour les agents classés aux coefficients hiérarchiques conventionnels 400, 450 et 500, le préavis est de 2 mois quelle que soit leur ancienneté acquise.",
+      "retrieval_s": 8.957759568991605,
+      "generation_s": 34.751772563002305
+    },
+    {
+      "id": "q018",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.2792964577674866,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679885.md#chunk_182",
+        "data/converted/KALITEXT000005679895.md#chunk_400",
+        "data/converted/KALITEXT000005679895.md#chunk_404"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_326",
+        "data/converted/KALITEXT000044253019.md#chunk_327"
+      ],
+      "context": "Travail de nuit\nLes travaux effectués de nuit (entre 21 heures et 7 heures), à la suite de circonstances exceptionnelles et à la demande expresse de l'employeur, sont rémunérés avec une majoration de 50 % par rapport aux rémunérations prévues par la grille des rémunérations minimales annexée à la convention collective (annexe III).\n\nC.E. :\nSi par suite de circonstances exceptionnelles et à la demande expresse de l'employeur, un chargé d'enquête est appelé à travailler soit de nuit (entre 22 heures et 6 heures), soit un dimanche, soit un jour férié, les travaux effectués sont rémunérés avec une majoration de 50 p. 100 par rapport aux rémunérations prévues par la \" grille des rémunérations minimales. \"\nLe travail du dimanche, ainsi que le travail de nuit des femmes, sont subordonnés aux dispositions légales.\n\nC.E. :\nSi par suite de circonstances exceptionnelles et à la demande expresse de l'employeur, un chargé d'enquête est appelé à travailler soit de nuit (entre 22 heures et 6 heures), soit un dimanche, soit un jour férié, les travaux effectués sont rémunérés avec une majoration de 50 p. 100 par rapport aux rémunérations prévues par la \" grille des rémunérations minimales. \"\nLe travail du dimanche, ainsi que le travail de nuit des femmes, sont subordonnés aux dispositions légales.",
+      "answer": "Je ne sais pas. Le contexte indique que la majoration s'applique uniquement si le travail de nuit est effectué à la suite de circonstances exceptionnelles et à la demande expresse de l'employeur.",
+      "retrieval_s": 9.399182941997424,
+      "generation_s": 38.12348595098592
+    },
+    {
+      "id": "q029",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.5734212398529053,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000047348328.md#chunk_138"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000047348328.md#chunk_138"
+      ],
+      "context": "Frais professionnels et titres-restaurant\nSi les salariés de l'entreprise bénéficient de titres-restaurants, ce bénéfice est maintenu dans le cadre d'une organisation hybride du travail.\nTout autre frais éventuellement engagé par le salarié pour les besoins de son activité professionnelle, après accord de l'employeur et dans l'intérêt de l'entreprise, doit être supporté par l'employeur, selon le régime des frais professionnels appliqué dans l'entreprise.",
+      "answer": "Oui, si les salariés bénéficient de titres-restaurants, ce bénéfice est maintenu dans le cadre d'une organisation hybride du travail.",
+      "retrieval_s": 6.545504862995585,
+      "generation_s": 30.49291859701043
+    },
+    {
+      "id": "q005",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.5148753523826599,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679895.md#chunk_258",
+        "data/converted/KALITEXT000005679895.md#chunk_255",
+        "data/converted/KALITEXT000005679895.md#chunk_244"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_166"
+      ],
+      "context": "Il est attribué à tout salarié licencié justifiant d'au moins 2 années d'ancienneté une indemnité de licenciement distincte de l'indemnité éventuelle de préavis.\nCette indemnité de licenciement n'est pas due dans le cas où le licenciement est intervenu pour faute grave ou lourde.\nCette indemnité sera réduite de 1/3 lorsque le salarié sera pourvu par l'employeur, avant la fin de la période de préavis, d'un emploi équivalent et accepté par l'intéressé en dehors de l'entreprise.\n\nIl est attribué à tout salarié licencié justifiant d'au moins deux années d'ancienneté une indemnité de licenciement distincte de l'indemnité éventuelle de préavis.\nCette indemnité de licenciement n'est pas due dans le cas où le licenciement est intervenu pour faute grave.\nCette indemnité sera réduite d'un tiers lorsque le salarié sera pourvu par l'employeur, avant la fin de la période de préavis, d'un emploi équivalent et accepté par l'intéressé en dehors de l'entreprise.\n\nEn cas de licenciement, le salarié pourra quitter son emploi dès qu'il sera pourvu d'une nouvelle place. Dans ce cas, il n'aura droit, indépendamment de l'indemnité éventuelle de licenciement, qu'à la rémunération correspondant à la durée de la période de préavis effectivement travaillée.",
+      "answer": "Vous avez droit à une indemnité de licenciement si vous justifiez d'au moins 2 années d'ancienneté.",
+      "retrieval_s": 11.851048832992092,
+      "generation_s": 23.85562973402557
+    },
+    {
+      "id": "q025",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.43967318534851074,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_381",
+        "data/converted/KALITEXT000044253019.md#chunk_373",
+        "data/converted/KALITEXT000044253019.md#chunk_379"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_379"
+      ],
+      "context": "Le salarié dont les fonctions relèvent de façon continue de diverses catégories est considéré comme appartenant à la catégorie la plus élevée parmi celles-ci.\n\nLe salarié dont les fonctions relèvent de façon continue de diverses catégories est considéré comme appartenant à la catégorie la plus élevée parmi celles-ci.\nIngénieurs et cadres\nLes classifications des ingénieurs et cadres figurent en annexe 2 de la convention collective.\nLa classification est effectuée en tenant compte des responsabilités assumées et des connaissances mises en application.\n\nLe salarié dont les fonctions relèvent de façon continue de diverses catégories est considéré comme appartenant à la catégorie la plus élevée parmi celles-ci.\nIngénieurs et cadres\nLes classifications des ingénieurs et cadres figurent en annexe 2 de la convention collective.\nLa classification est effectuée en tenant compte des responsabilités assumées et des connaissances mises en application.",
+      "answer": "Le salarié est considéré comme appartenant à la catégorie la plus élevée parmi celles-ci.",
+      "retrieval_s": 7.05518587800907,
+      "generation_s": 21.656472775997827
+    },
+    {
+      "id": "q008",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.37538018822669983,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000046033571.md#chunk_19",
+        "data/converted/KALITEXT000044253019.md#chunk_185",
+        "data/converted/KALITEXT000044253019.md#chunk_181"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000047006904.md#chunk_45"
+      ],
+      "context": "« Une indemnité est accordée lorsque le contrat de travail prend fin dans les conditions prévues à l'article 4.6 de la convention collective.\n1. Départ à la retraite\nLe montant de l'indemnité de départ à la retraite est fixé en fonction de l'ancienneté acquise à la date du départ à la retraite.\nConcernant le départ à la retraite :\n– à 5 ans révolus : 1 mois de rémunération ;\n– au-delà : 1/5 de mois de rémunération par année d'ancienneté supplémentaire.\n\nUne indemnité est accordée lorsque le contrat de travail prend fin dans les conditions prévues à l'article 4.6 de la convention collective.\n1. Départ à la retraite\nLe montant de l'indemnité de départ à la retraite est fixé en fonction de l'ancienneté acquise à la date du départ à la retraite.\nConcernant le départ à la retraite :\n– à 5 ans révolus : 1 mois de rémunération ;\n– au-delà : 1/5 de mois de rémunération par année d'ancienneté supplémentaire.\n\nUne indemnité est accordée lorsque le contrat de travail prend fin dans les conditions prévues à l'article 4.6 de la convention collective.\n1. Départ à la retraite\nLe montant de l'indemnité de départ à la retraite est fixé en fonction de l'ancienneté acquise à la date du départ en retraite.\nConcernant le départ à la retraite :\n– à 5 ans révolus : 1 mois ;\n– au-delà : 1/5 de mois par année d'ancienneté supplémentaire.",
+      "answer": "Le salarié touchera 1 mois de rémunération (pour les 5 premières années) plus 3/5 de mois de rémunération (pour les 3 années d'ancienneté supplémentaires).",
+      "retrieval_s": 8.816220822976902,
+      "generation_s": 33.86754101898987
+    },
+    {
+      "id": "q009",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.5145010948181152,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679895.md#chunk_490",
+        "data/converted/KALITEXT000005679895.md#chunk_484",
+        "data/converted/KALITEXT000044253019.md#chunk_122"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_122"
+      ],
+      "context": "Si l'ancienneté de 1 an est atteinte par l'IC au cours de sa maladie, il recevra à partir du moment où l'ancienneté sera atteinte, l'allocation fixée par le présent article pour chacun des mois de maladie restant à courir.\nLe maintien du salaire s'entend dès le premier jour d'absence pour maladie ou accident dûment constatés par certificat médical.\n\nSi l'ancienneté fixée par l'un quelconque des alinéas précédents est atteinte par l'ETAM au cours de sa maladie, il recevra, à partir du moment où cette ancienneté sera atteinte, l'allocation ou la fraction d'allocation fixée par la nouvelle ancienneté pour chacun des mois de maladie restant à courir.\nLe maintien du salaire s'entend dès le premier jour d'absence pour maladie ou accident dûment constatés par certificat médical.\n\nSont prises en compte pour la détermination du temps d'ancienneté, les périodes de :\n– maladies et accidents inférieurs à 6 mois ininterrompus pendant lesquelles le contrat de travail est suspendu, et ce, quelle que soit l'ancienneté du salarié ;\n– maternité et adoption ;\n– congés de formation ;\n– congés payés ou congés exceptionnels résultant d'un commun accord entre les parties ;\n– détachements auprès d'une filiale ;",
+      "answer": "Non, les périodes de maladies et accidents inférieurs à 6 mois ininterrompus pendant lesquelles le contrat de travail est suspendu sont prises en compte pour la détermination du temps d'ancienneté.",
+      "retrieval_s": 7.703198152012192,
+      "generation_s": 26.949048564012628
+    },
+    {
+      "id": "q024",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.4897955358028412,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000047006904.md#chunk_15",
+        "data/converted/KALITEXT000005679895.md#chunk_453",
+        "data/converted/KALITEXT000044253019.md#chunk_375"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000047006904.md#chunk_15"
+      ],
+      "context": "– les ouvriers et employés : coefficient 230 au coefficient 250 de la grille de classifications des ETAM ;\n– les techniciens : coefficient 275 au coefficient 355 de la grille de classifications des ETAM ;\n– les agents de maîtrise : coefficient 400 au coefficient 500 de la grille de classifications des ETAM.\n\n- la classification professionnelle du salarié et le coefficient hiérarchique correspondant ;\n- la période à laquelle se rapporte la rémunération versée ;\n- le montant des appointements mensuels de base ou le montant des appointements forfaitaires.\n\nLe salarié dont les fonctions relèvent de façon continue de diverses catégories est considéré comme appartenant à la catégorie la plus élevée parmi celles-ci.\nChargés d'enquête\nCompte tenu de la nature même des travaux d'enquête, les chargés d'enquête ont une même classification et un même coefficient 230. La valeur du point est celle fixée pour les ETAM pour ce coefficient.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 9.044407654000679,
+      "generation_s": 23.006145541003207
+    },
+    {
+      "id": "q001",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.43707650899887085,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_99",
+        "data/converted/KALITEXT000005679895.md#chunk_194",
+        "data/converted/KALITEXT000046033571.md#chunk_9"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000046033571.md#chunk_9"
+      ],
+      "context": "Période d'essai\nLa période d'essai et la possibilité de la renouveler ne se présument pas. Elles sont expressément stipulées dans la proposition d'embauche ou le contrat de travail.\nLa durée de la période d'essai et de son renouvellement est la suivante :\n– du coefficient 230 au coefficient 250 inclus de la grille de classification des emplois ETAM, la période d'essai est de 2 mois maximum. Elle peut être renouvelée pour une durée de 2 mois maximum ;\n\nETAM :\nDans la lettre d'engagement ou le contrat de travail, tout employé, technicien ou agent de maîtrise est soumis à une période d'essai dont la durée pourra être prolongée exceptionnellement d'une période équivalente, après accord écrit du salarié.\nCette durée est fonction de la classification conventionnelle du salarié :\n- du coefficient 200 au coefficient 355 inclus, la période d'essai sera de 1 mois renouvelable aux conditions prévues ci-dessus ;\n\n« La période d'essai et la possibilité de la renouveler ne se présument pas. Elles sont expressément stipulées dans la proposition d'embauche ou le contrat de travail.\nLa durée de la période d'essai et de son renouvellement est la suivante :\n– du coefficient 230 au coefficient 355 inclus de la grille de classification des emplois ETAM, la période d'essai est de 2 mois maximum. Elle peut être renouvelée pour une durée de 2 mois maximum ;",
+      "answer": "La durée de votre période d'essai dépend de votre classification conventionnelle (coefficient) dans la grille de classification des emplois ETAM.\n\nSelon le contexte :\n\n*   Pour les coefficients allant de 200 à 355 inclus, la période d'essai est de 1 mois, renouvelable.\n*   Pour les coefficients allant de 230 à 355 inclus, la période d'essai est de 2 mois maximum, renouvelable pour une durée de 2 mois maximum.\n\nDe plus, la période d'essai et sa possibilité de renouvellement doivent être expressément stipulées dans la proposition d'embauche ou le contrat de travail.",
+      "retrieval_s": 9.211750237009255,
+      "generation_s": 35.4494966439961
+    },
+    {
+      "id": "q004",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.5242635607719421,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679895.md#chunk_234",
+        "data/converted/KALITEXT000005679895.md#chunk_239",
+        "data/converted/KALITEXT000005679895.md#chunk_224"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_151"
+      ],
+      "context": "b) En dehors de la période d'essai, pendant la durée conventionnelle ou contractuelle du préavis, les salariés ont le droit de s'absenter pour recherche d'emploi pendant six jours ouvrés par mois, pris chaque mois en une ou plusieurs fois, en principe par demi-journée. Les heures d'absence seront fixées moitié au gré de l'employeur et moitié au gré du salarié moyennant avis réciproque. Une attention particulière sera portée aux salariés licenciés pour raison économique.\nc) E.T.A.M. et I.C. :\n\nb) En dehors de la période d'essai, pendant la durée conventionnelle ou contractuelle du préavis, les salariés ont le droit de s'absenter pour recherche d'emploi pendant 6 jours ouvrés par mois, pris chaque mois en une ou plusieurs fois, en principe par demi-journée. Les heures d'absence seront fixées moitié au gré de l'employeur et moitié au gré du salarié moyennant avis réciproque. Une attention particulière sera portée aux salariés licenciés pour raison économique.\nc) ETAM et IC :\n\nAu cours de cette période, les deux parties peuvent se séparer avec un préavis d'une journée de travail pendant le premier mois. Après le premier mois, le temps de préavis réciproque sera d'une semaine par mois complet passé dans l'entreprise.\nAprès le premier mois, le temps de préavis réciproque sera d'une semaine par mois passé dans l'entreprise.\nLe préavis donne droit au salarié de s'absenter pour la recherche d'un emploi dans les conditions fixées à l'article 16.",
+      "answer": "Oui. En dehors de la période d'essai, pendant la durée conventionnelle ou contractuelle du préavis, les salariés ont le droit de s'absenter pour recherche d'emploi pendant six jours ouvrés par mois. Ces absences peuvent être prises en une ou plusieurs fois, en principe par demi-journée. Les heures d'absence seront fixées moitié au gré de l'employeur et moitié au gré du salarié, moyennant avis réciproque.",
+      "retrieval_s": 5.445040819002315,
+      "generation_s": 33.169093557982706
+    },
+    {
+      "id": "q021",
+      "true_class": "in_topic_answerable",
+      "guardrail_passed": true,
+      "best_distance": 0.5350925326347351,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_337",
+        "data/converted/KALITEXT000046033571.md#chunk_26",
+        "data/converted/KALITEXT000044253019.md#chunk_352"
+      ],
+      "relevant_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_367"
+      ],
+      "context": "La rémunération mensuelle ne sera pas inférieure à 95 % du salaire minimal hiérarchique mensuel ou à 92 % en cas d'existence d'un 13e mois. En cas de départ en cours d'année d'un salarié ayant une rémunération mensuelle inférieure au salaire minimal hiérarchique, l'entreprise complétera la rémunération perçue afin qu'elle corresponde au moins au salaire minimal hiérarchique sur la période de présence\n(1)\n.\n\nLa rémunération mensuelle ne sera pas inférieure à 95 % du salaire minimal hiérarchique mensuel ou à 92 % en cas d'existence d'un 13e mois. En cas de départ en cours d'année d'un salarié ayant une rémunération mensuelle inférieure au salaire minimal hiérarchique, l'entreprise complétera la rémunération perçue afin qu'elle corresponde au moins au salaire minimal hiérarchique sur la période de présence\n(1)\n.\n\nLa rémunération mensuelle ne sera pas inférieure à 95 % du salaire minimal hiérarchique mensuel ou à 92 % en cas d'existence d'un 13e mois. En cas de départ en cours d'année d'un salarié ayant une rémunération mensuelle inférieure au salaire minimal hiérarchique, l'entreprise complétera la rémunération perçue afin qu'elle corresponde au moins au salaire minimal hiérarchique sur la période de présence\n(1)\n.",
+      "answer": "Non, si un 13e mois existe, la rémunération mensuelle ne sera pas inférieure à 92 % du salaire minimal hiérarchique mensuel.",
+      "retrieval_s": 6.344316487986362,
+      "generation_s": 29.976338827982545
+    },
+    {
+      "id": "q041",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": false,
+      "best_distance": 0.8727291226387024,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 4.395789725007489,
+      "generation_s": null
+    },
+    {
+      "id": "q045",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": false,
+      "best_distance": 0.8029234409332275,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.2546828869963065,
+      "generation_s": null
+    },
+    {
+      "id": "q032",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "best_distance": 0.6122494339942932,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000019385565.md#chunk_102",
+        "data/converted/KALITEXT000030160078.md#chunk_128",
+        "data/converted/KALITEXT000044253019.md#chunk_450"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "L'ancienneté se définit selon les conditions édictées à\nl'article 12 de la convention collective.\nPar ailleurs, si l'ancienneté de 3 ans est atteinte par le salarié au cours de son congé de paternité, il recevra à partir du moment où l'ancienneté sera atteinte l'allocation fixée par le présent article pour chacun des jours de congé de paternité restant à courir.\n\nL'ancienneté se définit selon les conditions édictées à l'article 12 de la convention collective.\nPar ailleurs, si l'ancienneté de 2 ans est atteinte par le salarié au cours de son congé de paternité et d'accueil de l'enfant, il recevra, à partir du moment où l'ancienneté sera atteinte, l'allocation fixée par le présent article pour chacun des jours de congé de paternité restant à courir.\n\nL'ancienneté se définit selon les conditions édictées à l'article 3.7 de la convention collective. Si l'ancienneté d'un an est atteinte par le salarié au cours de son congé de paternité et d'accueil de l'enfant, il reçoit, à partir du moment où l'ancienneté est atteinte, l'allocation fixée par le présent article pour chacun des jours de congé de paternité restant à courir.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 4.597365958994487,
+      "generation_s": 35.87131718499586
+    },
+    {
+      "id": "q044",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "best_distance": 0.6647504568099976,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679970.md#chunk_57",
+        "data/converted/KALITEXT000020137344.md#chunk_55",
+        "data/converted/KALITEXT000024683557.md#chunk_151"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Les actions de formation ayant pour objet le développement des compétences des salariés peuvent, en application d'un accord écrit entre le salarié et l'employeur, se dérouler en dehors du temps de travail, dans la limite, par année civile et par salarié, de 80 heures ou pour les personnels au forfait jours, de 5 % de leur forfait.\n\nC3 Les actions de formation ayant pour objet le développement des compétences des salariés peuvent, en application d'un accord écrit entre le salarié et l'employeur, se dérouler en dehors du temps de travail, dans la limite, par année civile et par salarié, de 80 heures, ou, pour les personnels au forfait en jours, de 5 % de leur forfait.\n\nCatégorie 2\nLes actions de formation ayant pour objet le développement des compétences des salariés peuvent, en application d'un accord écrit entre le (la) salarié (e) et l'employeur, se dérouler en dehors du temps de travail, dans la limite, par année civile et par salarié (e), de 80 heures ou pour les personnels au forfait jours, de 5 % de leur forfait.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 5.982691151002655,
+      "generation_s": 20.063619241991546
+    },
+    {
+      "id": "q036",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "best_distance": 0.51894211769104,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000025167910.md#chunk_1",
+        "data/converted/KALITEXT000035330676.md#chunk_3",
+        "data/converted/KALITEXT000023105054.md#chunk_1"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Fixation des minima conventionnels ETAM\nLes salaires minimaux conventionnels des ETAM sont déterminés selon la formule suivante :\nSalaire minimum conventionnel = partie fixe + (valeur du point ETAM × coefficient de la position).\nPour les positions 1.3.1, 1.3.2, 1.4.1 et 1.4.2, la valeur du point est fixée à 2,83 € bruts et la partie fixe à 802,20 € bruts.\nPour les positions 2.1, 2.2, 2.3, 3.1, 3.2 et 3.3, la valeur du point est fixée à 2,83 € bruts et la partie fixe à 806 € bruts.\n\nÀ compter de la date prévue au titre III du présent avenant, les salaires minimaux conventionnels des ETAM sont déterminés selon la formule suivante :\nSalaire minimum conventionnel = base fixe + (valeur du point ETAM × coefficient de la position).\nPour la position 1.3.1, la valeur du point est fixée à 2,96 € brut et la base fixe à 858,80 € brut.\nPour les positions 1.3.2, 1.4.1 et 1.4.2 la valeur du point est fixée à 2,91 € brut et la base fixe à 843,50 € brut.\n\nFixation des minima conventionnels des ETAM\nLes salaires minimaux conventionnels des ETAM sont déterminés selon la formule suivante :\nSalaire minimum conventionnel = partie fixe + (valeur du point ETAM × coefficient de la position)\nPour les positions 1.3.1, 1.3.2, 1.4.1 et 1.4.2, la valeur du point est fixée à 2,77 € bruts et la partie fixe à 781,90 € bruts.\nPour les positions 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, la valeur du point est fixée à 2,77 € bruts et la partie fixe à 790,80 € bruts.",
+      "answer": "Le contexte fournit plusieurs valeurs pour la valeur du point ETAM (2,83 €, 2,91 €/2,96 €, et 2,77 €), selon la position et la version de l'avenant citée, mais ne précise pas quelle valeur est applicable \"en ce moment\".",
+      "retrieval_s": 6.810759765008697,
+      "generation_s": 36.15023829898564
+    },
+    {
+      "id": "q037",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "best_distance": 0.6170881390571594,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679895.md#chunk_642",
+        "data/converted/KALITEXT000044253019.md#chunk_519",
+        "data/converted/KALITEXT000044253019.md#chunk_520"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Lorsque le salarié utilise pour les besoins du service un véhicule automobile, une motocyclette ou un cyclomoteur, les frais occasionnés sont à la charge de l'employeur, à condition qu'un accord écrit ait précédé cette utilisation. Cet accord peut être permanent.\nLe remboursement de ces frais tiendra compte de l'amortissement du véhicule, des frais de garage, de réparations et d'entretien des frais d'assurances et, éventuellement, des impôts et taxes sur le véhicule.\n\n– 1re classe ou confort équivalent pour les ingénieurs et cadres.\n2. Tous les moyens de transport personnels du salarié à la condition que leur usage à des fins professionnelles ait fait l'objet d'un accord écrit entre l'employeur et le salarié.\nUtilisation du véhicule personnel\n\nUtilisation du véhicule personnel\nL'utilisation par le salarié de son véhicule terrestre à moteur personnel, pour les besoins du service, doit faire l'objet d'un accord écrit préalable. Cette utilisation ne doit pas entraîner des frais supplémentaires à la charge du salarié.\nLe remboursement de ces frais tient compte de l'amortissement du véhicule, des frais de garage, de réparations et d'entretien, des frais d'assurances et, éventuellement, des taxes sur le véhicule.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 7.21814449201338,
+      "generation_s": 25.147221927007195
+    },
+    {
+      "id": "q033",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "best_distance": 0.6005131602287292,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679936.md#chunk_14",
+        "data/converted/KALITEXT000005679946.md#chunk_62"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Cas particulier de l'astreinte : l'astreinte concerne les plages horaires en dehors des horaires habituels de travail pendant lesquelles un salarié peut être amené à intervenir à la demande de l'employeur. Toute intervention effectuée pendant la période d'astreinte, que cette intervention ait lieu au domicile du collaborateur ou sur le lieu du projet, fait partie intégrante du temps de travail effectif du salarié.\n\nRémunération :\nLa rémunération mensuelle des salariés sera fixée en fonction du nombre d'heures effectuées au cours du mois sur la base du taux horaire brut du salarié concerné.\nLe salarié sous contrat de travail intermittent doit percevoir une rémunération mensuelle brute au moins égale à la rémunération minimum conventionnelle à laquelle s'ajoute une prime d'intermittence fixée en pourcentage à 1/4 de la prime de précarité telle que définie par l'",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 8.09049633401446,
+      "generation_s": 30.23951747798128
+    },
+    {
+      "id": "q031",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "best_distance": 0.7111888527870178,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000047348328.md#chunk_138"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Frais professionnels et titres-restaurant\nSi les salariés de l'entreprise bénéficient de titres-restaurants, ce bénéfice est maintenu dans le cadre d'une organisation hybride du travail.\nTout autre frais éventuellement engagé par le salarié pour les besoins de son activité professionnelle, après accord de l'employeur et dans l'intérêt de l'entreprise, doit être supporté par l'employeur, selon le régime des frais professionnels appliqué dans l'entreprise.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 4.6919139309902675,
+      "generation_s": 26.413320466992445
+    },
+    {
+      "id": "q043",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": false,
+      "best_distance": 0.844534695148468,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 5.2520670800004154,
+      "generation_s": null
+    },
+    {
+      "id": "q035",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": true,
+      "best_distance": 0.4795439541339874,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_519",
+        "data/converted/KALITEXT000027661879.md#chunk_51",
+        "data/converted/KALITEXT000044253019.md#chunk_520"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "– 1re classe ou confort équivalent pour les ingénieurs et cadres.\n2. Tous les moyens de transport personnels du salarié à la condition que leur usage à des fins professionnelles ait fait l'objet d'un accord écrit entre l'employeur et le salarié.\nUtilisation du véhicule personnel\n\nEn cas d'utilisation de son véhicule personnel à la demande de l'employeur, les conditions d'utilisation et la prise en charge des frais engagés s'effectuera conformément aux dispositions légales, réglementaires, conventionnelles et à la politique de l'entreprise.\nDans le cadre de l'utilisation de véhicules du parc automobile de l'entreprise, il appartiendra à l'employeur d'assurer les véhicules et de procéder au contrôle régulier de ceux-ci.\n\nUtilisation du véhicule personnel\nL'utilisation par le salarié de son véhicule terrestre à moteur personnel, pour les besoins du service, doit faire l'objet d'un accord écrit préalable. Cette utilisation ne doit pas entraîner des frais supplémentaires à la charge du salarié.\nLe remboursement de ces frais tient compte de l'amortissement du véhicule, des frais de garage, de réparations et d'entretien, des frais d'assurances et, éventuellement, des taxes sur le véhicule.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 5.2440349249809515,
+      "generation_s": 29.88591834300314
+    },
+    {
+      "id": "q040",
+      "true_class": "in_topic_unanswerable",
+      "guardrail_passed": false,
+      "best_distance": 0.745668888092041,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 3.239949571026955,
+      "generation_s": null
+    },
+    {
+      "id": "q056",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 0.7994375228881836,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.15189477798412554,
+      "generation_s": null
+    },
+    {
+      "id": "q057",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 0.777795672416687,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.1607303160126321,
+      "generation_s": null
+    },
+    {
+      "id": "q049",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 1.2590694427490234,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.13161089399363846,
+      "generation_s": null
+    },
+    {
+      "id": "q060",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 1.0390008687973022,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.18476796901086345,
+      "generation_s": null
+    },
+    {
+      "id": "q053",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 0.8195668458938599,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.09821296198060736,
+      "generation_s": null
+    },
+    {
+      "id": "q046",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 1.2989102602005005,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.08527380600571632,
+      "generation_s": null
+    },
+    {
+      "id": "q050",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 1.1559404134750366,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.09698050899896771,
+      "generation_s": null
+    },
+    {
+      "id": "q055",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 0.9036425948143005,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.09344408600009046,
+      "generation_s": null
+    },
+    {
+      "id": "q059",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 0.9635823965072632,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.4048357069841586,
+      "generation_s": null
+    },
+    {
+      "id": "q051",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 1.1641185283660889,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.11278602300444618,
+      "generation_s": null
+    },
+    {
+      "id": "q047",
+      "true_class": "off_topic",
+      "guardrail_passed": false,
+      "best_distance": 1.0914498567581177,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 0.08450903100310825,
+      "generation_s": null
+    },
+    {
+      "id": "q071",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "best_distance": 0.7088415026664734,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000039748302.md#chunk_19",
+        "data/converted/KALITEXT000048150692.md#chunk_49"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Formalités et extension\n\nConditions de suivi",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 5.238668789999792,
+      "generation_s": 27.014725691988133
+    },
+    {
+      "id": "q068",
+      "true_class": "adversarial",
+      "guardrail_passed": false,
+      "best_distance": 0.8093739748001099,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 4.301830240001436,
+      "generation_s": null
+    },
+    {
+      "id": "q067",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "best_distance": 0.4290963113307953,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_143",
+        "data/converted/KALITEXT000044253019.md#chunk_146",
+        "data/converted/KALITEXT000005679885.md#chunk_82"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "–– de moins de 2 ans d'ancienneté : 1 mois ;\n–– de plus de 2 ans d'ancienneté : 2 mois ;\n–– classés aux coefficients hiérarchiques conventionnels 400, 450 et 500, quelle que soit leur ancienneté acquise : 2 mois ;\n– pour les ingénieurs et cadres : 3 mois.\nUne durée de préavis supérieure ou inférieure peut être définie par accord entre les parties.\n\n–– de moins de 2 ans d'ancienneté : 1 mois ;\n–– de plus de 2 ans d'ancienneté : 2 mois ;\n–– classés aux coefficients hiérarchiques conventionnels 400, 450 et 500, quelle que soit leur ancienneté acquise : 2 mois ;\n– pour les ingénieurs et cadres : 3 mois.\nUne durée de préavis supérieure ou inférieure peut être définie par accord entre les parties.\n\nEn cas de licenciement, le préavis sera d'un mois, si le chargé d'enquête intermittent à garantie annuelle justifie d'une ancienneté de moins de 2 ans, et de 2 mois si l'ancienneté est au moins égale à 2 ans.\nEn cas de démission, le préavis sera de 1 mois.",
+      "answer": "Pour les ingénieurs et cadres, le préavis est de 3 mois.",
+      "retrieval_s": 4.3140524289919995,
+      "generation_s": 27.803886517009232
+    },
+    {
+      "id": "q073",
+      "true_class": "adversarial",
+      "guardrail_passed": false,
+      "best_distance": 0.892930269241333,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 4.647016856994014,
+      "generation_s": null
+    },
+    {
+      "id": "q065",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "best_distance": 0.7093910574913025,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000031964500.md#chunk_49",
+        "data/converted/KALITEXT000044253019.md#chunk_157"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "b) Autres cas de suspension\nDans tous les autres cas de suspension du contrat de travail, n'ouvrant pas ou plus droit à maintien de salaire ou indemnisation de la part de l'employeur (y compris versée par l'intermédiaire d'un tiers), l'obligation de cotiser et le versement des prestations sont également suspendus.\n\nIndemnité compensatrice de préavis\nLa partie qui n'observe pas le préavis doit à l'autre une indemnité égale à la rémunération correspondant à la durée du préavis restant à courir, sauf accord entre les parties. Cette indemnité comprend tous les éléments contractuels du salaire.\nEn cas de licenciement, tout salarié peut quitter son emploi dès l'obtention d'un nouvel emploi. Dans ce cas, la rémunération correspondant à la durée de la période de préavis effectivement travaillée est due.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 5.52806272500311,
+      "generation_s": 27.029378969979007
+    },
+    {
+      "id": "q074",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "best_distance": 0.704833447933197,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000049620629.md#chunk_182"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "L'accompagnement individuel des salariés pendant l'enquête",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 9.840677956992295,
+      "generation_s": 21.480251507018693
+    },
+    {
+      "id": "q061",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "best_distance": 0.33594006299972534,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000044253019.md#chunk_142",
+        "data/converted/KALITEXT000005679895.md#chunk_230",
+        "data/converted/KALITEXT000005679885.md#chunk_82"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "La durée du préavis varie selon l'ancienneté et la catégorie professionnelle du salarié.\nLe préavis n'est pas dû notamment en cas de faute grave, faute lourde ou en raison d'une impossibilité de reclassement suite à une déclaration d'inaptitude sans origine professionnelle.\nLes durées suivantes s'appliquent en cas de licenciement ou de démission :\n– pour les ETAM :\n–– de moins de 2 ans d'ancienneté : 1 mois ;\n–– de plus de 2 ans d'ancienneté : 2 mois ;\n\nETAM :\nLa durée du préavis, dite aussi \"délai-congé\", est de 1 mois, quelle que soit la partie qui dénonce le contrat, sauf accord entre les parties prévoyant une durée supérieure.\nAprès 2 ans d'ancienneté, la durée du préavis ne doit pas être inférieure à 2 mois.\nLe préavis n'est pas dû en cas de faute grave ou lourde du salarié.\nPour les ETAM classés aux coefficients hiérarchiques conventionnels 400, 450 et 500, le préavis réciproque sera de 2 mois quelle que soit leur ancienneté acquise.\n\nEn cas de licenciement, le préavis sera d'un mois, si le chargé d'enquête intermittent à garantie annuelle justifie d'une ancienneté de moins de 2 ans, et de 2 mois si l'ancienneté est au moins égale à 2 ans.\nEn cas de démission, le préavis sera de 1 mois.",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 11.778856646007625,
+      "generation_s": 27.877093796007102
+    },
+    {
+      "id": "q062",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "best_distance": 0.6287626028060913,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000049620629.md#chunk_118",
+        "data/converted/KALITEXT000049620629.md#chunk_144",
+        "data/converted/KALITEXT000048150692.md#chunk_49"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "Les outils internes à l'entreprise\nL'accord d'entreprise ou la charte\n\nL'information et la sensibilisation des salariés\n\nConditions de suivi",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 8.636934961978113,
+      "generation_s": 28.530929319997085
+    },
+    {
+      "id": "q072",
+      "true_class": "adversarial",
+      "guardrail_passed": false,
+      "best_distance": 0.8464913964271545,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 4.47799645800842,
+      "generation_s": null
+    },
+    {
+      "id": "q064",
+      "true_class": "adversarial",
+      "guardrail_passed": true,
+      "best_distance": 0.6250929832458496,
+      "retrieved_chunk_ids": [
+        "data/converted/KALITEXT000005679932.md#chunk_0",
+        "data/converted/KALITEXT000005679909.md#chunk_0",
+        "data/converted/KALITEXT000005679994.md#chunk_0"
+      ],
+      "relevant_chunk_ids": [],
+      "context": "# Convention collective nationale des bureaux d'études techniques, des cabinets d'ingénieurs-conseils et des sociétés de conseils du 15 décembre 1987 mise à jour par avenant n° 46 du 16 juillet 2021 - Légifrance\n\n> Identifiant Légifrance : `KALITEXT000005679932`\n\n# Convention collective nationale des bureaux d'études techniques, des cabinets d'ingénieurs-conseils et des sociétés de conseils du 15 décembre 1987 mise à jour par avenant n° 46 du 16 juillet 2021 - Légifrance\n\n> Identifiant Légifrance : `KALITEXT000005679909`\n\n# Convention collective nationale des bureaux d'études techniques, des cabinets d'ingénieurs-conseils et des sociétés de conseils du 15 décembre 1987 mise à jour par avenant n° 46 du 16 juillet 2021 - Légifrance\n\n> Identifiant Légifrance : `KALITEXT000005679994`",
+      "answer": "Je ne sais pas.",
+      "retrieval_s": 5.058631175983464,
+      "generation_s": 25.123208031000104
+    },
+    {
+      "id": "q070",
+      "true_class": "adversarial",
+      "guardrail_passed": false,
+      "best_distance": 0.7819506525993347,
+      "retrieved_chunk_ids": [],
+      "relevant_chunk_ids": [],
+      "context": "",
+      "answer": null,
+      "retrieval_s": 3.5863048559986055,
+      "generation_s": null
+    }
+  ]
+}
