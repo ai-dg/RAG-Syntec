@@ -194,3 +194,15 @@ def test_hit_rate_counts_a_question_once_even_with_several_relevant_chunks():
 
     assert result["recall"] == 0.5
     assert result["hit"] == 1.0
+
+
+def test_each_run_is_read_with_its_own_chunk_texts(synthetic_gists):
+    texts_a = {"c1": "Le préavis est de deux mois.", "c2": "x", "c3": "y"}
+    texts_b = {"c1": "Texte sans rapport.", "c2": "x", "c3": "y"}
+    run = make_result([make_prediction(retrieved_chunk_ids=["c1", "c2", "c3"])])
+
+    rows = rows_by_label(compare(run, run, texts_a, k=3, texts_b=texts_b))
+
+    a, b = rows["faithfulness proxy vs first 3 chunks (biased down)"]
+    assert a == 1.0
+    assert b == 0.0

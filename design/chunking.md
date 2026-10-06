@@ -82,3 +82,41 @@ changed.
   project's converter; another source format needs another splitter.
 - Translated labels are an approximation of what a person would label under the
   new chunking.
+
+## Result (measured, run `2026-10-06_article`)
+
+Compared with `versioning` (same filter, top 3), threshold recalibrated on the
+article index to 0.888 by the script's rule (fewest errors on the visible
+questions: 0 of 33 in-topic refused, 1 of 11 off-topic accepted).
+
+| measure | versioning | article | prediction |
+|---|---|---|---|
+| hit rate@3, answerable | 0.773 | 0.773 | refuted (no gain; +0.05 expected) |
+| recall@3 / MRR | 0.727 / 0.538 | 0.727 / 0.576 | |
+| q026, q018 | q018 found, q026 missed | same | refuted (nothing new) |
+| recalibrated threshold | 0.762 | 0.888 | held (moved by more than 0.02) |
+| false refusal / false acceptance | 0.121 / 0.318 | 0.000 / 0.500 | |
+| substantive answers: answerable, unanswerable, adversarial | 17, 1, 2 | 17, 2, 1 | |
+| generation p50 / p95 | 24.8 / 53.0 s | 22.0 / 33.8 s | |
+
+**Decision: keep fixed chunking as the default.** Splitting along articles did not
+put more relevant passages in the top 3; it removed the heading-only chunks and
+made the superseded flag exact, but those did not show up in the answers. Its
+recalibrated threshold is looser (0.888), which trades all 4 false refusals for
+10 of 11 adversarial questions and 1 off-topic question passing the distance
+check; the model still refused most of them (1 adversarial question was
+followed against 2 before). `CHUNKING=article` remains available.
+
+**What surprised me.** The heading repeated in every piece was expected to help
+retrieval; it moved MRR slightly (+0.038) but not the hit rate. With versioning
+already removing the superseded duplicates, the remaining retrieval misses (q001,
+q008, q022, q024, q026) are not boundary problems.
+
+**Measurement fix found on the way.** The first comparison showed the
+faithfulness proxy falling to 0.144: the comparison script rebuilt chunk texts
+with the fixed chunking for both runs, so article chunk ids pointed at the wrong
+text. Each run is now read with its own chunking (`eval/compare_runs.py`, test
+added); the corrected value is 0.674.
+
+**Latency.** This run had the machine to itself; `versioning` did not (see
+`design/versioning.md`), so the latency columns are not a fair comparison.

@@ -84,18 +84,23 @@ def truncate_prediction(prediction: dict, texts_by_id: dict[str, str], k: int) -
 
 
 def compare(
-    a: dict, b: dict, texts_by_id: dict[str, str], k: int
+    a: dict,
+    b: dict,
+    texts_by_id: dict[str, str],
+    k: int,
+    texts_b: dict[str, str] | None = None,
 ) -> list[tuple[str, object, object]]:
+    """`texts_by_id` maps chunk ids to text for run A; `texts_b` for run B when
+    the two runs use different chunkings (the same id names different text)."""
+    texts_a, texts_b = texts_by_id, texts_b or texts_by_id
     pa, pb = a["predictions"], b["predictions"]
     ra, rb = retrieval_at_k(pa, k), retrieval_at_k(pb, k)
-    fa, fb = faithfulness_at_k(pa, texts_by_id, k), faithfulness_at_k(
-        pb, texts_by_id, k
-    )
+    fa, fb = faithfulness_at_k(pa, texts_a, k), faithfulness_at_k(pb, texts_b, k)
     ffa, ffb = faithfulness_full_context(pa), faithfulness_full_context(pb)
     ga, gb = a["metrics"]["guardrail"], b["metrics"]["guardrail"]
     la, lb = a["metrics"]["latency"], b["metrics"]["latency"]
-    cut_a = [truncate_prediction(p, texts_by_id, k) for p in pa]
-    cut_b = [truncate_prediction(p, texts_by_id, k) for p in pb]
+    cut_a = [truncate_prediction(p, texts_a, k) for p in pa]
+    cut_b = [truncate_prediction(p, texts_b, k) for p in pb]
     sa = summarize(cut_a, load_gists(a["metadata"]["split"]))
     sb = summarize(cut_b, load_gists(b["metadata"]["split"]))
 
@@ -158,16 +163,24 @@ def main(argv=None) -> None:
             result["metadata"].get("chunking", "fixed"),
         )
         result["predictions"] = relabel(result, labels)["predictions"]
-    texts_by_id = {
-        c.metadata["chunk_id"]: c.page_content for c in chunk_text(load_docs())
-    }
+    documents = load_docs()
+    texts = {}
+    for result in (a, b):
+        mode = result["metadata"].get("chunking", "fixed")
+        if mode not in texts:
+            texts[mode] = {
+                c.metadata["chunk_id"]: c.page_content
+                for c in chunk_text(documents, mode=mode)
+            }
+    texts_a = texts[a["metadata"].get("chunking", "fixed")]
+    texts_b = texts[b["metadata"].get("chunking", "fixed")]
 
     print(
         f"A = {args.result_a.name} ({a['metadata']['label']})   B = {args.result_b.name} ({b['metadata']['label']})"
     )
     print(f"both cut at k = {args.k}; both scored against the current golden labels\n")
     print(f"{'metric':56s} {'A':>10s} {'B':>10s} {'B - A':>10s}")
-    for label, va, vb in compare(a, b, texts_by_id, args.k):
+    for label, va, vb in compare(a, b, texts_a, args.k, texts_b):
         delta = (
             format_value(vb - va)
             if isinstance(va, (int, float)) and isinstance(vb, (int, float))
