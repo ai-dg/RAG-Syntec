@@ -69,7 +69,7 @@ def test_retrieval_ignores_questions_that_are_not_answerable():
 
     result = retrieval_at_k([off_topic], k=3)
 
-    assert result == {"n": 0, "recall": None, "mrr": None}
+    assert result == {"n": 0, "recall": None, "hit": None, "mrr": None}
 
 
 def test_faithfulness_at_k_only_sees_the_first_k_chunks():
@@ -177,3 +177,12 @@ def test_relabel_keeps_the_saved_label_for_an_unknown_question():
     relabelled = compare_runs.relabel(saved, {"q1": ["c1"]})
 
     assert relabelled["predictions"][0]["relevant_chunk_ids"] == ["c9"]
+
+
+def test_hit_rate_counts_a_question_once_even_with_several_relevant_chunks():
+    prediction = make_prediction(retrieved_chunk_ids=["c1", "c2", "c3"], relevant_chunk_ids=["c1", "c4"])
+
+    result = retrieval_at_k([prediction], k=3)
+
+    assert result["recall"] == 0.5
+    assert result["hit"] == 1.0

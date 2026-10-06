@@ -12,6 +12,7 @@ sys.path.insert(0, str(ROOT))
 
 from app.services.ingestion import chunk_text, load_docs
 from eval.failures import load_gists, summarize
+from eval.labels import labels_for_chunking
 from eval.metrics import faithfulness_proxy, mrr, recall_at_k
 
 
@@ -40,10 +41,11 @@ def retrieval_at_k(predictions: list[dict], k: int) -> dict:
     retrieved = [p["retrieved_chunk_ids"][:k] for p in answerable]
     relevant = [p["relevant_chunk_ids"] for p in answerable]
     if not answerable:
-        return {"n": 0, "recall": None, "mrr": None}
+        return {"n": 0, "recall": None, "hit": None, "mrr": None}
     return {
         "n": len(answerable),
         "recall": float(np.mean([recall_at_k(r, rel, k) for r, rel in zip(retrieved, relevant)])),
+        "hit": float(np.mean([bool(set(r) & set(rel)) for r, rel in zip(retrieved, relevant)])),
         "mrr": float(mrr(retrieved, relevant)),
     }
 
@@ -90,6 +92,7 @@ def compare(a: dict, b: dict, texts_by_id: dict[str, str], k: int) -> list[tuple
     rows = [
         ("top_k setting", a["metadata"]["top_k"], b["metadata"]["top_k"]),
         (f"recall@{k} (answerable, n={ra['n']})", ra["recall"], rb["recall"]),
+        (f"hit rate@{k} (at least one relevant chunk)", ra["hit"], rb["hit"]),
         (f"MRR cut at {k}", ra["mrr"], rb["mrr"]),
         (f"faithfulness proxy vs first {k} chunks (biased down)", fa["mean"], fb["mean"]),
         ("faithfulness proxy vs full context (biased up)", ffa["mean"], ffb["mean"]),
@@ -122,8 +125,12 @@ def main(argv=None) -> None:
     args = parser.parse_args(argv)
 
     a, b = load_result(args.result_a), load_result(args.result_b)
-    a = relabel(a, load_golden_labels(a["metadata"]["split"]))
-    b = relabel(b, load_golden_labels(b["metadata"]["split"]))
+    for result in (a, b):
+        labels = labels_for_chunking(
+            load_golden_labels(result["metadata"]["split"]),
+            result["metadata"].get("chunking", "fixed"),
+        )
+        result["predictions"] = relabel(result, labels)["predictions"]
     texts_by_id = {c.metadata["chunk_id"]: c.page_content for c in chunk_text(load_docs())}
 
     print(f"A = {args.result_a.name} ({a['metadata']['label']})   B = {args.result_b.name} ({b['metadata']['label']})")

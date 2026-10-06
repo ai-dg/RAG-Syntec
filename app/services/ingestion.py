@@ -100,8 +100,45 @@ def in_force_share(sections: list[tuple[int, bool]], start: int, end: int) -> fl
     return covered / (end - start)
 
 
-def chunk_text(documents):
+MIN_SECTION_CHARS = 20
+
+
+def split_into_articles(text: str) -> list[tuple[int, str]]:
+    """(start offset, text) for each article section; a section starts at its heading."""
+    bounds = [0] + [m.start() for m in ARTICLE_HEADING.finditer(text)] + [len(text)]
+    sections = []
+    for start, end in zip(bounds, bounds[1:]):
+        section = text[start:end]
+        heading = section.split("\n", 1)[0] if section.startswith("## ") else ""
+        if len(section.strip()) - len(heading) >= MIN_SECTION_CHARS:
+            sections.append((start, section))
+    return sections
+
+
+def article_chunks(document: Document, splitter: RecursiveCharacterTextSplitter) -> list[Document]:
+    """Chunks that never cross an article boundary; each chunk repeats its article heading
+    so that a piece cut from the middle of a long article still names it. `start_index`
+    points at the original text, not at the repeated heading."""
+    chunks = []
+    for section_start, section in split_into_articles(document.page_content):
+        heading = section.split("\n", 1)[0] if section.startswith("## ") else ""
+        body_start = section_start + len(heading)
+        for piece in splitter.create_documents([section[len(heading):]]):
+            text = f"{heading}\n{piece.page_content}" if heading else piece.page_content
+            start = body_start + piece.metadata["start_index"]
+            metadata = {
+                **document.metadata,
+                "start_index": start,
+                "end_index": start + len(piece.page_content),
+                "article": heading[3:] if heading else "",
+            }
+            chunks.append(Document(page_content=text, metadata=metadata))
+    return chunks
+
+
+def chunk_text(documents, mode: str | None = None):
     settings = get_settings()
+    mode = mode or settings.chunking
 
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=settings.chunk_size,
@@ -109,7 +146,10 @@ def chunk_text(documents):
         add_start_index=True,
     )
 
-    chunks = splitter.split_documents(documents)
+    if mode == "article":
+        chunks = [chunk for document in documents for chunk in article_chunks(document, splitter)]
+    else:
+        chunks = splitter.split_documents(documents)
 
     if not chunks:
         raise ValueError("No chunk could be generated from the documents")
@@ -128,12 +168,17 @@ def chunk_text(documents):
         chunk.metadata["chunk_id"] = f"{source}#chunk_{index}"
         counters[source] = index + 1
 
+        if "article" in chunk.metadata:
+            chunk.metadata["in_force"] = SUPERSEDED_MARKER not in chunk.metadata["article"].lower()
+            continue
+
         start = chunk.metadata.get("start_index", -1)
+        chunk.metadata["end_index"] = start + len(chunk.page_content)
         sections = sections_by_part.get((source, chunk.metadata.get("page")))
         if sections is None or start < 0:
             chunk.metadata["in_force"] = True
             continue
-        share = in_force_share(sections, start, start + len(chunk.page_content))
+        share = in_force_share(sections, start, chunk.metadata["end_index"])
         chunk.metadata["in_force"] = share >= 0.5
 
     return chunks

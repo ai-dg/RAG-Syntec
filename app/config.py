@@ -37,6 +37,7 @@ class Settings(BaseSettings):
     rerank_candidates: int = 20
     rerank_model: str = "Qwen/Qwen3-Reranker-0.6B"
     include_superseded: bool = False
+    chunking: Literal["fixed", "article"] = "fixed"
 
     @model_validator(mode="after")
     def validate_provider_configuration(self) -> Self:

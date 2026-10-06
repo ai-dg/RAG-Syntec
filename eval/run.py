@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 from app.config import get_settings
 from app.services.generation import generate
 from app.services.ingestion import get_embedding
+from eval.labels import labels_for_chunking
 from app.services.reranking import load_reranker
 from app.services.retrieval import get_vector_store, retrieve, set_vector_store
 from eval.metrics import (
@@ -84,6 +85,8 @@ def collect_run_metadata(split: str, label: str) -> dict:
         "chat_model": settings.chat_model_local if local else settings.chat_model,
         "embedding_model": settings.embedding_model_local if local else settings.embedding_model,
         "top_k": settings.top_k,
+        "chunking": settings.chunking,
+        "include_superseded": settings.include_superseded,
         "relevance_threshold": settings.relevance_threshold,
         "chunk_size": settings.chunk_size,
         "chunk_overlap": settings.chunk_overlap,
@@ -237,6 +240,9 @@ def main(argv=None) -> None:
                     "replayed_from": args.from_predictions.name}
     else:
         questions = load_golden(args.held_out)
+        mode = get_settings().chunking
+        translated = labels_for_chunking({q["id"]: q["relevant_chunk_ids"] for q in questions}, mode)
+        questions = [{**q, "relevant_chunk_ids": translated[q["id"]]} for q in questions]
         if args.limit:
             questions = questions[: args.limit]
         index_chunk_count = prepare_index(args.reindex)
