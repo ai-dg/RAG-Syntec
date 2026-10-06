@@ -3357,6 +3357,7 @@ dev = [
     { name = "black" },
     { name = "jsonschema" },
     { name = "pytest" },
+    { name = "scikit-learn" },
 ]
 
 [package.metadata]
@@ -3387,6 +3388,7 @@ dev = [
     { name = "black", specifier = ">=26.5.1" },
     { name = "jsonschema", specifier = ">=4.26.0" },
     { name = "pytest", specifier = ">=9.1.1" },
+    { name = "scikit-learn", specifier = ">=1.9.1" },
 ]
 
 [[package]]

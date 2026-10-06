@@ -38,6 +38,8 @@ class Settings(BaseSettings):
     rerank_model: str = "Qwen/Qwen3-Reranker-0.6B"
     include_superseded: bool = False
     chunking: Literal["fixed", "article"] = "fixed"
+    guardrail_mode: Literal["threshold", "classifier"] = "threshold"
+    abstention_model_path: str = "models/abstention.json"
 
     @model_validator(mode="after")
     def validate_provider_configuration(self) -> Self:

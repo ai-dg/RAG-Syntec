@@ -25,6 +25,8 @@ def settings_env(monkeypatch, tmp_path):
     monkeypatch.setenv("RELEVANCE_THRESHOLD", "0.9")
     monkeypatch.setenv("RERANK_ENABLED", "false")
     monkeypatch.setenv("INCLUDE_SUPERSEDED", "false")
+    monkeypatch.setenv("CHUNKING", "fixed")
+    monkeypatch.setenv("GUARDRAIL_MODE", "threshold")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()

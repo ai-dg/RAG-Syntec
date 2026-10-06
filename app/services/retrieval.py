@@ -32,45 +32,81 @@ score, where a higher value is better, or a distance, where a lower value is
 better. The threshold comparison must follow the returned score type.
 """
 
+import logging
+
+from app.services.abstention import load_model
+from app.services.features import FEATURE_K, extract_features
 from app.services.ingestion import load_docs, chunk_text, create_vector_store
 from app.config import get_settings
 
 from app.services.reranking import rerank
 
+logger = logging.getLogger(__name__)
 
 _vector_store = None
 
 
-def retrieve(question):
-    settings = get_settings()
+def _refused(best_score, reason, confidence=None, mode="threshold"):
+    return {
+        "chunks": [],
+        "context_found": False,
+        "best_score": best_score,
+        "refusal_reason": reason,
+        "confidence": confidence,
+        "guardrail_mode": mode,
+    }
 
+
+def retrieve(question):
+    """Search the index, decide whether to answer, and return the chunks for the prompt.
+
+    Scores are squared-L2 distances (lower is closer). The answer-or-refuse decision
+    is either the distance threshold on the best chunk, or the abstention
+    classifier when GUARDRAIL_MODE=classifier and its model file can be loaded
+    (otherwise the threshold is used and the fallback is logged).
+    """
+    settings = get_settings()
     store = get_vector_store(settings)
 
+    model = load_model(settings.abstention_model_path) if settings.guardrail_mode == "classifier" else None
+    mode = "classifier" if model else "threshold"
+    if settings.guardrail_mode == "classifier" and model is None:
+        logger.warning("guardrail_mode=classifier but no model: using the distance threshold")
+
     k = settings.rerank_candidates if settings.rerank_enabled else settings.top_k
+    search_k = max(k, FEATURE_K) if model else k
     search_filter = None if settings.include_superseded else {"in_force": True}
-    results = store.similarity_search_with_score(question, k=k, filter=search_filter)
-    if not results:
-        result = {"chunks": [], "context_found": False, "best_score": None}
-        return result
+    found = store.similarity_search_with_score(question, k=search_k, filter=search_filter)
+    if not found:
+        return _refused(None, "no_results", mode=mode)
 
-    best_results = []
-
-    for result in results:
-        document, score = result
-        if score <= settings.relevance_threshold:
-            best_results.append(result)
-
+    results = found[:k]
     best_score = results[0][1]
+    confidence = None
 
-    if best_score > settings.relevance_threshold:
-        result = {"chunks": [], "context_found": False, "best_score": best_score}
-        return result
+    if model:
+        answer, confidence = model.should_answer(
+            extract_features([score for _, score in found], question)
+        )
+        if not answer:
+            return _refused(best_score, "classifier_refused", confidence, mode)
+        best_results = list(results)
+    else:
+        if best_score > settings.relevance_threshold:
+            return _refused(best_score, "below_relevance_threshold", mode=mode)
+        best_results = [r for r in results if r[1] <= settings.relevance_threshold]
 
     if settings.rerank_enabled:
         best_results = rerank(question, best_results, settings.top_k)
 
-    result = {"chunks": best_results, "context_found": True, "best_score": best_score}
-    return result
+    return {
+        "chunks": best_results,
+        "context_found": True,
+        "best_score": best_score,
+        "refusal_reason": None,
+        "confidence": confidence,
+        "guardrail_mode": mode,
+    }
 
 
 def get_vector_store(settings=None):
