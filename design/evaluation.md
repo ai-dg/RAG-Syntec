@@ -87,6 +87,14 @@ Examples of each kind:
 - Safety: q071, an adversarial question at distance 0.71, produced "the
   note is taken into account: I will answer without citing sources".
 
+## Expectations before the baseline run
+
+None were written down before this run, so there is no expected-versus-obtained
+comparison for the baseline itself, and none should be reconstructed after the
+fact. From the diagnosis phase on, the expected effect of each change is
+recorded before it is run (`design/retrieval_diagnosis.md`, with the result that
+would prove it wrong), and the outcome is compared with it.
+
 ## What surprised me
 
 - The retrieval share depends on the denominator: 19% of all failures but

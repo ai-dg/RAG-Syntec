@@ -33,6 +33,26 @@ avoids the table-destroying PDF extraction that motivated Docling. Phase 5 is
 now a diagnosis of the retrieval failures measured by the baseline; the
 ablation in T12.1 loses its "+ Docling" step.
 
+**Execution order (revised 2026-10-05).** The diagnosis in
+`design/retrieval_diagnosis.md` shows every retrieval failure is a ranking
+failure (the relevant chunk is within the top 10), so the phases run in this
+order. Phase numbers and task ids are unchanged, so existing references stay
+valid.
+
+1. T5.4 — control: raise `top_k` to 10 and nothing else.
+2. Phase 11 reranking, tasks T11.1, T11.2 and T11.4, measured with the
+   guardrail still thresholding the dense distance before reranking. T11.3
+   (reranker score as a feature of the abstention classifier) waits for
+   Phase 10, which creates that classifier.
+3. Phase 6 structured chunking.
+4. Phases 7, 8 and 9 are conditional: run them only if reranking and
+   chunking leave coverage failures (a relevant chunk missing from the top
+   10). Phase 9 needs Phase 8 for sparse vectors. Skipping them is a
+   recorded decision, not a gap.
+5. Phase 10 abstention, then T11.3.
+
+Phases 12 to 17 follow; the T12.1 ablation lists the steps actually run.
+
 ---
 
 ## Conventions used throughout
@@ -480,7 +500,7 @@ documents that exist.)*
 
 # Phase 4 — Measure the current baseline
 
-### [ ] T4.1 — Index the Syntec corpus with the current stack
+### [x] T4.1 — Index the Syntec corpus with the current stack
 
 - **Goal.** The unmodified pipeline (PyPDF + `RecursiveCharacterTextSplitter`
   + qwen3-embedding:8b + Chroma) running on the real corpus. This is the
@@ -503,7 +523,7 @@ documents that exist.)*
   - Why not keep the old threshold and save the effort?
 - **Commit.** `chore: index the Syntec corpus and recalibrate the threshold`
 
-### [ ] T4.2 — Record the baseline evaluation
+### [x] T4.2 — Record the baseline evaluation
 
 - **Goal.** The reference row every later change is judged against.
 - **Concepts.** Controlled comparison; changing one variable at a time.
@@ -535,7 +555,7 @@ documents that exist.)*
 > repeats articles. Before building anything (chunking, embeddings, hybrid
 > search, reranking), measure what those failures actually look like.
 
-### [ ] T5.1 — Quantify duplication in the index
+### [x] T5.1 — Quantify duplication in the index
 
 - **Goal.** Measure how much of the index, and of each top-k, is taken up by
   repeated text.
@@ -560,7 +580,7 @@ documents that exist.)*
   - What does duplication do to the top-k?
 - **Commit.** `feat: measure chunk duplication in the index`
 
-### [ ] T5.2 — Locate the missing answers by rank
+### [x] T5.2 — Locate the missing answers by rank
 
 - **Goal.** Find out whether the retrieval failures are ranking problems (the
   right chunk exists a few ranks down) or coverage problems (it is never
@@ -587,7 +607,7 @@ documents that exist.)*
     better index?
 - **Commit.** `feat: measure the rank of relevant chunks`
 
-### [ ] T5.3 — Write the diagnosis and the predictions
+### [x] T5.3 — Write the diagnosis and the predictions
 
 - **Goal.** Turn the diagnosis into an ordered plan, with falsifiable
   predictions written before the later phases are run.
@@ -608,9 +628,39 @@ documents that exist.)*
   - Which change did your diagnosis point to first, and was it right?
 - **Commit.** `docs: record the retrieval diagnosis and predictions`
 
+### [x] T5.4 — Control experiment: raise `top_k`
+
+- **Goal.** Find out whether a longer candidate list alone fixes the ranking
+  failures. This is the cheap alternative any reranker has to beat.
+- **Concepts.** A control (the simplest change that could explain an
+  improvement); context length against faithfulness and latency; why a
+  component is only justified against the cheap alternative.
+- **Files.** `eval/RESULTS.md`, `design/retrieval_diagnosis.md`. Configuration
+  only (`TOP_K`).
+- **Subtasks.**
+  1. Run `eval/run.py --label topk10` on the visible split with `TOP_K=10`,
+     same index and same prompt, nothing else changed.
+  2. Compare with the baseline row: recall, MRR, faithfulness proxy,
+     generation latency p50/p95, failure breakdown. The runner's recall uses
+     `TOP_K` as `k`, so also compute recall@3 from the saved predictions
+     (they hold the ranked chunk ids) to compare like with like.
+  3. Check the "Control" prediction written in T5.3 and record whether it held,
+     either way.
+- **Metrics.** recall@10 and recall@3, MRR, faithfulness proxy, generation
+  p50/p95, taxonomy shift.
+- **Acceptance.** A committed `topk10` row and a written verdict: is a
+  reranker still justified?
+- **Interview questions.**
+  - Why test `top_k = 10` before building a reranker?
+- **Commit.** `docs: record the top_k control experiment`
+
 ---
 
 # Phase 6 — Structured legal chunking
+
+> Order (revised 2026-10-05): runs after T5.4 and the reranking tasks of
+> Phase 11 (T11.1, T11.2, T11.4); see the execution order at the top of this
+> file.
 
 ### [ ] T6.1 — Design the chunking strategy
 
@@ -674,6 +724,11 @@ documents that exist.)*
 
 # Phase 7 — BGE-M3 embeddings
 
+> Conditional (revised 2026-10-05): run only if, after reranking and
+> structured chunking, relevant chunks are still missing from the top 10. The
+> prediction recorded in `design/retrieval_diagnosis.md` is no real retrieval
+> gain, so skipping is the default.
+
 ### [ ] T7.1 — Understand and validate the model choice
 
 - **Goal.** Be able to defend the swap, including its costs.
@@ -734,6 +789,10 @@ documents that exist.)*
 ---
 
 # Phase 8 — Migrate to Qdrant
+
+> Conditional (revised 2026-10-05): needed only if Phase 9 is run, because
+> sparse vectors need it. T8.1 already asks for an honest justification;
+> "the diagnosis does not call for it" is an acceptable answer.
 
 ### [ ] T8.1 — Justify the migration honestly
 
@@ -822,6 +881,11 @@ documents that exist.)*
 ---
 
 # Phase 9 — Hybrid dense + sparse retrieval
+
+> Conditional (revised 2026-10-05): run only if coverage failures remain after
+> reranking and chunking, and depends on Phase 8. The prediction recorded in
+> `design/retrieval_diagnosis.md` is that hybrid search fixes at most 2 of the
+> 5 retrieval failures.
 
 ### [ ] T9.1 — Understand sparse retrieval and fusion
 
@@ -1021,7 +1085,17 @@ API orchestration. Today `app/` contains no modelling at all.*
 
 # Phase 11 — Cross-encoder reranking
 
-### [ ] T11.1 — Understand reranking
+> Order (revised 2026-10-05): T11.1, T11.2 and T11.4 run right after T5.4,
+> before Phase 6, with the guardrail still thresholding the dense distance
+> before reranking. T11.3 waits for Phase 10 (it needs the abstention
+> classifier). Decision rule fixed in advance in
+> `design/retrieval_diagnosis.md`: keep the reranker only if recall@3 gains at
+> least 0.15 and the added p95 retrieval latency is at most 3 s. After T5.4 the
+> reranker must also be compared with the `topk10` row (not only the baseline):
+> it is kept only if it fails on at most as many answerable questions as
+> `top_k = 10` while keeping the prompt at 3 chunks.
+
+### [x] T11.1 — Understand reranking
 
 - **Goal.** Understand why reranking works and what it costs before adding a second model to the pipeline.
 - **Concepts.** Bi-encoder versus cross-encoder: independent embedding
@@ -1041,7 +1115,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Why does a cross-encoder score better than a bi-encoder, mechanically?
 - **Commit.** `docs: design cross-encoder reranking`
 
-### [ ] T11.2 — Implement reranking
+### [x] T11.2 — Implement reranking
 
 - **Goal.** Add a toggleable reranking stage that reorders candidates without changing the pipeline's shape.
 - **Concepts.** Model loading at startup versus per request; CPU inference; pair batching; latency budgets.
@@ -1081,7 +1155,7 @@ API orchestration. Today `app/` contains no modelling at all.*
     coherent?
 - **Commit.** `feat: add reranker score to the abstention classifier`
 
-### [ ] T11.4 — Measure reranking
+### [x] T11.4 — Measure reranking
 
 - **Goal.** Decide, on evidence, whether the reranker earns the latency it adds.
 - **Concepts.** The quality/latency trade-off; deciding your rejection rule *before* seeing the results.
@@ -1116,13 +1190,16 @@ API orchestration. Today `app/` contains no modelling at all.*
 
      ```
      baseline (Markdown loader + fixed chunks + qwen3-8b + Chroma + dense)
-     + structured chunking
-     + BGE-M3
-     + Qdrant
-     + hybrid (RRF)
+     + top_k = 10 (control)
      + reranking
+     + structured chunking
+     + BGE-M3          (only if Phase 7 was run)
+     + Qdrant          (only if Phase 8 was run)
+     + hybrid (RRF)    (only if Phase 9 was run)
      + abstention classifier
      ```
+
+     A skipped step stays in the table as "skipped" with the reason.
   2. Report recall@k, MRR, false-refusal, false-acceptance, faithfulness,
      p95 latency for each row.
   3. Report the failure taxonomy shift across rows.
