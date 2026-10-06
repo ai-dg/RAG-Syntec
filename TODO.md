@@ -1505,7 +1505,7 @@ both audiences.*
   - Which number in your README are you least confident about, and why?
 - **Commit.** `docs: rewrite the README as a case study`
 
-### [ ] T17.4 — Write the article
+### [x] T17.4 — Write the article
 
 - **Goal.** For freelance, a shareable write-up generates more inbound than
   the repository. For recruiters, it demonstrates communication — the skill
@@ -1524,7 +1524,7 @@ both audiences.*
   - Explain your project to someone non-technical in two sentences.
 - **Commit.** `docs: add the project write-up`
 
-### [ ] T17.5 — CV framing
+### [x] T17.5 — CV framing
 
 - **Goal.** Turn the measured results into CV lines a recruiter can scan in seconds.
 - **Concepts.** Quantified achievement bullets; differentiating inside a saturated project category.
@@ -1540,7 +1540,7 @@ both audiences.*
   - In one sentence, what makes this different from every other RAG project?
 - **Commit.** `docs: add CV framing notes`
 
-### [ ] T17.6 — Interview rehearsal
+### [x] T17.6 — Interview rehearsal
 
 - **Goal.** Find the questions you cannot yet answer, while there is still time to fix that.
 - **Concepts.** The Problem → Decision → Why → Result (measured) → Cost answer format; discovering gaps by writing answers down.
