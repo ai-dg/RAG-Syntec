@@ -11,8 +11,8 @@ from app.services import reranking, retrieval
 from app.services.reranking import rerank
 
 
-def doc(text, chunk_id):
-    return Document(page_content=text, metadata={"chunk_id": chunk_id})
+def doc(text, chunk_id, in_force=True):
+    return Document(page_content=text, metadata={"chunk_id": chunk_id, "in_force": in_force})
 
 
 def by_length(question, texts):
@@ -109,9 +109,15 @@ class FakeStore:
         self.results = results
         self.requested_k = None
 
-    def similarity_search_with_score(self, question, k):
+    def similarity_search_with_score(self, question, k, filter=None):
         self.requested_k = k
-        return self.results[:k]
+        self.requested_filter = filter
+        kept = [
+            (d, s)
+            for d, s in self.results
+            if not filter or all(d.metadata.get(key) == value for key, value in filter.items())
+        ]
+        return kept[:k]
 
 
 def ranked_results():

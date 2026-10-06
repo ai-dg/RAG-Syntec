@@ -46,10 +46,9 @@ def retrieve(question):
 
     store = get_vector_store(settings)
 
-    
-
     k = settings.rerank_candidates if settings.rerank_enabled else settings.top_k
-    results = store.similarity_search_with_score(question, k=k)
+    search_filter = None if settings.include_superseded else {"in_force": True}
+    results = store.similarity_search_with_score(question, k=k, filter=search_filter)
     if not results:
         result = {"chunks": [], "context_found": False, "best_score": None}
         return result
@@ -66,7 +65,6 @@ def retrieve(question):
     if best_score > settings.relevance_threshold:
         result = {"chunks": [], "context_found": False, "best_score": best_score}
         return result
-
 
     if settings.rerank_enabled:
         best_results = rerank(question, best_results, settings.top_k)

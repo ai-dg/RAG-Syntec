@@ -61,12 +61,43 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_ollama import OllamaEmbeddings
 from langchain_chroma import Chroma
 
+from bisect import bisect_right
 from pathlib import Path
 import logging
+import re
 
 from app.config import Settings, get_settings
 
 logger = logging.getLogger(__name__)
+
+ARTICLE_HEADING = re.compile(r"^## (.+)$", re.MULTILINE)
+SUPERSEDED_MARKER = "non en vigueur"
+
+
+def article_sections(text: str) -> list[tuple[int, bool]]:
+    """(start offset, in force) for each article; text before the first heading is in force."""
+    sections = [(0, True)]
+    for match in ARTICLE_HEADING.finditer(text):
+        sections.append((match.start(), SUPERSEDED_MARKER not in match.group(1).lower()))
+    return sections
+
+
+def in_force_share(sections: list[tuple[int, bool]], start: int, end: int) -> float:
+    """Share of the characters in [start, end) that belong to articles in force."""
+    if end <= start:
+        return 1.0
+    starts = [s for s, _ in sections]
+    index = max(bisect_right(starts, start) - 1, 0)
+    covered = 0
+    position = start
+    while position < end:
+        section_end = starts[index + 1] if index + 1 < len(sections) else end
+        segment_end = min(section_end, end)
+        if sections[index][1]:
+            covered += segment_end - position
+        position = segment_end
+        index += 1
+    return covered / (end - start)
 
 
 def chunk_text(documents):
@@ -75,6 +106,7 @@ def chunk_text(documents):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=settings.chunk_size,
         chunk_overlap=settings.chunk_overlap,
+        add_start_index=True,
     )
 
     chunks = splitter.split_documents(documents)
@@ -82,12 +114,27 @@ def chunk_text(documents):
     if not chunks:
         raise ValueError("No chunk could be generated from the documents")
 
+    sections_by_part = {
+        (document.metadata["source"], document.metadata.get("page")): article_sections(
+            document.page_content
+        )
+        for document in documents
+    }
+
     counters = {}
     for chunk in chunks:
         source = chunk.metadata["source"]
         index = counters.get(source, 0)
         chunk.metadata["chunk_id"] = f"{source}#chunk_{index}"
         counters[source] = index + 1
+
+        start = chunk.metadata.get("start_index", -1)
+        sections = sections_by_part.get((source, chunk.metadata.get("page")))
+        if sections is None or start < 0:
+            chunk.metadata["in_force"] = True
+            continue
+        share = in_force_share(sections, start, start + len(chunk.page_content))
+        chunk.metadata["in_force"] = share >= 0.5
 
     return chunks
 
