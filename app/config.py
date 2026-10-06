@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     chunking: Literal["fixed", "article"] = "fixed"
     guardrail_mode: Literal["threshold", "classifier"] = "threshold"
     abstention_model_path: str = "models/abstention.json"
-    cite_sources: bool = False
+    cite_sources: bool = True
     reindex_on_startup: bool = False
     input_guard: bool = True
     output_guard: bool = True
