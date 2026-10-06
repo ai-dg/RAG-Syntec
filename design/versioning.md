@@ -110,3 +110,33 @@ runs scored with the corrected golden labels.
 | false-refusal rate | rises by at most 0.06 (two questions): the nearest in-force chunk can be farther than the nearest chunk overall | rises by more than 0.06 |
 | false-acceptance rate | unchanged or lower | higher |
 | retrieval latency | unchanged within noise (a metadata filter) | p50 up by more than 1 s |
+
+## Result (measured, run `2026-10-06_versioning`)
+
+Both runs scored with the corrected golden labels and cut at 3 chunks
+(`eval/compare_runs.py`).
+
+| measure | baseline | versioning | prediction |
+|---|---|---|---|
+| recall@3, answerable | 0.455 | 0.727 | held (+0.273, at least +0.10 expected) |
+| hit rate@3 | 0.500 | 0.773 | |
+| MRR cut at 3 | 0.356 | 0.538 | |
+| answerable questions failing the answer check | 10 | 8 | held (2 fewer) |
+| false refusal / false acceptance | 0.121 / 0.318 | 0.121 / 0.318 | held (unchanged) |
+| retrieval p50 | 2.6 s | 3.4 s | held (+0.7 s, at most +1 s) |
+| generation p50 / p95 | 22.9 / 34.7 s | 24.8 / 53.0 s | not predicted |
+
+Filtering superseded text is the largest retrieval gain measured in this project,
+larger than reranking (+0.136 recall@3 with 2.9 s added), with no model and no
+added latency by design. Questions that stopped failing: q009, q012, q018; one new
+failure, q004.
+
+**Latency is not reliable for this run.** Tests and the code formatter ran on the
+same machine during it; the generation p95 of 53 s comes from that contention, not
+from the filter, which only adds a metadata condition to the search. A clean
+latency comparison needs a run on an otherwise idle machine.
+
+**Threshold.** On this index, `scripts/calibrate_threshold.py` recommends 0.762
+(3 of 33 in-topic questions refused, 0 of 11 off-topic accepted) against 4 of 33
+at 0.74. The threshold was kept at 0.74 for this run so that only the filter
+changed.
