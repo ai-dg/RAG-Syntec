@@ -35,6 +35,7 @@ tools/
 # Note: the directory itself must not be excluded, or the negation below
 # would never be evaluated.
 models/*
+!models/abstention.json
 !models/manifest.json
 
 # Model caches (Docling, sentence-transformers, HuggingFace)

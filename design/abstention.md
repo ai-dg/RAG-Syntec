@@ -56,3 +56,46 @@ in it.
 - Refuted if the classifier's ROC-AUC exceeds the threshold's by more than 0.10.
 - On 20 held-out questions no difference will be distinguishable from noise (one
   question is 0.05 of a rate).
+
+## Result (measured, `scripts/train_abstention.py`, features from the versioning index)
+
+Label: answer only `in_topic_answerable`. Visible split: 55 questions (22 to
+answer). Held-out split: 20 (8 to answer), read once after the operating point
+was fixed.
+
+| | ROC-AUC | PR-AUC | false refusal | false acceptance |
+|---|---|---|---|---|
+| distance threshold 0.74, visible | 0.898 | 0.789 | 0.00 (0/22) | 0.42 (14/33) |
+| logistic regression, 5-fold CV x10, out-of-fold | 0.862 (sd 0.017) | 0.784 | 0.09 (2/22) | 0.18 (6/33) |
+| gradient boosting, 5-fold CV x10 | 0.864 (sd 0.026) | 0.705 | | |
+| distance threshold, held-out | 0.969 | 0.966 | 0.00 (0/8) | 0.42 (5/12) |
+| logistic regression, held-out | 0.979 | 0.975 | 0.00 (0/8) | 0.33 (4/12) |
+
+Operating point: probability 0.415, the highest cut that refuses at most 10% of
+answerable questions out of fold.
+
+**Prediction checked:** "ROC-AUC within 0.05 of the threshold's" held
+(-0.036). The classifier does not rank questions better than the best distance
+alone. Gradient boosting does no better than the linear model.
+
+**What the classifier does buy:** at its operating point it refuses 8 more of the
+33 questions that should be refused, at the cost of 2 of 22 answerable ones
+(cross-validated). On the held-out split the difference is one question, which
+is within noise for 20 examples.
+
+**Coefficients (standardised; negative = more likely to refuse).** The mean
+distance of the top 5 (-1.22) and the best distance (-1.12) dominate, as
+expected. Question length is next (-0.68): longer questions are refused more
+often; in this golden set, adversarial questions are the long ones, so this is
+a property of the set, not a reliable signal. Dispersion features carry little
+weight.
+
+**Decision:** `GUARDRAIL_MODE=threshold` stays the default. The classifier is
+available behind the switch, with a measured trade-off: fewer wrong
+acceptances, a few more wrong refusals. Its end-to-end effect after generation
+was not measured (each run takes about 25 minutes of GPU), so these figures are
+decision-level, before the model writes anything.
+
+**Cost.** 55 training examples; the question-length feature may learn the style
+of this golden set; the held-out split was used once here, so it can no longer
+give an unbiased number for any decision that follows from this table.
