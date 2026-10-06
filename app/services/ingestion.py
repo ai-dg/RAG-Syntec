@@ -63,6 +63,7 @@ from langchain_chroma import Chroma
 
 from bisect import bisect_right
 from pathlib import Path
+import json
 import logging
 import re
 
@@ -293,6 +294,30 @@ def get_embedding(settings: Settings):
     raise ValueError(f"Unsupported LLM provider: {settings.llm_provider}")
 
 
+INDEX_INFO = "index_info.json"
+INDEX_FORMAT = 2
+
+
+def index_info(settings: Settings) -> dict:
+    """What an index was built with; an index is reused only if this matches."""
+    local = settings.llm_provider == "ollama"
+    return {
+        "format": INDEX_FORMAT,
+        "docs_dir": str(settings.docs_dir),
+        "chunking": settings.chunking,
+        "chunk_size": settings.chunk_size,
+        "chunk_overlap": settings.chunk_overlap,
+        "embedding_model": settings.embedding_model_local if local else settings.embedding_model,
+    }
+
+
+def read_index_info(chroma_dir) -> dict | None:
+    try:
+        return json.loads((Path(chroma_dir) / INDEX_INFO).read_text())
+    except (OSError, ValueError):
+        return None
+
+
 def create_vector_store(chunks):
     settings = get_settings()
 
@@ -309,6 +334,8 @@ def create_vector_store(chunks):
     vector_store = Chroma.from_documents(
         documents=chunks, embedding=embedding, persist_directory=settings.chroma_dir
     )
+
+    (Path(settings.chroma_dir) / INDEX_INFO).write_text(json.dumps(index_info(settings), indent=2))
 
     logger.info(
         "%d chunks stored in Chroma at %s",

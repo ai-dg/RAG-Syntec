@@ -40,6 +40,8 @@ class Settings(BaseSettings):
     chunking: Literal["fixed", "article"] = "fixed"
     guardrail_mode: Literal["threshold", "classifier"] = "threshold"
     abstention_model_path: str = "models/abstention.json"
+    cite_sources: bool = False
+    reindex_on_startup: bool = False
 
     @model_validator(mode="after")
     def validate_provider_configuration(self) -> Self:

@@ -1,12 +1,18 @@
-"""
-Application logging configuration.
-
-This module configures structured JSON logs for the application.
-"""
-
+import contextvars
+import json
 import logging
 import sys
-import json
+
+request_id_var: contextvars.ContextVar[str | None] = contextvars.ContextVar("request_id", default=None)
+
+
+class RequestIdFilter(logging.Filter):
+    """Attach the current request id to every record, so one grep follows a request."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        if getattr(record, "request_id", None) is None:
+            record.request_id = request_id_var.get()
+        return True
 
 
 class JsonFormatter(logging.Formatter):
@@ -27,12 +33,13 @@ class JsonFormatter(logging.Formatter):
         if record.exc_info:
             data["exception"] = self.formatException(record.exc_info)
 
-        return json.dumps(data)
+        return json.dumps(data, default=str)
 
 
 def configure_logging(log_level: str = "INFO") -> None:
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(JsonFormatter())
+    handler.addFilter(RequestIdFilter())
 
     logging.basicConfig(
         level=getattr(logging, log_level.upper(), logging.INFO),

@@ -36,7 +36,16 @@ import logging
 
 from app.services.abstention import load_model
 from app.services.features import FEATURE_K, extract_features
-from app.services.ingestion import load_docs, chunk_text, create_vector_store
+from langchain_chroma import Chroma
+
+from app.services.ingestion import (
+    chunk_text,
+    create_vector_store,
+    get_embedding,
+    index_info,
+    load_docs,
+    read_index_info,
+)
 from app.config import get_settings
 
 from app.services.reranking import rerank
@@ -109,11 +118,23 @@ def retrieve(question):
     }
 
 
+def open_or_build_vector_store(settings):
+    """Reuse the persisted index if it was built with the current settings;
+    otherwise (or if REINDEX_ON_STARTUP is set) rebuild it from the documents."""
+    if not settings.reindex_on_startup and read_index_info(settings.chroma_dir) == index_info(settings):
+        logger.info("reusing the persisted index at %s", settings.chroma_dir)
+        return Chroma(
+            persist_directory=settings.chroma_dir, embedding_function=get_embedding(settings)
+        )
+    logger.info("building the index from %s", settings.docs_dir)
+    return create_vector_store(chunk_text(load_docs()))
+
+
 def get_vector_store(settings=None):
     global _vector_store
 
     if _vector_store is None:
-        _vector_store = create_vector_store(chunk_text(load_docs()))
+        _vector_store = open_or_build_vector_store(settings or get_settings())
 
     return _vector_store
 

@@ -27,6 +27,8 @@ def settings_env(monkeypatch, tmp_path):
     monkeypatch.setenv("INCLUDE_SUPERSEDED", "false")
     monkeypatch.setenv("CHUNKING", "fixed")
     monkeypatch.setenv("GUARDRAIL_MODE", "threshold")
+    monkeypatch.setenv("CITE_SOURCES", "false")
+    monkeypatch.setenv("REINDEX_ON_STARTUP", "false")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()

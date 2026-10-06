@@ -14,8 +14,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from app.config import get_settings
-from app.services.generation import generate
-from app.services.ingestion import get_embedding
+from app.services.generation import generate, strip_citations
+from app.services.ingestion import chunk_text, create_vector_store, get_embedding, load_docs
 from eval.labels import labels_for_chunking
 from app.services.reranking import load_reranker
 from app.services.retrieval import get_vector_store, retrieve, set_vector_store
@@ -60,7 +60,8 @@ def prepare_index(reindex: bool) -> int:
     """Open the persisted index (or rebuild it) and return its chunk count."""
     settings = get_settings()
     if reindex:
-        store = get_vector_store(settings)
+        store = create_vector_store(chunk_text(load_docs()))
+        set_vector_store(store)
     else:
         store = Chroma(
             persist_directory=settings.chroma_dir,
@@ -94,6 +95,9 @@ def collect_run_metadata(split: str, label: str) -> dict:
         "rerank_enabled": settings.rerank_enabled,
         "rerank_candidates": settings.rerank_candidates,
         "rerank_model": settings.rerank_model,
+        "guardrail_mode": settings.guardrail_mode,
+        "abstention_model_path": settings.abstention_model_path if settings.guardrail_mode == "classifier" else None,
+        "cite_sources": settings.cite_sources,
     }
 
 
@@ -116,14 +120,23 @@ def run_predictions(questions: list[dict]) -> list[dict]:
             "relevant_chunk_ids": q["relevant_chunk_ids"],
             "context": "\n\n".join(d.page_content for d in documents),
             "answer": None,
+            "answer_raw": None,
+            "citations": [],
+            "invalid_citations": [],
+            "refusal_reason": result.get("refusal_reason"),
+            "confidence": result.get("confidence"),
             "retrieval_s": retrieval_s,
             "generation_s": None,
         }
 
         if result["context_found"]:
             start = time.perf_counter()
-            record["answer"] = generate(q["question"], result)["answer"]
+            generated = generate(q["question"], result)
             record["generation_s"] = time.perf_counter() - start
+            record["answer_raw"] = generated["answer"]
+            record["answer"] = strip_citations(generated["answer"])
+            record["citations"] = [c["chunk_id"] for c in generated.get("citations", [])]
+            record["invalid_citations"] = generated.get("invalid_citations", [])
 
         predictions.append(record)
     return predictions
@@ -179,8 +192,16 @@ def compute_metrics(predictions: list[dict]) -> dict:
         ),
     }
 
+    answered = [p for p in predictions if p["answer"] is not None]
+    citations = {
+        "answered": len(answered),
+        "with_a_citation": sum(1 for p in answered if p.get("citations")),
+        "with_an_invalid_citation": sum(1 for p in answered if p.get("invalid_citations")),
+    }
+
     return {
         "n_questions": len(predictions),
+        "citations": citations,
         "guardrail": guardrail,
         "retrieval": retrieval,
         "faithfulness_proxy": faithfulness,
