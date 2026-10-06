@@ -19,6 +19,22 @@ def load_result(path: Path) -> dict:
     return json.loads(Path(path).read_text())
 
 
+def load_golden_labels(split: str) -> dict[str, list[str]]:
+    name = "golden_held_out.jsonl" if split == "held_out" else "golden.jsonl"
+    with open(ROOT / "eval" / name) as f:
+        records = [json.loads(line) for line in f if line.strip()]
+    return {r["id"]: r["relevant_chunk_ids"] for r in records}
+
+
+def relabel(result: dict, labels: dict[str, list[str]]) -> dict:
+    """Score a saved run against the current golden labels, not the ones saved with it."""
+    predictions = [
+        {**p, "relevant_chunk_ids": labels.get(p["id"], p["relevant_chunk_ids"])}
+        for p in result["predictions"]
+    ]
+    return {**result, "predictions": predictions}
+
+
 def retrieval_at_k(predictions: list[dict], k: int) -> dict:
     answerable = [p for p in predictions if p["true_class"] == "in_topic_answerable"]
     retrieved = [p["retrieved_chunk_ids"][:k] for p in answerable]
@@ -106,10 +122,12 @@ def main(argv=None) -> None:
     args = parser.parse_args(argv)
 
     a, b = load_result(args.result_a), load_result(args.result_b)
+    a = relabel(a, load_golden_labels(a["metadata"]["split"]))
+    b = relabel(b, load_golden_labels(b["metadata"]["split"]))
     texts_by_id = {c.metadata["chunk_id"]: c.page_content for c in chunk_text(load_docs())}
 
     print(f"A = {args.result_a.name} ({a['metadata']['label']})   B = {args.result_b.name} ({b['metadata']['label']})")
-    print(f"both cut at k = {args.k}\n")
+    print(f"both cut at k = {args.k}; both scored against the current golden labels\n")
     print(f"{'metric':56s} {'A':>10s} {'B':>10s} {'B - A':>10s}")
     for label, va, vb in compare(a, b, texts_by_id, args.k):
         delta = (

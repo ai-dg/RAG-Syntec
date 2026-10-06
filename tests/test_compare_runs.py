@@ -160,3 +160,20 @@ def test_format_value():
     assert format_value(None) == "n/a"
     assert format_value(0.5) == "0.500"
     assert format_value(3) == "3"
+
+
+def test_relabel_scores_a_saved_run_against_the_current_labels():
+    saved = make_result([make_prediction(id="q1", relevant_chunk_ids=["old"])])
+
+    relabelled = compare_runs.relabel(saved, {"q1": ["c1"]})
+
+    assert relabelled["predictions"][0]["relevant_chunk_ids"] == ["c1"]
+    assert saved["predictions"][0]["relevant_chunk_ids"] == ["old"]
+
+
+def test_relabel_keeps_the_saved_label_for_an_unknown_question():
+    saved = make_result([make_prediction(id="gone", relevant_chunk_ids=["c9"])])
+
+    relabelled = compare_runs.relabel(saved, {"q1": ["c1"]})
+
+    assert relabelled["predictions"][0]["relevant_chunk_ids"] == ["c9"]
