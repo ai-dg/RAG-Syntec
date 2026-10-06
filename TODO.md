@@ -662,7 +662,7 @@ documents that exist.)*
 > Phase 11 (T11.1, T11.2, T11.4); see the execution order at the top of this
 > file.
 
-### [ ] T6.1 — Design the chunking strategy
+### [x] T6.1 — Design the chunking strategy
 
 - **Goal.** Chunk along the document's own structure — articles, sections,
   annexes — instead of every 500 characters.
@@ -684,7 +684,7 @@ documents that exist.)*
   - What is the retrieval/generation granularity trade-off?
 - **Commit.** `docs: design structure-aware legal chunking`
 
-### [ ] T6.2 — Implement structured chunking
+### [x] T6.2 — Implement structured chunking
 
 - **Goal.** Turn the chunking strategy into code without ever splitting a table or an article.
 - **Concepts.** Structural parsing of legal text versus regex heuristics; parent-child metadata linkage; table atomicity as a correctness constraint.
@@ -702,7 +702,7 @@ documents that exist.)*
   - How do you keep a chunk's article reference through to the citation?
 - **Commit.** `feat: implement structure-aware legal chunking`
 
-### [ ] T6.3 — Measure the chunking change
+### [x] T6.3 — Measure the chunking change
 
 - **Goal.** Determine whether structure-aware chunking actually improved retrieval, and at what cost.
 - **Concepts.** Confounded comparisons; why recalibration is part of this change rather than a separate step.
@@ -723,6 +723,9 @@ documents that exist.)*
 ---
 
 # Phase 7 — BGE-M3 embeddings
+
+> **Skipped (2026-10-06).** Condition not met: every answerable question already has a relevant chunk in the top 10 (hit rate 1.00, `design/retrieval_diagnosis.md`), so there is no coverage failure for a new embedding model to fix. After versioning, the remaining misses are ranking misses. Not run.
+
 
 > Conditional (revised 2026-10-05): run only if, after reranking and
 > structured chunking, relevant chunks are still missing from the top 10. The
@@ -789,6 +792,9 @@ documents that exist.)*
 ---
 
 # Phase 8 — Migrate to Qdrant
+
+> **Skipped (2026-10-06).** Only needed for Phase 9, which is skipped. Chroma serves the 8 447-chunk index with a metadata filter in about 0.2 s; nothing measured calls for a migration. Not run.
+
 
 > Conditional (revised 2026-10-05): needed only if Phase 9 is run, because
 > sparse vectors need it. T8.1 already asks for an honest justification;
@@ -881,6 +887,9 @@ documents that exist.)*
 ---
 
 # Phase 9 — Hybrid dense + sparse retrieval
+
+> **Skipped (2026-10-06).** No coverage failure to fix (see Phase 7), and it depends on Phase 8. Not run; the T5.3 prediction for it therefore stays untested.
+
 
 > Conditional (revised 2026-10-05): run only if coverage failures remain after
 > reranking and chunking, and depends on Phase 8. The prediction recorded in
@@ -991,7 +1000,7 @@ documents that exist.)*
 *This is the phase that makes the project read as ML engineering rather than
 API orchestration. Today `app/` contains no modelling at all.*
 
-### [ ] T10.1 — Design the abstention formulation
+### [x] T10.1 — Design the abstention formulation
 
 - **Goal.** Frame "should I answer?" as a supervised learning problem.
 - **Concepts.** Binary classification under class imbalance; feature
@@ -1015,7 +1024,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Why is score *dispersion* across top-k informative, beyond the best score?
 - **Commit.** `docs: formulate abstention as a supervised learning problem`
 
-### [ ] T10.2 — Build the feature extraction pipeline
+### [x] T10.2 — Build the feature extraction pipeline
 
 - **Goal.** Turn retrieval signals into a clean, leakage-free dataset the classifier can train on.
 - **Concepts.** Feature engineering; data leakage; train/test split hygiene; class balancing on small data.
@@ -1033,7 +1042,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Your dataset has ~100 rows. What does that limit?
 - **Commit.** `feat: build the abstention feature dataset`
 
-### [ ] T10.3 — Train and evaluate the classifier
+### [x] T10.3 — Train and evaluate the classifier
 
 - **Goal.** Beat — or fail to beat, honestly — the threshold baseline.
 - **Concepts.** Logistic regression and gradient boosting; regularisation on
@@ -1063,7 +1072,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Your classifier beat the threshold by 4 points. Is that significant?
 - **Commit.** `feat: train and evaluate the abstention classifier`
 
-### [ ] T10.4 — Wire abstention into the pipeline
+### [x] T10.4 — Wire abstention into the pipeline
 
 - **Goal.** Put the trained classifier on the request path without losing the ability to fall back to the threshold.
 - **Concepts.** Model loading and versioning; graceful degradation; feature flags for ML components.
@@ -1138,6 +1147,8 @@ API orchestration. Today `app/` contains no modelling at all.*
 
 ### [ ] T11.3 — Handle the guardrail score change, again
 
+> **Skipped (2026-10-06).** The reranker was rejected in T11.4, so there is no reranker score to feed the classifier.
+
 - **Goal.** The reranker emits its own score scale. Same trap as T9.4.
 - **Concepts.** Composing multiple score scales in one pipeline; adding a feature to an existing model and retraining honestly.
 - **Files.** `app/services/retrieval.py`, `app/services/abstention.py`,
@@ -1210,7 +1221,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Did any change make something worse? What did you do about it?
 - **Commit.** `docs: add the full retrieval ablation study`
 
-### [ ] T12.2 — Add an evaluation regression test to CI
+### [x] T12.2 — Add an evaluation regression test to CI
 
 - **Goal.** Prevent a future change from silently degrading the guardrail.
 - **Concepts.** Regression budgets; keeping slow tests off the default CI path; pytest markers.
@@ -1251,7 +1262,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Why is a document-level source insufficient here?
 - **Commit.** `feat: add verifiable chunk-level citations`
 
-### [ ] T13.2 — Handle text versions
+### [x] T13.2 — Handle text versions
 
 - **Goal.** Collective agreements are amended. An answer from a superseded
   version is wrong even if it was right last year.
@@ -1271,7 +1282,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - A user asks about a rule as it stood in 2023. Can your system answer that?
 - **Commit.** `feat: track and surface legal text versions`
 
-### [ ] T13.3 — Output-side groundedness check
+### [x] T13.3 — Output-side groundedness check
 
 - **Goal.** Close the layered-guardrail gap `design/guardrail.md` already
   admits: one distance threshold cannot separate wrong-domain from
@@ -1299,7 +1310,7 @@ API orchestration. Today `app/` contains no modelling at all.*
 
 # Phase 14 — API and demonstration interface
 
-### [ ] T14.1 — Finalise the API contract
+### [x] T14.1 — Finalise the API contract
 
 - **Goal.** Make the API self-explanatory, and honest about what it knows and why it refused.
 - **Concepts.** API contract design; readiness versus liveness probes; expressing refusal inside a response schema rather than as an error.
@@ -1317,7 +1328,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Why is a refusal a 200 with a reason rather than an error?
 - **Commit.** `feat: finalise the query API contract`
 
-### [ ] T14.2 — Build the demo interface
+### [x] T14.2 — Build the demo interface
 
 - **Goal.** Something a client can watch work and a recruiter can see without
   cloning anything. Deliberately ~100 lines — this must not become a frontend
@@ -1382,7 +1393,7 @@ API orchestration. Today `app/` contains no modelling at all.*
   - Why does the app wait for Qdrant's healthcheck rather than just retrying?
 - **Commit.** `chore: extend Docker Compose with Qdrant and the demo`
 
-### [ ] T15.3 — Request-level observability
+### [x] T15.3 — Request-level observability
 
 - **Goal.** Make a single request traceable end to end by someone who did not write the code.
 - **Concepts.** Correlation IDs; per-stage timing; metric label cardinality traps.
@@ -1406,6 +1417,9 @@ API orchestration. Today `app/` contains no modelling at all.*
 ---
 
 # Phase 16 — Langfuse (optional, only if time allows)
+
+> **Skipped (2026-10-06).** Optional; request-level tracing is covered by request ids and structured logs (T15.3, `design/observability.md`).
+
 
 *Explicitly last and explicitly optional. Structured JSON logs plus a metrics
 endpoint already cover the real need. Langfuse is adopted here for
