@@ -34,8 +34,14 @@ def gist_coverage(text: str, gist: str) -> float:
     return len(gist_tokens & _tokens(text)) / len(gist_tokens)
 
 
+REFUSAL_OPENINGS = ("je ne sais pas", "je ne peux pas", "je suis désolé", "désolé")
+
+
 def is_abstention(answer: str | None) -> bool:
-    return bool(answer) and answer.strip().lower().startswith("je ne sais pas")
+    if not answer:
+        return False
+    opening = answer.strip().lower().replace("’", "'")
+    return opening.startswith(REFUSAL_OPENINGS)
 
 
 def classify_failure(prediction: dict, expected_gist: str | None) -> str | None:
