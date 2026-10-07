@@ -59,6 +59,7 @@ from langchain_community.document_loaders import (
 
 from langchain_openai import OpenAIEmbeddings
 from langchain_ollama import OllamaEmbeddings
+from ollama import ResponseError
 from langchain_chroma import Chroma
 
 from bisect import bisect_right
@@ -287,6 +288,29 @@ def load_docs():
     return documents
 
 
+class ResilientOllamaEmbeddings(OllamaEmbeddings):
+    """Ollama embeddings that survive a text the model cannot encode.
+
+    Measured with `bge-m3` (F16) on this corpus: 4 of 8 447 short chunks make
+    Ollama fail with "unsupported value: NaN", which fails the whole batch. The
+    batch is then retried text by text, and a text that still fails is embedded
+    doubled ("text\ntext"), which avoided the NaN for all 4; on 20 working
+    chunks the doubled embedding had a cosine of 0.875 to the original at worst
+    (median 0.963), so it is an approximation used only where needed."""
+
+    def embed_documents(self, texts: list[str]) -> list[list[float]]:
+        try:
+            return super().embed_documents(texts)
+        except ResponseError:
+            if len(texts) == 1:
+                logger.warning(
+                    "embedding failed, retrying with the text doubled: %r",
+                    texts[0][:80],
+                )
+                return super().embed_documents([f"{texts[0]}\n{texts[0]}"])
+            return [self.embed_documents([text])[0] for text in texts]
+
+
 def get_embedding(settings: Settings):
 
     if settings.llm_provider == "openai":
@@ -296,7 +320,7 @@ def get_embedding(settings: Settings):
         )
         return embedding
     if settings.llm_provider == "ollama":
-        embedding = OllamaEmbeddings(
+        embedding = ResilientOllamaEmbeddings(
             model=settings.embedding_model_local, base_url=settings.ollama_base_url
         )
         return embedding
