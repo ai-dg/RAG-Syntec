@@ -120,3 +120,7 @@ added); the corrected value is 0.674.
 
 **Latency.** This run had the machine to itself; `versioning` did not (see
 `design/versioning.md`), so the latency columns are not a fair comparison.
+
+## Sources
+
+P10 (structure-aware chunking on financial reports, a result that did not transfer here). Full references and quotes: `design/sources.md`.

@@ -139,3 +139,7 @@ Until a judge reaches a defensible agreement rate on a labelled set it was not
 tuned on, its verdicts are reported as advisory, next to the proxy and always
 with this 55% figure. The evaluation runner (T3.6) reports both signals
 separately and never merges them into one number.
+
+## Sources
+
+P4 (biases and agreement of LLM judges), B1 ch. 3 (AI as a judge). Full references and quotes: `design/sources.md`.

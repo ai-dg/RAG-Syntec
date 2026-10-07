@@ -67,3 +67,7 @@ model call, with `refusal_reason=prompt_injection_detected` and empty
 Counters reset when the process restarts; the latency window is the last 1 000
 requests; the `decision` line is written after generation, so a request that
 crashes during generation leaves only its first lines (the id still links them).
+
+## Sources
+
+B2 (golden signals, tail latency), P11 (liveness and readiness probes). Full references and quotes: `design/sources.md`.

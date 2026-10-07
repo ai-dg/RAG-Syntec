@@ -188,3 +188,7 @@ rather than "the agreement does not say".
 
 **Cost.** 20 questions; one question is 0.05 to 0.25 of a rate here. These
 figures are the least biased in the project and also the noisiest.
+
+## Sources
+
+B3 (test collections, held-out set, instability of precision at k), B1 ch. 4 (evaluation pipeline), P3 (imbalanced evaluation), P7 (citations), B2 (tail latency). Full references and quotes: `design/sources.md`.

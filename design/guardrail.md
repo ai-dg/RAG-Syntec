@@ -180,3 +180,7 @@ and the evaluation runner share):
 **Cost.** Lexical support cannot see a wrong value written with the context's
 words, nor a negation; the threshold was not chosen on a separate set; the input
 patterns are language-specific and easy to rephrase around.
+
+## Sources
+
+P5 (OWASP LLM01, no fool-proof prevention), P6 (indirect prompt injection), B1 ch. 5 and 10 (prompt attacks, guardrails). Full references and quotes: `design/sources.md`.

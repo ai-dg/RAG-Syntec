@@ -140,3 +140,7 @@ latency comparison needs a run on an otherwise idle machine.
 (3 of 33 in-topic questions refused, 0 of 11 off-topic accepted) against 4 of 33
 at 0.74. The threshold was kept at 0.74 for this run so that only the filter
 changed.
+
+## Sources
+
+P9 (updating knowledge as an open problem of RAG); the gain itself is this project's measurement. Full references and quotes: `design/sources.md`.

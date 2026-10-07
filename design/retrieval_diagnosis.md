@@ -251,3 +251,7 @@ promoted an older, superseded text of the agreement for one question (q005) and
 the answer became outdated. This points to text versioning (T13.2) as something to
 do before further retrieval work, not after it. This is a measured negative
 result, recorded as such.
+
+## Sources
+
+P8 (long contexts degrade use of information in the middle), B3 (rank-based evaluation). Full references and quotes: `design/sources.md`.

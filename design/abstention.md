@@ -99,3 +99,7 @@ decision-level, before the model writes anything.
 **Cost.** 55 training examples; the question-length feature may learn the style
 of this golden set; the held-out split was used once here, so it can no longer
 give an unbiased number for any decision that follows from this table.
+
+## Sources
+
+P1 (abstaining on unanswerable questions), P2 (selective classification), P3 (PR curves on imbalanced data), B1 ch. 10 (guardrails). Full references and quotes: `design/sources.md`.

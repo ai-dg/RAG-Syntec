@@ -217,6 +217,7 @@ Coverage: 88% of `app/` ([`design/testing.md`](design/testing.md)).
   [Qwen3-Reranker-0.6B model card](https://huggingface.co/Qwen/Qwen3-Reranker-0.6B)
   (Apache 2.0 licence, loaded through `sentence-transformers`): the reranker
   tested.
+- Every other design choice and its sources (books and papers, each read and quoted): [`design/sources.md`](design/sources.md).
 - S. Es et al., *Ragas: Automated Evaluation of Retrieval Augmented
   Generation*, 2023, [arXiv:2309.15217](https://arxiv.org/abs/2309.15217): the
   vocabulary used for the generation metrics (faithfulness, context relevance).
