@@ -32,6 +32,7 @@ RUNS = [
     ("versioning", "baseline + superseded text filtered"),
     ("article", "versioning + article chunking, threshold 0.888 (not kept)"),
     ("final", "versioning + input and output checks + citations"),
+    ("bge-m3", "final with BGE-M3 embeddings, threshold 0.914 (not kept)"),
 ]
 
 
@@ -97,7 +98,9 @@ def main(argv=None) -> None:
             continue
         result = load_result(matches[-1])
         mode = result["metadata"].get("chunking", "fixed")
-        labels = labels_for_chunking(load_golden_labels(result["metadata"]["split"]), mode)
+        labels = labels_for_chunking(
+            load_golden_labels(result["metadata"]["split"]), mode
+        )
         result = relabel(result, labels)
         if mode not in texts_by_mode:
             texts_by_mode[mode] = {

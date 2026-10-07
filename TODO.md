@@ -724,7 +724,7 @@ documents that exist.)*
 
 # Phase 7 — BGE-M3 embeddings
 
-> **Skipped (2026-10-06).** Condition not met: every answerable question already has a relevant chunk in the top 10 (hit rate 1.00, `design/retrieval_diagnosis.md`), so there is no coverage failure for a new embedding model to fix. After versioning, the remaining misses are ranking misses. Not run.
+> **Run on 2026-10-07 after all**, to measure speed and memory (`design/embeddings.md`): BGE-M3 is 2 times faster to index, 34% faster per answer and uses 6 times less GPU memory, but loses 0.18 of hit@3; qwen3-embedding:8b stays the default. Original reason for skipping: every answerable question already has a relevant chunk in the top 10 (hit rate 1.00, `design/retrieval_diagnosis.md`), so there is no coverage failure for a new embedding model to fix. After versioning, the remaining misses are ranking misses. Not run.
 
 
 > Conditional (revised 2026-10-05): run only if, after reranking and
@@ -732,7 +732,7 @@ documents that exist.)*
 > prediction recorded in `design/retrieval_diagnosis.md` is no real retrieval
 > gain, so skipping is the default.
 
-### [ ] T7.1 — Understand and validate the model choice
+### [x] T7.1 — Understand and validate the model choice
 
 - **Goal.** Be able to defend the swap, including its costs.
 - **Concepts.** Dense vs. sparse vs. multi-vector representations; why BGE-M3
@@ -753,7 +753,7 @@ documents that exist.)*
   - What is a sparse embedding, and how does it differ from BM25?
 - **Commit.** `docs: justify the BGE-M3 embedding choice`
 
-### [ ] T7.2 — Integrate BGE-M3 (dense first)
+### [x] T7.2 — Integrate BGE-M3 (dense first)
 
 - **Goal.** Add BGE-M3 as an embedding provider without breaking the existing provider paths.
 - **Concepts.** Provider abstraction; embedding dimension; vector normalisation and how to verify it rather than assume it.
@@ -772,7 +772,7 @@ documents that exist.)*
     for your threshold?
 - **Commit.** `feat: add BGE-M3 as an embedding provider`
 
-### [ ] T7.3 — Recalibrate and re-measure
+### [x] T7.3 — Recalibrate and re-measure
 
 - **Goal.** A new embedding model means a new vector space and therefore a
   new threshold. This is mandatory, not optional.

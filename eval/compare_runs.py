@@ -15,9 +15,27 @@ from eval.failures import load_gists, summarize
 from eval.labels import labels_for_chunking
 from eval.metrics import faithfulness_proxy, mrr, recall_at_k
 
+CORPUS_PREFIX = "data/converted/"
+
+
+def normalize_chunk_id(chunk_id: str) -> str:
+    """Chunk ids start with the documents path given at indexing time; an index
+    built with an absolute DOCS_DIR yields absolute ids. Compare from the corpus
+    folder on, as the golden labels are written."""
+    position = chunk_id.find(CORPUS_PREFIX)
+    return chunk_id[position:] if position > 0 else chunk_id
+
 
 def load_result(path: Path) -> dict:
-    return json.loads(Path(path).read_text())
+    result = json.loads(Path(path).read_text())
+    for p in result["predictions"]:
+        p["retrieved_chunk_ids"] = [
+            normalize_chunk_id(c) for c in p["retrieved_chunk_ids"]
+        ]
+        p["relevant_chunk_ids"] = [
+            normalize_chunk_id(c) for c in p["relevant_chunk_ids"]
+        ]
+    return result
 
 
 def load_golden_labels(split: str) -> dict[str, list[str]]:

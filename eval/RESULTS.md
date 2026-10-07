@@ -27,6 +27,7 @@ the labels of that day; this table supersedes them.
 | versioning | baseline + superseded text filtered | 0.77 | 0.73 | 0.54 | 0.12 | 0.32 | 8 | 1 | 2 | 0.75 | 24.8 / 53.0 |
 | article | versioning + article chunking, threshold 0.888 (not kept) | 0.77 | 0.73 | 0.58 | 0.00 | 0.50 | 7 | 2 | 1 | 0.67 | 22.0 / 33.8 |
 | final | versioning + input and output checks + citations | 0.77 | 0.73 | 0.54 | 0.12 | 0.18 | 7 | 1 | 0 | 0.73 | 24.6 / 36.6 |
+| bge-m3 | final with BGE-M3 embeddings, threshold 0.914 (not kept) | 0.59 | 0.55 | 0.42 | 0.03 | 0.27 | 9 | 1 | 0 | 0.73 | 17.8 / 33.9 |
 
 Reading it:
 - **Filtering superseded text** (`versioning`) is the largest gain: hit@3 0.50 to
@@ -40,6 +41,8 @@ Reading it:
   measured false-refusal cost.
 - Latency: the `versioning` run shared the machine with other work; its p95 is
   not comparable.
+- **BGE-M3 embeddings** (`bge-m3`) answer faster (median about 18 s against 27 s,
+  retrieval 0.10 s against 2.5 s) with 6 times less GPU memory, but lose 0.18 of
+  hit@3; not kept as the default (`design/embeddings.md`).
 - The abstention classifier (`design/abstention.md`) is evaluated at decision
   level only and is not in this table.
-| 2026-10-06 | final_held_out | held_out | 034c5ee | 20 | 0.17 | 0.38 | 0.69 | 0.54 | 0.96 | 2.456 / 2.685 | 27.1 / 35.0 (n=13) | 2026-10-06_final_held_out.json |

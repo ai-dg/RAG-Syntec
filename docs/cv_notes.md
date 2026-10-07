@@ -19,8 +19,13 @@ denominators when space allows: they are what makes the numbers credible.
   recall@3 for +4.4 s at p95; classifier: ROC-AUC 0.862 against 0.898 for the
   distance threshold).
 
+- Benchmarked BGE-M3 against qwen3-embedding:8b on the same pipeline: 34% faster
+  median answer (27 s to 18 s), 2 times faster indexing and 6 times less GPU
+  memory, but 18 points lower retrieval (top-3 hit rate 0.59 against 0.77); kept
+  the larger model for accuracy on legal text.
+
 Stack line: Python, FastAPI, LangChain (ingestion), Chroma, Ollama
-(qwen3-embedding:8b, gemma4), scikit-learn, pytest, Docker.
+(qwen3-embedding:8b, BGE-M3, gemma4), scikit-learn, pytest, Docker.
 
 ## Lignes de CV (français)
 
@@ -32,6 +37,10 @@ Stack line: Python, FastAPI, LangChain (ingestion), Chroma, Ollama
   l'index était du texte juridique abrogé ; l'exclure a porté la part de
   questions avec un passage pertinent parmi les 3 premiers de 50 % à 77 %, sans
   modèle supplémentaire.
+- Comparaison de BGE-M3 et de qwen3-embedding:8b sur le même pipeline : réponse
+  médiane 34 % plus rapide (27 s à 18 s), indexation 2 fois plus rapide, 6 fois
+  moins de mémoire GPU, mais 18 points de recherche en moins (0,59 contre 0,77) ;
+  le modèle le plus précis est conservé pour un texte juridique.
 - Test puis rejet d'un reranker et d'un classifieur d'abstention selon des
   règles fixées avant chaque mesure (reranker : +0,136 de rappel@3 pour +4,4 s
   au p95 ; classifieur : ROC-AUC 0,862 contre 0,898 pour le seuil de distance).

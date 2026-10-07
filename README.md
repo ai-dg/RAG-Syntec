@@ -112,7 +112,14 @@ flowchart LR
    than the best distance alone (cross-validated ROC-AUC 0.862 against 0.898). At
    its operating point it refuses 8 more questions that should be refused, for 2
    more wrong refusals. Available behind a switch, not the default.
-7. **Input and output checks** ([`design/guardrail.md`](design/guardrail.md)).
+7. **BGE-M3 embeddings: faster, not kept** ([`design/embeddings.md`](design/embeddings.md)).
+   With the same configuration, the median answer time falls from about 27 s to
+   18 s (retrieval 2.5 s to 0.10 s, because the 1.2 GB model no longer has to be
+   swapped with the chat model on an 8 GB GPU), indexing takes 231 s instead of
+   468 s and GPU memory 0.9 GB instead of 5.6 GB; but a relevant passage reaches
+   the top 3 for 59% of answerable questions against 77%. Accuracy first for legal
+   text, so the larger model stays the default; BGE-M3 is one setting away.
+8. **Input and output checks** ([`design/guardrail.md`](design/guardrail.md)).
    The output check withdraws the one answer that followed an injection and none
    of the 17 correct answers; the input check catches 4 of 11 visible adversarial
    questions but 0 of 4 held-out ones, so it is a cheap filter, not a defence.
@@ -226,9 +233,8 @@ Coverage: 88% of `app/` ([`design/testing.md`](design/testing.md)).
 ## Status
 
 The roadmap in [`TODO.md`](TODO.md) is complete except for what it marks as
-skipped, each with its reason: a new embedding model, Qdrant and hybrid search
-(the diagnosis found no coverage failure for them to fix), and Langfuse
-(optional). Still to do: timing a cold Docker start and recording the demo; an
+skipped, each with its reason: Qdrant and hybrid search (the diagnosis found no
+coverage failure for them to fix) and Langfuse (optional). Still to do: timing a cold Docker start and recording the demo; an
 article draft, CV notes and interview notes are in `docs/`.
 
 ## License

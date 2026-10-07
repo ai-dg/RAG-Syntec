@@ -206,3 +206,14 @@ def test_each_run_is_read_with_its_own_chunk_texts(synthetic_gists):
     a, b = rows["faithfulness proxy vs first 3 chunks (biased down)"]
     assert a == 1.0
     assert b == 0.0
+
+
+def test_absolute_chunk_ids_are_compared_from_the_corpus_folder():
+    absolute = "/home/user/project/data/converted/a.md#chunk_3"
+
+    assert compare_runs.normalize_chunk_id(absolute) == "data/converted/a.md#chunk_3"
+    assert (
+        compare_runs.normalize_chunk_id("data/converted/a.md#chunk_3")
+        == "data/converted/a.md#chunk_3"
+    )
+    assert compare_runs.normalize_chunk_id("other.md#chunk_1") == "other.md#chunk_1"
