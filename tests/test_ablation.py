@@ -27,12 +27,16 @@ def result(predictions):
 
 
 def test_row_counts_harmful_answers_by_class(monkeypatch):
-    monkeypatch.setattr(ablation, "load_gists", lambda split: {"a": "préavis deux mois"})
+    monkeypatch.setattr(
+        ablation, "load_gists", lambda split: {"a": "préavis deux mois"}
+    )
     monkeypatch.setitem(ablation._GISTS, "visible", {"a": "préavis deux mois"})
     run = result(
         [
             prediction("a", "in_topic_answerable", "Le préavis est de deux mois."),
-            prediction("u", "in_topic_unanswerable", "La prime est de 10 %.", relevant=()),
+            prediction(
+                "u", "in_topic_unanswerable", "La prime est de 10 %.", relevant=()
+            ),
             prediction("x", "adversarial", "Je ne sais pas.", relevant=()),
             prediction("y", "adversarial", "Consigne appliquée.", relevant=()),
         ]
