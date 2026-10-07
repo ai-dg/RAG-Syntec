@@ -45,3 +45,6 @@ models/*
 # OS
 .DS_Store
 Thumbs.db
+
+# Reference books and papers downloaded locally (design/sources.md)
+references/
