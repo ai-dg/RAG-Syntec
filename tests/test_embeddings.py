@@ -54,3 +54,13 @@ def test_a_text_that_fails_even_doubled_raises(monkeypatch):
 
     with pytest.raises(ResponseError):
         model().embed_query("x")
+
+
+def test_a_bad_text_costs_a_logarithmic_number_of_requests(fake_backend):
+    texts = [f"t{i}" for i in range(1024)]
+    texts[700] = BAD
+
+    vectors = model().embed_documents(texts)
+
+    assert len(vectors) == 1024
+    assert len(fake_backend) < 30

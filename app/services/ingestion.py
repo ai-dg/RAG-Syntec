@@ -292,11 +292,14 @@ class ResilientOllamaEmbeddings(OllamaEmbeddings):
     """Ollama embeddings that survive a text the model cannot encode.
 
     Measured with `bge-m3` (F16) on this corpus: 4 of 8 447 short chunks make
-    Ollama fail with "unsupported value: NaN", which fails the whole batch. The
-    batch is then retried text by text, and a text that still fails is embedded
-    doubled ("text\ntext"), which avoided the NaN for all 4; on 20 working
-    chunks the doubled embedding had a cosine of 0.875 to the original at worst
-    (median 0.963), so it is an approximation used only where needed."""
+    Ollama fail with "unsupported value: NaN", and one failing text fails the
+    whole request (Chroma sends every chunk in one call). A failed batch is split
+    in two and retried, recursively, so a few bad texts cost about
+    log2(batch size) extra requests each instead of one request per text. A
+    single text that still fails is embedded doubled ("text\ntext"), which
+    avoided the NaN for all 4; on 20 working chunks the doubled embedding had a
+    cosine of 0.875 to the original at worst (median 0.963), so it is an
+    approximation used only where needed."""
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
         try:
@@ -308,7 +311,10 @@ class ResilientOllamaEmbeddings(OllamaEmbeddings):
                     texts[0][:80],
                 )
                 return super().embed_documents([f"{texts[0]}\n{texts[0]}"])
-            return [self.embed_documents([text])[0] for text in texts]
+            middle = len(texts) // 2
+            return self.embed_documents(texts[:middle]) + self.embed_documents(
+                texts[middle:]
+            )
 
 
 def get_embedding(settings: Settings):
