@@ -28,6 +28,8 @@ class Settings(BaseSettings):
 
     docs_dir: str | None = None
     chroma_dir: str | None = None
+    vector_store: Literal["chroma", "qdrant"] = "chroma"
+    qdrant_path: str = "qdrant_storage"
     chunk_size: int
     chunk_overlap: int
     top_k: int

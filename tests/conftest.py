@@ -18,6 +18,8 @@ def settings_env(monkeypatch, tmp_path):
     monkeypatch.setenv("CHAT_MODEL_LOCAL", "test-chat-model")
     monkeypatch.setenv("DOCS_DIR", str(tmp_path / "docs"))
     monkeypatch.setenv("CHROMA_DIR", str(tmp_path / "chroma"))
+    monkeypatch.setenv("VECTOR_STORE", "chroma")
+    monkeypatch.setenv("QDRANT_PATH", str(tmp_path / "qdrant"))
     monkeypatch.setenv("CHUNK_SIZE", "500")
     monkeypatch.setenv("CHUNK_OVERLAP", "100")
     monkeypatch.setenv("TOP_K", "3")

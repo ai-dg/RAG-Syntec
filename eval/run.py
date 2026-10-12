@@ -25,6 +25,7 @@ from app.services.ingestion import (
 from eval.labels import labels_for_chunking
 from app.services.reranking import load_reranker
 from app.services.retrieval import get_vector_store, retrieve, set_vector_store
+from app.services.vectorstore import create_qdrant_store, open_qdrant_store
 from eval.metrics import (
     confusion_matrix,
     faithfulness_proxy,
@@ -82,6 +83,14 @@ def _git(*args: str) -> str:
 def prepare_index(reindex: bool) -> int:
     """Open the persisted index (or rebuild it) and return its chunk count."""
     settings = get_settings()
+    if settings.vector_store == "qdrant":
+        store = (
+            create_qdrant_store(chunk_text(load_docs()))
+            if reindex
+            else open_qdrant_store(settings)
+        )
+        set_vector_store(store)
+        return store.count()
     if reindex:
         store = create_vector_store(chunk_text(load_docs()))
         set_vector_store(store)
@@ -110,6 +119,7 @@ def collect_run_metadata(split: str, label: str) -> dict:
         "embedding_model": (
             settings.embedding_model_local if local else settings.embedding_model
         ),
+        "vector_store": settings.vector_store,
         "top_k": settings.top_k,
         "chunking": settings.chunking,
         "include_superseded": settings.include_superseded,

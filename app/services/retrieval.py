@@ -8,7 +8,8 @@ chunks are sent to the generation pipeline.
 Responsibilities:
 - Receive the user's question.
 - Generate an embedding for the question.
-- Search Chroma for the nearest document vectors.
+- Search the vector store (Chroma, or Qdrant with VECTOR_STORE=qdrant) for the
+  nearest document vectors.
 - Retrieve the most relevant chunks, together with their scores and metadata.
 - Compare the best retrieval score with a configurable relevance threshold.
 - Reject the retrieved context when no result is found or when its relevance
@@ -49,6 +50,7 @@ from app.services.ingestion import (
 from app.config import get_settings
 
 from app.services.reranking import rerank
+from app.services.vectorstore import open_or_build_qdrant_store
 
 logger = logging.getLogger(__name__)
 
@@ -129,6 +131,8 @@ def retrieve(question):
 def open_or_build_vector_store(settings):
     """Reuse the persisted index if it was built with the current settings;
     otherwise (or if REINDEX_ON_STARTUP is set) rebuild it from the documents."""
+    if settings.vector_store == "qdrant":
+        return open_or_build_qdrant_store(settings)
     if not settings.reindex_on_startup and read_index_info(
         settings.chroma_dir
     ) == index_info(settings):
